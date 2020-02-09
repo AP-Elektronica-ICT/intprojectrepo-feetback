@@ -93,6 +93,25 @@ Folders should be named according to the camelCase standard.
 
 Classes should be named according to the PascalCase standard.
 
+### Variable/Property naming
+
+Variables or porperties should be named depending in there accessibility.
+
+#### Private
+
+In Dart private variables always start with an '_'. As a convention we'll use a lowercase first letter.
+```int _testNumber```
+
+#### Public
+
+These variables use camelCase.
+```int testNumber```
+
+#### Static
+
+Should be all caps with a private static starting with a '_'.
+```int TESTNUMBER``` or ```int _TESTNUMBER```
+
 ## Import structure
 
 When importing classes at the top of our files we will make sure to separate the following using 1 empty line.

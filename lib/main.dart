@@ -6,7 +6,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
-  // Color codes for: #33425B
+  // Color codes for: #33425B (primaryColor)
   static Map<int,Color> primaryColorCodes = {
     50 : Color.fromRGBO(51, 66, 91, .1),
     100 : Color.fromRGBO(51, 66, 91, .2),
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: primaryColor,
         primaryColorBrightness: Brightness.dark,
         accentColor: const Color(0xFFF33535),
-        scaffoldBackgroundColor: Color(0xFFD8E9F0),
+        scaffoldBackgroundColor: const Color(0xFFD8E9F0),
       ),
       initialRoute: "/",
       routes: routes,
