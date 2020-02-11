@@ -2,6 +2,30 @@
 
 This app will be used to connect to a mat that can measure your jump height.
 
+## Index
+- [Flutter documentation](#flutter-documentation)
+- [Project structure](#project-structure)
+- [-> fonts/](#fonts)
+- [-> images/](#images)
+- [-> models/](#models)
+- [-> screens/](#screens)
+- [-> services/](#services)
+- [-> utils/](#utils)
+- [-> widgets/](#widgets)
+- [-> main.dart](#maindart)
+- [-> routes.dart](#routesdart)
+- [Naming conventions](#naming-conventions)
+- [-> File naming](#file-naming)
+- [-> Folder naming](#folder-naming)
+- [-> Class naming](#class-naming)
+- [-> Variable/Property naming](#variableproperty-naming)
+- [--> Private](#private)
+- [--> Public](#public)
+- [--> Static](#static)
+- [Import structure](import-structure)
+- [Mandatory plugins for VS code](#mandatory-plugins-for-vs-code)
+- [Handy plugins for VS code](#handy-plugins-for-vs-code)
+
 ## Flutter documentation
 
 A few resources to get you started if this is your first Flutter project:
@@ -120,11 +144,11 @@ When importing classes at the top of our files we will make sure to separate the
 6. Screen imports
 7. Widget imports
 
-## Mandatory plugins for VS Code.
+## Mandatory plugins for VS Code
 1. [Dart plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
 2. [Flutter plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
 
-## Handy plugins for VS Code.
+## Handy plugins for VS Code
 1. [Bracket Pair Colorizer 2](https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2)
 2. [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme)
 3. [Flutter internationalize*](https://marketplace.visualstudio.com/items?itemName=apin.flutter-internationalize)
