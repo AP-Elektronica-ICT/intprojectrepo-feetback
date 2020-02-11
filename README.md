@@ -123,3 +123,16 @@ When importing classes at the top of our files we will make sure to separate the
 5. Models imports
 6. Screen imports
 7. Widget imports
+
+## Mandatory plugins for VS Code.
+
+1. [Dart plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
+2. [Flutter plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
+
+## Handy plugins for VS Code.
+
+1. [Bracket Pair Colorizer 2](https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2)
+2. [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme)
+3. [Flutter internationalize*](https://marketplace.visualstudio.com/items?itemName=apin.flutter-internationalize)
+
+*Research needed.
