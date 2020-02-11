@@ -15,16 +15,16 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Project structure
 
->lib/
->>|- fonts/
->>|- images/
->>|- models/
->>|- screens/
->>|- services/
->>|- utils/
->>|- widgets/
->>|- main.dart
->>|- routes.dart
+>lib/<br/>
+>>|- fonts/<br/>
+>>|- images/<br/>
+>>|- models/<br/>
+>>|- screens/<br/>
+>>|- services/<br/>
+>>|- utils/<br/>
+>>|- widgets/<br/>
+>>|- main.dart<br/>
+>>|- routes.dart<br/>
 
 ### fonts/
 A folder to save all our font files in.
@@ -46,11 +46,11 @@ Inheritance can be used depending on the needs. Clean code guys, ... clean code.
 A folder to save all our screens in, a screen is the equivalent to an activity in Android Studio. Every screen is a sub-folder, this sub-folder contains another sub-folder **"widgets"**. **This folder is used to create widgets that are only used in this screen.** It is possible that these widgets derive from a global widget.
 
 **Example:**<br/>
->screens/
->>|- login
->>>|- login.dart
->>>|- widgets
->>>>|- google_button.dart
+>screens/<br/>
+>>|- login<br/>
+>>>|- login.dart<br/>
+>>>|- widgets<br/>
+>>>>|- google_button.dart<br/>
 
 Another important aspect of a screen is that the **root widget** of a screen should always be a ```Scaffold``` widget which provides basic functionalities like snackbar notifications, ...<br/>
 [More information about the Scaffold widget.](https://api.flutter.dev/flutter/material/Scaffold-class.html)<br/>
