@@ -29,15 +29,18 @@ lib/<br/>
 ### fonts/
 A folder to save all our font files in.
 Different font families should be added in sub-folders.
+[More information about font assets and how to use them.](https://flutter.dev/docs/cookbook/design/fonts)
 
 ### images/
 A folder to save all our image files in.
 Different categories of images can be structured using sub-folders.
+[More information about image assets and how to use them.](https://flutter.dev/docs/development/ui/assets-and-images)
 
 ### models/
 A folder to save all our class models.
 These should all be .dart files, one model = one file.
 Inheritance can be used depending on the needs. Clean code guys, ... clean code.
+[Serializing JSON using code generation libraries](https://flutter.dev/docs/development/data-and-backend/json#serializing-json-using-code-generation-libraries)
 
 ### screens/
 A folder to save all our screens in, a screen is the equivalent to an activity in Android Studio. Every screen is a sub-folder, this sub-folder contains another sub-folder **"widgets"**. **This folder is used to create widgets that are only used in this screen.** It is possible that these widgets derive from a global widget.
@@ -48,6 +51,10 @@ screens/<br/>
 >>|- login.dart<br/>
 >>|- widgets<br/>
 >>>|- google_button.dart<br/>
+
+Another important aspect of a screen is that the **root widget** of a screen should always be a ```Scaffold``` widget which provides basic functionalities like snackbar notifications, ...
+[More information about the Scaffold widget.](https://api.flutter.dev/flutter/material/Scaffold-class.html)
+[Tutorial about the Scaffold widget.](https://www.youtube.com/watch?v=C5lpPjoivaw)
 
 
 ### services/
@@ -63,21 +70,24 @@ A folder to save all our global widgets in.
 
 ### main.dart
 This is the main entry file of our application and gets executed when the application starts.
-The following line run the complete application ```void main() => runApp(MyApp());```
+The following line run the complete application ```void main() => runApp(MyApp());```.
+As a root widget of our app we'll use the ```MaterialApp``` widget which will provide a lot of basic functionality like theming, ...
 
-[MaterialApp widget documentation](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
-[More information about the MaterialApp widget](https://www.youtube.com/watch?v=ul4k2iondbo)
+[MaterialApp widget documentation.](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
+[Tutorial about the MaterialApp widget.](https://www.youtube.com/watch?v=ul4k2iondbo)
 [More information about theming.](https://flutter.dev/docs/cookbook/design/themes)
 
 ### routes.dart
-This file contains a ```final Map<String, WidgetBuilder> routes```.
-In this map all the routes of the application are saved.
+This file contains should contain a ```Router``` class which is responsible for selecting the correct route when the app asks for it.
+When a route is requested we must return a ```MaterialRoute``` which handles platform specific transitions.
+[More information about advanced routing in Flutter.](https://dev.to/nitishk72/flutter-advance-routing-and-navigator-part-1-547l)
+[Passing data between screens](https://blog.usejournal.com/flutter-advance-routing-and-navigator-971c1e97d3d2)
 
 ## Naming conventions
-To keep out project as clean as possible we all should use the same naming conventions for files and folders as described below.
+To keep our project as clean as possible we all should use the same naming conventions for files and folders as described below.
 
 ### File naming
-Files should be named without using capital letters, different word should be connected using an underscore "_".
+Files should be named without using capital letters, different word should be connected using an underscore ```_```.
 
 ### Folder naming
 Folders should be named according to the camelCase standard.
@@ -89,7 +99,7 @@ Classes should be named according to the PascalCase standard.
 Variables or porperties should be named depending in there accessibility.
 
 #### Private
-In Dart private variables always start with an '_'. As a convention we'll use a lowercase first letter.
+In Dart private variables always start with an ```_```. As a convention we'll use a lowercase first letter.
 ```int _testNumber```
 
 #### Public
@@ -97,7 +107,7 @@ These variables use camelCase.
 ```int testNumber```
 
 #### Static
-Should be all caps with a private static starting with a '_'.
+Should be all caps with a private static starting with a ```_```.
 ```int TESTNUMBER``` or ```int _TESTNUMBER```
 
 ## Import structure
@@ -112,12 +122,10 @@ When importing classes at the top of our files we will make sure to separate the
 7. Widget imports
 
 ## Mandatory plugins for VS Code.
-
 1. [Dart plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
 2. [Flutter plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
 
 ## Handy plugins for VS Code.
-
 1. [Bracket Pair Colorizer 2](https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2)
 2. [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme)
 3. [Flutter internationalize*](https://marketplace.visualstudio.com/items?itemName=apin.flutter-internationalize)
