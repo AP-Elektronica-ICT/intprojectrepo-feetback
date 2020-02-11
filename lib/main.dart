@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:feetback/routes.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(FeetBackApp());
 
-class MyApp extends StatelessWidget {
+class FeetBackApp extends StatelessWidget {
 
   // Color codes for: #33425B (primaryColor)
   static Map<int,Color> primaryColorCodes = {
