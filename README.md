@@ -62,7 +62,12 @@ A folder to save all our utilities in. An example of an utility is a class that 
 A folder to save all our global widgets in.
 
 ### main.dart
-This is the main entry file of our application, containing global properties like theming and stuf...
+This is the main entry file of our application and gets executed when the application starts.
+The following line run the complete application ```void main() => runApp(MyApp());```
+
+[MaterialApp widget documentation](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
+[More information about the MaterialApp widget](https://www.youtube.com/watch?v=ul4k2iondbo)
+[More information about theming.](https://flutter.dev/docs/cookbook/design/themes)
 
 ### routes.dart
 This file contains a ```final Map<String, WidgetBuilder> routes```.
