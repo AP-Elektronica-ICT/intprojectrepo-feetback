@@ -16,15 +16,15 @@ samples, guidance on mobile development, and a full API reference.
 ## Project structure
 
 lib/<br/>
-&nbsp;&nbsp;|- fonts/<br/>
-&nbsp;&nbsp;|- images/<br/>
-&nbsp;&nbsp;|- models/<br/>
-&nbsp;&nbsp;|- screens/<br/>
-&nbsp;&nbsp;|- services/<br/>
-&nbsp;&nbsp;|- utils/<br/>
-&nbsp;&nbsp;|- widgets/<br/>
-&nbsp;&nbsp;|- main.dart<br/>
-&nbsp;&nbsp;|- routes.dart<br/>
+>|- fonts/<br/>
+>|- images/<br/>
+>|- models/<br/>
+>|- screens/<br/>
+>|- services/<br/>
+>|- utils/<br/>
+>|- widgets/<br/>
+>|- main.dart<br/>
+>|- routes.dart<br/>
 
 ### fonts/
 A folder to save all our font files in.
@@ -44,10 +44,10 @@ A folder to save all our screens in, a screen is the equivalent to an activity i
 
 **Example:**<br/>
 screens/<br/>
-&nbsp;&nbsp;|- login<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;|- login.dart<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;|- widgets<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|- google_button.dart<br/>
+>|- login<br/>
+>>|- login.dart<br/>
+>>|- widgets<br/>
+>>>|- google_button.dart<br/>
 
 
 ### services/
