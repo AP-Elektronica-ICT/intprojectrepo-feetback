@@ -73,7 +73,7 @@ A folder to save all our screens in, a screen is the equivalent to an activity i
 >screens/<br/>
 >>|- login<br/>
 >>>|- login.dart<br/>
->>>|- widgets<br/>
+>>>|- widgets/<br/>
 >>>>|- google_button.dart<br/>
 
 Another important aspect of a screen is that the **root widget** of a screen should always be a ```Scaffold``` widget which provides basic functionalities like snackbar notifications, ...<br/>
