@@ -15,45 +15,45 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Project structure
 
-lib/<br/>
->|- fonts/<br/>
->|- images/<br/>
->|- models/<br/>
->|- screens/<br/>
->|- services/<br/>
->|- utils/<br/>
->|- widgets/<br/>
->|- main.dart<br/>
->|- routes.dart<br/>
+>lib/
+>>|- fonts/
+>>|- images/
+>>|- models/
+>>|- screens/
+>>|- services/
+>>|- utils/
+>>|- widgets/
+>>|- main.dart
+>>|- routes.dart
 
 ### fonts/
 A folder to save all our font files in.
-Different font families should be added in sub-folders.
+Different font families should be added in sub-folders.<br/>
 [More information about font assets and how to use them.](https://flutter.dev/docs/cookbook/design/fonts)
 
 ### images/
 A folder to save all our image files in.
-Different categories of images can be structured using sub-folders.
+Different categories of images can be structured using sub-folders.<br/>
 [More information about image assets and how to use them.](https://flutter.dev/docs/development/ui/assets-and-images)
 
 ### models/
 A folder to save all our class models.
 These should all be .dart files, one model = one file.
-Inheritance can be used depending on the needs. Clean code guys, ... clean code.
+Inheritance can be used depending on the needs. Clean code guys, ... clean code.<br/>
 [Serializing JSON using code generation libraries](https://flutter.dev/docs/development/data-and-backend/json#serializing-json-using-code-generation-libraries)
 
 ### screens/
 A folder to save all our screens in, a screen is the equivalent to an activity in Android Studio. Every screen is a sub-folder, this sub-folder contains another sub-folder **"widgets"**. **This folder is used to create widgets that are only used in this screen.** It is possible that these widgets derive from a global widget.
 
 **Example:**<br/>
-screens/<br/>
->|- login<br/>
->>|- login.dart<br/>
->>|- widgets<br/>
->>>|- google_button.dart<br/>
+>screens/
+>>|- login
+>>>|- login.dart
+>>>|- widgets
+>>>>|- google_button.dart
 
-Another important aspect of a screen is that the **root widget** of a screen should always be a ```Scaffold``` widget which provides basic functionalities like snackbar notifications, ...
-[More information about the Scaffold widget.](https://api.flutter.dev/flutter/material/Scaffold-class.html)
+Another important aspect of a screen is that the **root widget** of a screen should always be a ```Scaffold``` widget which provides basic functionalities like snackbar notifications, ...<br/>
+[More information about the Scaffold widget.](https://api.flutter.dev/flutter/material/Scaffold-class.html)<br/>
 [Tutorial about the Scaffold widget.](https://www.youtube.com/watch?v=C5lpPjoivaw)
 
 
@@ -71,16 +71,15 @@ A folder to save all our global widgets in.
 ### main.dart
 This is the main entry file of our application and gets executed when the application starts.
 The following line run the complete application ```void main() => runApp(MyApp());```.
-As a root widget of our app we'll use the ```MaterialApp``` widget which will provide a lot of basic functionality like theming, ...
-
-[MaterialApp widget documentation.](https://api.flutter.dev/flutter/material/MaterialApp-class.html)
-[Tutorial about the MaterialApp widget.](https://www.youtube.com/watch?v=ul4k2iondbo)
+As a root widget of our app we'll use the ```MaterialApp``` widget which will provide a lot of basic functionality like theming, ...<br/>
+[MaterialApp widget documentation.](https://api.flutter.dev/flutter/material/MaterialApp-class.html)<br/>
+[Tutorial about the MaterialApp widget.](https://www.youtube.com/watch?v=ul4k2iondbo)<br/>
 [More information about theming.](https://flutter.dev/docs/cookbook/design/themes)
 
 ### routes.dart
 This file contains should contain a ```Router``` class which is responsible for selecting the correct route when the app asks for it.
-When a route is requested we must return a ```MaterialRoute``` which handles platform specific transitions.
-[More information about advanced routing in Flutter.](https://dev.to/nitishk72/flutter-advance-routing-and-navigator-part-1-547l)
+When a route is requested we must return a ```MaterialRoute``` which handles platform specific transitions.<br/>
+[More information about advanced routing in Flutter.](https://dev.to/nitishk72/flutter-advance-routing-and-navigator-part-1-547l)<br/>
 [Passing data between screens](https://blog.usejournal.com/flutter-advance-routing-and-navigator-971c1e97d3d2)
 
 ## Naming conventions
