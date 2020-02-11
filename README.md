@@ -15,16 +15,16 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Project structure
 
-lib/
-|- fonts/
-|- images/
-|- models/
-|- screens/
-|- services/
-|- utils/
-|- widgets/
-|- main.dart
-|- routes.dart
+lib/<br/>
+|- fonts/<br/>
+|- images/<br/>
+|- models/<br/>
+|- screens/<br/>
+|- services/<br/>
+|- utils/<br/>
+|- widgets/<br/>
+|- main.dart<br/>
+|- routes.dart<br/>
 
 ### fonts/
 A folder to save all our font files in.
@@ -42,12 +42,12 @@ Inheritance can be used depending on the needs. Clean code guys, ... clean code.
 ### screens/
 A folder to save all our screens in, a screen is the equivalent to an activity in Android Studio. Every screen is a sub-folder, this sub-folder contains another sub-folder **"widgets"**. **This folder is used to create widgets that are only used in this screen.** It is possible that these widgets derive from a global widget.
 
-Example:
-screens/
-|- login
-    |- login.dart
-    |- widgets
-        |- google_button.dart
+**Example:**<br/>
+screens/<br/>
+|- login<br/>
+    |- login.dart<br/>
+    |- widgets<br/>
+        |- google_button.dart<br/>
 
 
 ### services/
