@@ -3,28 +3,29 @@
 This app will be used to connect to a mat that can measure your jump height.
 
 ## Index
-- [Flutter documentation](#flutter-documentation)
-- [Project structure](#project-structure)
-- [-> fonts/](#fonts)
-- [-> images/](#images)
-- [-> models/](#models)
-- [-> screens/](#screens)
-- [-> services/](#services)
-- [-> utils/](#utils)
-- [-> widgets/](#widgets)
-- [-> main.dart](#maindart)
-- [-> routes.dart](#routesdart)
-- [Naming conventions](#naming-conventions)
-- [-> File naming](#file-naming)
-- [-> Folder naming](#folder-naming)
-- [-> Class naming](#class-naming)
-- [-> Variable/Property naming](#variableproperty-naming)
-- [--> Private](#private)
-- [--> Public](#public)
-- [--> Static](#static)
-- [Import structure](import-structure)
-- [Mandatory plugins for VS code](#mandatory-plugins-for-vs-code)
-- [Handy plugins for VS code](#handy-plugins-for-vs-code)
+[Flutter documentation](#flutter-documentation)
+[Project structure](#project-structure)
+[-> fonts/](#fonts)
+[-> images/](#images)
+[-> models/](#models)
+[-> screens/](#screens)
+[-> services/](#services)
+[-> utils/](#utils)
+[-> widgets/](#widgets)
+[-> main.dart](#maindart)
+[-> routes.dart](#routesdart)
+[Naming conventions](#naming-conventions)
+[-> File naming](#file-naming)
+[-> Folder naming](#folder-naming)
+[-> Class naming](#class-naming)
+[-> Variable/Property naming](#variableproperty-naming)
+[--> Private](#private)
+[--> Public](#public)
+[--> Static](#static)
+[Import structure](#import-structure)
+[Pub packages we use](#pub-packages-we-use)
+[Mandatory plugins for VS code](#mandatory-plugins-for-vs-code)
+[Handy plugins for VS code](#handy-plugins-for-vs-code)
 
 ## Flutter documentation
 
@@ -130,19 +131,20 @@ These variables use camelCase.
 ```int testNumber```
 
 #### Static
-Should be all caps with a private static starting with a ```_```.
+Should be camelCase with a private static starting with a ```_```.
 ```int TESTNUMBER``` or ```int _TESTNUMBER```
 
 ## Import structure
 When importing classes at the top of our files we will make sure to separate the following using 1 empty line.
 
-1. Flutter specific imports
-2. 3th party package imports
-3. Utils imports
-4. Services imports
-5. Models imports
-6. Screen imports
-7. Widget imports
+1. Dart imports
+2. Flutter imports
+3. 3th party package imports
+4. Utils imports
+5. Services imports
+6. Models imports
+7. Screen imports
+8. Widget imports
 
 ## Mandatory plugins for VS Code
 1. [Dart plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
@@ -154,3 +156,10 @@ When importing classes at the top of our files we will make sure to separate the
 3. [Flutter internationalize*](https://marketplace.visualstudio.com/items?itemName=apin.flutter-internationalize)
 
 *Research needed.
+
+## Pub packages we use
+1. [Firebase Auth](https://pub.dev/packages/firebase_auth)
+2. [Google sign in](https://pub.dev/packages/google_sign_in)
+3. [FL Chart](https://pub.dev/packages/fl_chart)
+4. [Connectivity](https://pub.dev/packages/connectivity)
+5. [Permission handler](https://pub.dev/packages/permission_handler)
