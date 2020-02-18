@@ -45,9 +45,7 @@ class _SignInState extends State<SignInPage> {
  
 
   @override
-  Widget build(BuildContext context) {
-
-    
+  Widget build(BuildContext context) {  
 
     return Scaffold(
       body: Container(
@@ -57,8 +55,7 @@ class _SignInState extends State<SignInPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/logo.png"), height: 250.0),
-              SizedBox(height: 50),
+              Image(image: AssetImage("assets/logo.png"), height: 320.0),
               SignInButton(
                 onPressed: () {_handleSignIn();},
               ),
