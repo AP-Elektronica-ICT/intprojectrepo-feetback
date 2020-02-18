@@ -3,29 +3,29 @@
 This app will be used to connect to a mat that can measure your jump height.
 
 ## Index
-[Flutter documentation](#flutter-documentation)
-[Project structure](#project-structure)
-[-> fonts/](#fonts)
-[-> images/](#images)
-[-> models/](#models)
-[-> screens/](#screens)
-[-> services/](#services)
-[-> utils/](#utils)
-[-> widgets/](#widgets)
-[-> main.dart](#maindart)
-[-> routes.dart](#routesdart)
-[Naming conventions](#naming-conventions)
-[-> File naming](#file-naming)
-[-> Folder naming](#folder-naming)
-[-> Class naming](#class-naming)
-[-> Variable/Property naming](#variableproperty-naming)
-[--> Private](#private)
-[--> Public](#public)
-[--> Static](#static)
-[Import structure](#import-structure)
-[Pub packages we use](#pub-packages-we-use)
-[Mandatory plugins for VS code](#mandatory-plugins-for-vs-code)
-[Handy plugins for VS code](#handy-plugins-for-vs-code)
+[Flutter documentation](#flutter-documentation) <br/>
+[Project structure](#project-structure) <br/>
+[-> fonts/](#fonts) <br/>
+[-> images/](#images) <br/>
+[-> models/](#models) <br/>
+[-> screens/](#screens) <br/>
+[-> services/](#services) <br/>
+[-> utils/](#utils) <br/>
+[-> widgets/](#widgets) <br/>
+[-> main.dart](#maindart) <br/>
+[-> routes.dart](#routesdart) <br/>
+[Naming conventions](#naming-conventions) <br/>
+[-> File naming](#file-naming) <br/>
+[-> Folder naming](#folder-naming) <br/>
+[-> Class naming](#class-naming) <br/>
+[-> Variable/Property naming](#variableproperty-naming) <br/>
+[--> Private](#private) <br/>
+[--> Public](#public) <br/>
+[--> Static](#static) <br/>
+[Import structure](#import-structure) <br/>
+[Pub packages we use](#pub-packages-we-use) <br/>
+[Mandatory plugins for VS code](#mandatory-plugins-for-vs-code) <br/>
+[Handy plugins for VS code](#handy-plugins-for-vs-code) <br/>
 
 ## Flutter documentation
 
