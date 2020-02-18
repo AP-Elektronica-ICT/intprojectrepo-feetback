@@ -22,7 +22,7 @@ This app will be used to connect to a mat that can measure your jump height.
 [--> Private](#private) <br/>
 [--> Public](#public) <br/>
 [--> Static](#static) <br/>
-[Spacing/sizing convetions](#spacingsizing-conventions)
+[Spacing/sizing convetions](#spacingsizing-conventions) <br/>
 [Import structure](#import-structure) <br/>
 [Pub packages we use](#pub-packages-we-use) <br/>
 [Mandatory plugins for VS code](#mandatory-plugins-for-vs-code) <br/>
