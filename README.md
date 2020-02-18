@@ -22,6 +22,7 @@ This app will be used to connect to a mat that can measure your jump height.
 [--> Private](#private) <br/>
 [--> Public](#public) <br/>
 [--> Static](#static) <br/>
+[Spacing/sizing convetions](#spacingsizing-conventions)
 [Import structure](#import-structure) <br/>
 [Pub packages we use](#pub-packages-we-use) <br/>
 [Mandatory plugins for VS code](#mandatory-plugins-for-vs-code) <br/>
@@ -109,6 +110,11 @@ When a route is requested we must return a ```MaterialRoute``` which handles pla
 
 ## Naming conventions
 To keep our project as clean as possible we all should use the same naming conventions for files and folders as described below.
+
+## Spacing/sizing convetions
+For the main part we'll use e 8x8 grid. Here are some example sizes: 8, 16, 32, 40, 48, 56, ...
+For small widgets we can use a 4x4 grid.
+[Material desing sizing specs](https://material.io/design/layout/spacing-methods.html#baseline-grid)
 
 ### File naming
 Files should be named without using capital letters, different word should be connected using an underscore ```_```.
