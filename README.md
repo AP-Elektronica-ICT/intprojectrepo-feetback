@@ -138,7 +138,7 @@ These variables use camelCase.
 
 #### Static
 Should be camelCase with a private static starting with a ```_```.
-```int TESTNUMBER``` or ```int _TESTNUMBER```
+```int testNumber``` or ```int _testNumber```
 
 ## Import structure
 When importing classes at the top of our files we will make sure to separate the following using 1 empty line.
