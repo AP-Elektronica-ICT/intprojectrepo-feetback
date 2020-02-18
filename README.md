@@ -166,6 +166,8 @@ When importing classes at the top of our files we will make sure to separate the
 ## Pub packages we use
 1. [Firebase Auth](https://pub.dev/packages/firebase_auth)
 2. [Google sign in](https://pub.dev/packages/google_sign_in)
-3. [FL Chart](https://pub.dev/packages/fl_chart)
-4. [Connectivity](https://pub.dev/packages/connectivity)
-5. [Permission handler](https://pub.dev/packages/permission_handler)
+3. [Firebase Database](https://pub.dev/packages/firebase_database)
+4. [FL Chart](https://pub.dev/packages/fl_chart)
+5. [Connectivity](https://pub.dev/packages/connectivity)
+6. [Bluetooth](https://pub.dev/packages/flutter_blue)
+7. [Permission handler](https://pub.dev/packages/permission_handler)
