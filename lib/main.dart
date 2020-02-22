@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:feetback/routes.dart';
 
@@ -28,7 +26,6 @@ class FeetBackApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'Feetback',
       theme: ThemeData(
@@ -37,7 +34,7 @@ class FeetBackApp extends StatelessWidget {
         accentColor: const Color(0xFFF33535),
         scaffoldBackgroundColor: const Color(0xFFD8E9F0),
       ),
-      initialRoute:"/",
+      initialRoute: "/",
       routes: routes,
       debugShowCheckedModeBanner: true,
     );
