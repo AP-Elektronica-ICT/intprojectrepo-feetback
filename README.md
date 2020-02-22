@@ -3,28 +3,30 @@
 This app will be used to connect to a mat that can measure your jump height.
 
 ## Index
-- [Flutter documentation](#flutter-documentation)
-- [Project structure](#project-structure)
-- [-> fonts/](#fonts)
-- [-> images/](#images)
-- [-> models/](#models)
-- [-> screens/](#screens)
-- [-> services/](#services)
-- [-> utils/](#utils)
-- [-> widgets/](#widgets)
-- [-> main.dart](#maindart)
-- [-> routes.dart](#routesdart)
-- [Naming conventions](#naming-conventions)
-- [-> File naming](#file-naming)
-- [-> Folder naming](#folder-naming)
-- [-> Class naming](#class-naming)
-- [-> Variable/Property naming](#variableproperty-naming)
-- [--> Private](#private)
-- [--> Public](#public)
-- [--> Static](#static)
-- [Import structure](import-structure)
-- [Mandatory plugins for VS code](#mandatory-plugins-for-vs-code)
-- [Handy plugins for VS code](#handy-plugins-for-vs-code)
+[Flutter documentation](#flutter-documentation) <br/>
+[Project structure](#project-structure) <br/>
+[-> fonts/](#fonts) <br/>
+[-> images/](#images) <br/>
+[-> models/](#models) <br/>
+[-> screens/](#screens) <br/>
+[-> services/](#services) <br/>
+[-> utils/](#utils) <br/>
+[-> widgets/](#widgets) <br/>
+[-> main.dart](#maindart) <br/>
+[-> routes.dart](#routesdart) <br/>
+[Naming conventions](#naming-conventions) <br/>
+[-> File naming](#file-naming) <br/>
+[-> Folder naming](#folder-naming) <br/>
+[-> Class naming](#class-naming) <br/>
+[-> Variable/Property naming](#variableproperty-naming) <br/>
+[--> Private](#private) <br/>
+[--> Public](#public) <br/>
+[--> Static](#static) <br/>
+[Spacing/sizing convetions](#spacingsizing-convetions) <br/>
+[Import structure](#import-structure) <br/>
+[Pub packages we use](#pub-packages-we-use) <br/>
+[Mandatory plugins for VS code](#mandatory-plugins-for-vs-code) <br/>
+[Handy plugins for VS code](#handy-plugins-for-vs-code) <br/>
 
 ## Flutter documentation
 
@@ -106,6 +108,11 @@ When a route is requested we must return a ```MaterialRoute``` which handles pla
 [More information about advanced routing in Flutter.](https://dev.to/nitishk72/flutter-advance-routing-and-navigator-part-1-547l)<br/>
 [Passing data between screens](https://blog.usejournal.com/flutter-advance-routing-and-navigator-971c1e97d3d2)
 
+## Spacing/sizing convetions
+For the main part we'll use e 8x8 grid. Here are some example sizes: 8, 16, 32, 40, 48, 56, ...
+For small widgets we can use a 4x4 grid.
+[Material desing sizing specs](https://material.io/design/layout/spacing-methods.html#baseline-grid)
+
 ## Naming conventions
 To keep our project as clean as possible we all should use the same naming conventions for files and folders as described below.
 
@@ -130,19 +137,20 @@ These variables use camelCase.
 ```int testNumber```
 
 #### Static
-Should be all caps with a private static starting with a ```_```.
-```int TESTNUMBER``` or ```int _TESTNUMBER```
+Should be camelCase with a private static starting with a ```_```.
+```int testNumber``` or ```int _testNumber```
 
 ## Import structure
 When importing classes at the top of our files we will make sure to separate the following using 1 empty line.
 
-1. Flutter specific imports
-2. 3th party package imports
-3. Utils imports
-4. Services imports
-5. Models imports
-6. Screen imports
-7. Widget imports
+1. Dart imports
+2. Flutter imports
+3. 3th party package imports
+4. Utils imports
+5. Services imports
+6. Models imports
+7. Screen imports
+8. Widget imports
 
 ## Mandatory plugins for VS Code
 1. [Dart plugin](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
@@ -154,3 +162,12 @@ When importing classes at the top of our files we will make sure to separate the
 3. [Flutter internationalize*](https://marketplace.visualstudio.com/items?itemName=apin.flutter-internationalize)
 
 *Research needed.
+
+## Pub packages we use
+1. [Firebase Auth](https://pub.dev/packages/firebase_auth)
+2. [Google sign in](https://pub.dev/packages/google_sign_in)
+3. [Firebase Database](https://pub.dev/packages/firebase_database)
+4. [FL Chart](https://pub.dev/packages/fl_chart)
+5. [Connectivity](https://pub.dev/packages/connectivity)
+6. [Bluetooth](https://pub.dev/packages/flutter_blue)
+7. [Permission handler](https://pub.dev/packages/permission_handler)

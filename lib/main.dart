@@ -22,6 +22,7 @@ class FeetBackApp extends StatelessWidget {
 
   static MaterialColor primaryColor = MaterialColor(0xFF33425B, primaryColorCodes);
 
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
