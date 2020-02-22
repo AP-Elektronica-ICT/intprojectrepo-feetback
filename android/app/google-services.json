@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1027368072736",
+    "firebase_url": "https://feetback-53c1f.firebaseio.com",
+    "project_id": "feetback-53c1f",
+    "storage_bucket": "feetback-53c1f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027368072736:android:f17be541a72ca9bafd6e45",
+        "android_client_info": {
+          "package_name": "com.example.feetback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027368072736-jp0qk7dcena9nftokkn9n24cf81p77q0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.feetback",
+            "certificate_hash": "c6cd3f836a78c7ee15771718290181c083b7ab9a"
+          }
+        },
+        {
+          "client_id": "1027368072736-3udj5kt4e3a5l5thv81ob4ovpdf1ugll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoErTks_UFWDNjnn8Z0hS0ND328mH--zE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027368072736-3udj5kt4e3a5l5thv81ob4ovpdf1ugll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
