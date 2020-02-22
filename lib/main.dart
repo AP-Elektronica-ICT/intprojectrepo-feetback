@@ -7,7 +7,7 @@ void main() => runApp(FeetBackApp());
 class FeetBackApp extends StatelessWidget {
 
   // Color codes for: #33425B (primaryColor)
-  static Map<int,Color> primaryColorCodes = {
+  static const Map<int,Color> _primaryColorCodes = const {
     50 : Color.fromRGBO(51, 66, 91, .1),
     100 : Color.fromRGBO(51, 66, 91, .2),
     200 : Color.fromRGBO(51, 66, 91, .3),
@@ -20,7 +20,9 @@ class FeetBackApp extends StatelessWidget {
     900 : Color.fromRGBO(51, 66, 91, 1),
   };
 
-  static MaterialColor primaryColor = MaterialColor(0xFF33425B, primaryColorCodes);
+  static const MaterialColor _primaryColor = const MaterialColor(0xFF33425B, _primaryColorCodes);
+  static const Color _accentColor = const Color(0xFFF33535);
+  static const Color _backgroundColor = const Color(0xFFD8E9F0);
 
 
   // This widget is the root of your application.
@@ -29,10 +31,14 @@ class FeetBackApp extends StatelessWidget {
     return MaterialApp(
       title: 'Feetback',
       theme: ThemeData(
-        primarySwatch: primaryColor,
+        primarySwatch: _primaryColor,
         primaryColorBrightness: Brightness.dark,
-        accentColor: const Color(0xFFF33535),
-        scaffoldBackgroundColor: const Color(0xFFD8E9F0),
+        accentColor: _accentColor,
+        scaffoldBackgroundColor: _backgroundColor,
+        buttonTheme: ButtonThemeData(
+          buttonColor: _accentColor,
+          textTheme: ButtonTextTheme.primary,
+        ),
       ),
       initialRoute: "/",
       routes: routes,
