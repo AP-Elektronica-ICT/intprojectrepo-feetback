@@ -35,7 +35,7 @@ class FeetBackApp extends StatelessWidget {
         accentColor: const Color(0xFFF33535),
         scaffoldBackgroundColor: const Color(0xFFD8E9F0),
       ),
-      //initialRoute: "/",
+      initialRoute: "/",
       //routes: routes,
       home: MyHomePage(title: "Hello Home",),
       onGenerateRoute: (RouteSettings settings) => generateRoutes(settings),

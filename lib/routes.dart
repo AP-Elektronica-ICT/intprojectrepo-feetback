@@ -36,7 +36,7 @@ MaterialPageRoute _errorRoute() {
         title: Text('error'),
       ),
       body: Center(
-        child: Text('error'),
+        child: Text('Error this page is not a valid route.'),
       ),
     );
   });
