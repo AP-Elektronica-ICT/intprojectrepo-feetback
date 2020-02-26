@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:feetback/routes.dart';
 
+import 'package:feetback/screens/homePage/home.dart';
+
 void main() => runApp(FeetBackApp());
 
 class FeetBackApp extends StatelessWidget {
@@ -33,8 +35,10 @@ class FeetBackApp extends StatelessWidget {
         accentColor: const Color(0xFFF33535),
         scaffoldBackgroundColor: const Color(0xFFD8E9F0),
       ),
-      initialRoute: "/",
-      routes: routes,
+      //initialRoute: "/",
+      //routes: routes,
+      home: MyHomePage(title: "Hello Home",),
+      onGenerateRoute: (RouteSettings settings) => generateRoutes(settings),
       debugShowCheckedModeBanner: true,
     );
   }
