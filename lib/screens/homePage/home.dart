@@ -32,6 +32,31 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('floating action button'),
+        ),
+        body: Center(
+          child:const Text('Press the button to move screen') 
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+
+            Navigator.of(context).pushNamed('/');
+            debugPrint("pushed");
+
+          },
+          child: Icon(Icons.navigation),
+          backgroundColor: Colors.blue,
+        ),
+    );
+  }
+
+  /*
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -78,12 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.of(context).pushNamed('/');
+          Navigator.of(context).pushNamed('/second');
           debugPrint("pushed");
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+       // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
+  }*/
 }
+
