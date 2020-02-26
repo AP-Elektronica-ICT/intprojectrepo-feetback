@@ -47,6 +47,7 @@ class FeetBackApp extends StatelessWidget {
       home: HomePage(),
       onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
       debugShowCheckedModeBanner: true,
+      
     );
   }
 }
