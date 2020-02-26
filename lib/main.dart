@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:feetback/routes.dart';
 
+import 'package:feetback/screens/homePage/home.dart';
+
 void main() => runApp(FeetBackApp());
 
 class FeetBackApp extends StatelessWidget {
@@ -40,8 +42,10 @@ class FeetBackApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
       ),
-      initialRoute: "/",
-      routes: routes,
+      //initialRoute: "/",
+      //routes: routes,
+      home: HomePage(),
+      onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
       debugShowCheckedModeBanner: true,
     );
   }
