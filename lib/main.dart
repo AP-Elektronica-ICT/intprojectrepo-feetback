@@ -42,7 +42,7 @@ class FeetBackApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
       ),
-      //initialRoute: "/",
+      initialRoute: "/",
       //routes: routes,
       home: HomePage(),
       onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
