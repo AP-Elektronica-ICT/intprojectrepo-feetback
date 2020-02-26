@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
+
+
+
 
 class HomePage extends StatelessWidget {
   @override
@@ -16,8 +21,18 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             Text("Logged in as: "),
             RaisedButton(
-              child: Text("Jump history"),
-              onPressed: () => Navigator.pushNamed(context, "/jump_history")
+              child: Text("Jump Details"),
+          
+              onPressed: () => Navigator.pushNamed(context, "/jumpdetails"),
+              
+            ),
+            RaisedButton(
+              child: Text("SignIn"),
+              onPressed: () => Navigator.pushNamed(context, "/signin"),
+            ),
+            RaisedButton(
+              child: Text("Jump History"),
+              onPressed: () => Navigator.pushNamed(context, "/jumphistory"),
             ),
           ],
         ),

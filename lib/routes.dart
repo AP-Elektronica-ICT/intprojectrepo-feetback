@@ -1,3 +1,4 @@
+import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:feetback/screens/homePage/home.dart';
@@ -17,17 +18,23 @@ Route<dynamic> generateRoute(RouteSettings settings){
   switch(settings.name){
 
     case '/' : 
-      return MaterialPageRoute(builder: (_) => HomePage());
-      break; 
-    case '/second' : 
-      if(args is String){
         return MaterialPageRoute(builder: (_) => HomePage());
-      }
-
-      return _errorRoute();
       break;
-    default:
-      return _errorRoute();
+  
+    case '/signin' : 
+        return MaterialPageRoute(builder:  (_) => SignInPage());
+      break;
+
+    case '/jumpdetails' :
+        return MaterialPageRoute(builder: (_) => JumpDetailPage(jump: null,));
+    break;
+
+    case '/jumphistory' :
+        return MaterialPageRoute(builder: (_) => JumpHistoryPage());
+    break;
+
+    default :
+        return _errorRoute();
     break;
   }
 }
