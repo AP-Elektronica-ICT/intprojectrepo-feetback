@@ -34,6 +34,7 @@ class FeetBackApp extends StatelessWidget {
         primarySwatch: _primaryColor,
         primaryColorBrightness: Brightness.dark,
         accentColor: _accentColor,
+        canvasColor: Colors.transparent, // To avoid white background with for example rounded corners. (Can be removed if bad behaviour)
         scaffoldBackgroundColor: _backgroundColor,
         buttonTheme: ButtonThemeData(
           buttonColor: _accentColor,
