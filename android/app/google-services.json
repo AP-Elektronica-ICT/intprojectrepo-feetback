@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1027368072736-rf31uuovt930mp7bu58hm2kfgpge4pqq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.feetback",
+            "certificate_hash": "49b57b7ca983eff68100220994cffe60be393c60"
+          }
+        },
+        {
           "client_id": "1027368072736-19mvv9o3htpov7cjo0o3ip725lr99ud0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
