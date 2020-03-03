@@ -107,6 +107,7 @@ This file contains should contain a ```Router``` class which is responsible for 
 When a route is requested we must return a ```MaterialRoute``` which handles platform specific transitions.<br/>
 [More information about advanced routing in Flutter.](https://dev.to/nitishk72/flutter-advance-routing-and-navigator-part-1-547l)<br/>
 [Passing data between screens](https://blog.usejournal.com/flutter-advance-routing-and-navigator-971c1e97d3d2)
+[navigating through a navigation bottom bar](https://medium.com/flutter/getting-to-the-bottom-of-navigation-in-flutter-b3e440b9386)
 
 ## Spacing/sizing convetions
 For the main part we'll use e 8x8 grid. Here are some example sizes: 8, 16, 32, 40, 48, 56, ...
