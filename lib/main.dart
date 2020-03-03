@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:feetback/routes.dart';
 
+
+
 void main() => runApp(FeetBackApp());
 
 class FeetBackApp extends StatelessWidget {
@@ -63,8 +65,9 @@ class FeetBackApp extends StatelessWidget {
         ),
       ),
       initialRoute: "/",
-      routes: routes,
+      onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
       debugShowCheckedModeBanner: true,
+      
     );
   }
 }

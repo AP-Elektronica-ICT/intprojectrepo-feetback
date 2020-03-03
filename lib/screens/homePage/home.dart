@@ -1,3 +1,4 @@
+import 'package:feetback/models/jump.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/widgets/feetback_app_bar.dart';
@@ -21,8 +22,18 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             Text("Logged in as: "),
             RaisedButton(
-              child: Text("Jump history"),
-              onPressed: () => Navigator.pushNamed(context, "/jump_history")
+              child: Text("Jump Details"),
+          
+              onPressed: () => Navigator.pushNamed(context, "/jumpdetails" , arguments: Jump(DateTime.now(), 177, 4)), //dummy data to test arguments passing
+              
+            ),
+            RaisedButton(
+              child: Text("SignIn"),
+              onPressed: () => Navigator.pushNamed(context, "/signin"),
+            ),
+            RaisedButton(
+              child: Text("Jump History"),
+              onPressed: () => Navigator.pushNamed(context, "/jumphistory" ), 
             ),
           ],
         ),
