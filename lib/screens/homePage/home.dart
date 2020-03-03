@@ -1,17 +1,17 @@
 import 'package:feetback/models/jump.dart';
 import 'package:flutter/material.dart';
 
-
-
-
-
+import 'package:feetback/widgets/feetback_app_bar.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: FeetbackAppBar(
         title: Text("Home"),
+        height: 92,
+        contentAlignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 16, right: 16),
       ),
       body: Container(
         width: double.infinity,
