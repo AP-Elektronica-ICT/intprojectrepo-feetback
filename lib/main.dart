@@ -22,7 +22,7 @@ class FeetBackApp extends StatelessWidget {
 
   static const MaterialColor _primaryColor = const MaterialColor(0xFF33425B, _primaryColorCodes);
   static const Color _accentColor = const Color(0xFFF33535);
-  static const Color _backgroundColor = const Color(0xFFD8E9F0);
+  static const Color _backgroundColor = const Color(0xFFEEEEEE);
 
 
   // This widget is the root of your application.
