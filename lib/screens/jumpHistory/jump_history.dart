@@ -8,16 +8,16 @@ class JumpHistoryPage extends StatelessWidget {
   final List<Jump> jumps = new List();
 
 JumpHistoryPage(){
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2019, 10, 5), 54.71, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2019, 12, 21), 53.100, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2019, 10, 22), 49.32, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2019, 1, 1), 50.3, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2017, 2, 3), 54.71, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2019, 6, 7), 53.100, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2019, 2, 2), 49.32, 3000, 913.66275));
-    jumps.add(Jump(DateTime.utc(2019, 4, 14), 60.05, 3000, 913.66275));
+    jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 10, 5), 54.71, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 12, 21), 53.100, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 10, 22), 49.32, 3000));
+    jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 1, 1), 50.3, 3000));
+    jumps.add(Jump(DateTime.utc(2017, 2, 3), 54.71, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 6, 7), 53.100, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 2, 2), 49.32, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 4, 14), 60.05, 3000));
 }
 
   @override

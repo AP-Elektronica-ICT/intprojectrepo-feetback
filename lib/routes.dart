@@ -1,3 +1,4 @@
+import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -5,11 +6,6 @@ import 'package:feetback/screens/homePage/home.dart';
 import 'package:feetback/screens/signInPage/sign_in.dart';
 import 'package:feetback/screens/jumpHistory/jump_history.dart';
 
-// final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
-//   "/": (BuildContext context) => SignInPage(title: "Sign In",),
-//   "/signin": (BuildContext context) => HomePage(),
-//   "/jump_history": (BuildContext context) => JumpHistoryPage(),
-// };
 
 Route<dynamic> generateRoute(RouteSettings settings){
   //getting arguments passed in while calling Navigator.pushNamed
@@ -26,12 +22,13 @@ Route<dynamic> generateRoute(RouteSettings settings){
       break;
 
     case '/jumpdetails' :
-        return MaterialPageRoute(builder: (_) => JumpDetailPage(jump: null,));
+        return MaterialPageRoute(builder: (_) => JumpDetailPage(jump : args ));
     break;
 
     case '/jumphistory' :
         return MaterialPageRoute(builder: (_) => JumpHistoryPage());
     break;
+    
 
     default :
         return _errorRoute();

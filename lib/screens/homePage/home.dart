@@ -1,3 +1,4 @@
+import 'package:feetback/models/jump.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
             RaisedButton(
               child: Text("Jump Details"),
           
-              onPressed: () => Navigator.pushNamed(context, "/jumpdetails"),
+              onPressed: () => Navigator.pushNamed(context, "/jumpdetails" , arguments: Jump(DateTime.now(), 177, 4)),
               
             ),
             RaisedButton(
@@ -32,7 +33,7 @@ class HomePage extends StatelessWidget {
             ),
             RaisedButton(
               child: Text("Jump History"),
-              onPressed: () => Navigator.pushNamed(context, "/jumphistory"),
+              onPressed: () => Navigator.pushNamed(context, "/jumphistory" ), 
             ),
           ],
         ),
