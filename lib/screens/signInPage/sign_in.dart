@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+//import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../signInPage/widgets/google_sign_in_button.dart';
 
@@ -18,7 +20,8 @@ class _SignInState extends State<SignInPage> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
-
+  var _firebaseRef = FirebaseDatabase().reference();
+  //TextEditingController _txtCtrl = TextEditingController();
   void _handleSignIn() async {
     // Check if user isn't already logged in
     FirebaseUser fbUser = await FirebaseAuth.instance.currentUser();
@@ -39,11 +42,18 @@ class _SignInState extends State<SignInPage> {
       // Sign in
       final AuthResult signInResult = await _auth.signInWithCredential(credential).catchError((err) => print(err.toString()));
       fbUser = signInResult.user;
+
+      //Push a new user to Firebase
+      _firebaseRef.push().set({
+        "name": fbUser.displayName,
+        "GUID": fbUser.uid,
+      });
     }
 
     print("Signed in as " + fbUser.displayName);
     // Navigate to home.
     Navigator.pushReplacementNamed(context, '/signin');
+    print("bye");
   }
 
  /*Future<FirebaseUser> _handleSignOut() async {
