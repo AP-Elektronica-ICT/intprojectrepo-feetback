@@ -169,5 +169,5 @@ When importing classes at the top of our files we will make sure to separate the
 3. [Firebase Database](https://pub.dev/packages/firebase_database)
 4. [FL Chart](https://pub.dev/packages/fl_chart)
 5. [Connectivity](https://pub.dev/packages/connectivity)
-6. [Bluetooth](https://pub.dev/packages/flutter_blue)
+6. [Bluetooth](https://pub.dev/packages/flutter_bluetooth_seria)
 7. [Permission handler](https://pub.dev/packages/permission_handler)
