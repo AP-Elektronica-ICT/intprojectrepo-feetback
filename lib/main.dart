@@ -34,9 +34,13 @@ class FeetBackApp extends StatelessWidget {
       title: 'Feetback',
       theme: ThemeData(
         fontFamily: 'Product Sans',
-        textTheme: Theme.of(context).textTheme.apply(
+        textTheme: Theme.of(context).textTheme.copyWith(
+          button: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ).apply(
           bodyColor: _primaryColor,
-          displayColor: _primaryColor
+          displayColor: _primaryColor,
         ),
         primarySwatch: _primaryColor,
         primaryColorBrightness: Brightness.dark,
