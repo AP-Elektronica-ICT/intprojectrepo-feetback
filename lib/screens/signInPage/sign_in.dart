@@ -20,7 +20,9 @@ class _SignInState extends State<SignInPage> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
+
   var _firebaseRef = FirebaseDatabase().reference();
+
   //TextEditingController _txtCtrl = TextEditingController();
   void _handleSignIn() async {
     // Check if user isn't already logged in
@@ -44,9 +46,13 @@ class _SignInState extends State<SignInPage> {
       fbUser = signInResult.user;
 
       //Push a new user to Firebase
-      _firebaseRef.push().set({
+      _firebaseRef.child(fbUser.uid).set({
         "name": fbUser.displayName,
         "GUID": fbUser.uid,
+      });
+      _firebaseRef.child(fbUser.uid).child("jumps").set({
+        "jump1": "wijoew",
+        "jump2": "skrrrah",
       });
     }
 
