@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
+import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class JumpHistoryPage extends StatelessWidget {
@@ -23,7 +24,13 @@ JumpHistoryPage(){
   @override
   Widget build(BuildContext context) {
       return Scaffold(
-        appBar: AppBar(title: Text("Jump history")),
+        appBar: FeetbackAppBar(
+          title: Text("Jump history"),
+          height: 92,
+          contentAlignment: Alignment.centerLeft,
+          padding: EdgeInsets.only(left: 16, right: 16),
+          automaticallyImplyLeading: false,
+        ),
         body: _buildList()
         );
   }
