@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:feetback/utils/date_utils.dart';
+
 class DateIndicator extends StatelessWidget {
+  final DateTime date;
+
+  DateIndicator({@required this.date});
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -17,7 +23,7 @@ class DateIndicator extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  "12",
+                  DateUtils.dayOfMonth(date),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -32,7 +38,7 @@ class DateIndicator extends StatelessWidget {
               color: Theme.of(context).accentColor,
               child: Center(
                 child: Text(
-                  "okt.",
+                  DateUtils.monthNameShort(date),
                   style: TextStyle(
                     fontSize: 6.0,
                     fontWeight: FontWeight.bold,
