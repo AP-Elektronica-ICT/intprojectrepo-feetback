@@ -3,26 +3,28 @@ import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 import 'package:flutter/material.dart';
 
-enum SequenceState { date, height }
+enum SequenceState { date, height, dayHeight }
 
-class JumpHistoryPage extends StatelessWidget {
+class JumpHistoryPage extends StatefulWidget {
+  @override
+  _JumpHistoryPageState createState() => _JumpHistoryPageState();
+}
+
+class _JumpHistoryPageState extends State<JumpHistoryPage> {
   final List<Jump> jumps = new List();
+  SequenceState _selection = SequenceState.date;
 
-  JumpHistoryPage() {
+  _JumpHistoryPageState() {
     jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 10, 5), 54.71, 3000));
-    jumps.add(Jump(
-      DateTime.utc(2019, 12, 21),
-      53.100,
-      3000,
-    ));
-    jumps.add(Jump(DateTime.utc(2019, 10, 22), 49.32, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 9, 14), 54.71, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.200, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 9, 14), 49.32, 3000));
     jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000));
     jumps.add(Jump(DateTime.utc(2019, 1, 1), 50.3, 3000));
     jumps.add(Jump(DateTime.utc(2017, 2, 3), 54.71, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 6, 7), 53.100, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.100, 3000));
     jumps.add(Jump(DateTime.utc(2019, 2, 2), 49.32, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 4, 14), 60.05, 3000));
+    jumps.add(Jump(DateTime.utc(2020, 4, 14), 60.05, 3000));
   }
 
   @override
@@ -31,10 +33,28 @@ class JumpHistoryPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Jump history"),
           actions: <Widget>[
-           
-            /*IconButton(
-              icon: Icon(Icons.sort, color: Colors.white,),
-              //onPressed: ,)*/
+            PopupMenuButton<SequenceState>(
+              onSelected: (SequenceState result) {
+                setState(() {
+                  _selection = result;
+                });
+              },
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<SequenceState>>[
+                const PopupMenuItem<SequenceState>(
+                  value: SequenceState.date,
+                  child: Text('By date'),
+                ),
+                const PopupMenuItem<SequenceState>(
+                  value: SequenceState.height,
+                  child: Text('By height'),
+                ),
+                const PopupMenuItem<SequenceState>(
+                  value: SequenceState.dayHeight,
+                  child: Text('By day and height'),
+                ),
+              ], icon:  Icon(Icons.sort, color: Colors.white,)
+            )
           ],
         ),
 
@@ -60,8 +80,20 @@ class JumpHistoryPage extends StatelessWidget {
         padding: const EdgeInsets.all(0.0),
         itemCount: jumps.length,
         itemBuilder: (context, item) {
-          jumps.sort((b, a) => a.date.compareTo(b.date));
+          if(_selection == SequenceState.date){
+            jumps.sort((b, a) => a.date.compareTo(b.date));
+          }
+          else if(_selection == SequenceState.height){
+            jumps.sort((b, a) => a.height.compareTo(b.height));
+          }
+          else if(_selection == SequenceState.dayHeight){
+            jumps.sort((b, a) => a.height.compareTo(b.height));
+            jumps.sort((b, a) => a.date.day.compareTo(b.date.day));
+            jumps.sort((b, a) => a.date.month.compareTo(b.date.month));
+            jumps.sort((b, a) => a.date.year.compareTo(b.date.year));
+          }
           return _buildRow(context, jumps[item], item);
+            
         });
   }
 
