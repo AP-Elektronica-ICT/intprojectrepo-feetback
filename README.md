@@ -181,25 +181,25 @@ For the database we use Firebase Authentication and Firebase Realtime Database.
     This is a service that Firebase provides to authenticate Google users to get access to the database. When a user logs on the app for the first time, the app asks if the user wants to accept the terms and policies of the app. Afterwards the user gets added in our FB Auth list with logged on users with a unique Google ID. The extra information will be saved on the FB Realtime DB wich will be explained in the next paragraph.
 2. ###### Firebase Realtime Database
     This is another service that Firebase provides to store certain data to the database of your app. You can store integers, strings, floats and so on. To get more structure the data can be stored like a JSON-file. For example:<br/>
-    >Family:
-    >   Sons:
-    >       Son1:
-    >           Name: "Mark"
-    >           Age: 21
-    >       Son2:
-    >           Name: "Arthur"
-    >           Age: 16
-    >   Daughters:
-    >       Daughter1:
-    >           Name: "Emily"
-    >           Age: 18
-    >   Dad:
-    >       Name: "Michael"
-    >       Age: 52
-    >   Mom:
-    >       Name: "Sarah"
-    >       Age: 49
+    >Family:<br/>
+    >   Sons:<br/>
+    >       Son1:<br/>
+    >           Name: "Mark"<br/>
+    >           Age: 21<br/>
+    >       Son2:<br/>
+    >           Name: "Arthur"<br/>
+    >           Age: 16<br/>
+    >   Daughters:<br/>
+    >       Daughter1:<br/>
+    >           Name: "Emily"<br/>
+    >           Age: 18<br/>
+    >   Dad:<br/>
+    >       Name: "Michael"<br/>
+    >       Age: 52<br/>
+    >   Mom:<br/>
+    >       Name: "Sarah"<br/>
+    >       Age: 49<br/>
     For our database we have users wich contain user ID's. Those ID's contain their name, the ID of the user and the jumps.<br/>
-    The jumps will have their own unique key once they get added after the user performed a jump on our product. The jump info include the height, date of the jump and probably some future related info that correspond to that jump. This way the app can easily find its way back to the certain jump info that the user requested in the app. We can use variable queries to request our data.
-    **_But what about your user security?_**
+    The jumps will have their own unique key once they get added after the user performed a jump on our product. The jump info include the height, date of the jump and probably some future related info that correspond to that jump. This way the app can easily find its way back to the certain jump info that the user requested in the app. We can use variable queries to request our data.<br/>
+    **_But what about your user security?_**<br/>
     This is a very important subject in terms of using a database with personal info. In Firebase we can use security rules wich can be programmed manually on the Firebase Console. We can configure wich data can be accessed and which data is secured. We separate the actions of accessing a database in reading and writing data. But wich info we secure... That's a secret :wink:.
