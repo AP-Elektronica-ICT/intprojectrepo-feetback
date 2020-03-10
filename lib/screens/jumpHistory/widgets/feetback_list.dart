@@ -46,7 +46,6 @@ Widget _buildRow(BuildContext context, Jump jump) {
     return Container(
       decoration: BoxDecoration(
           color: Color.fromRGBO(0, 0, 0, 0.04),
-          //color: Colors.red,
           borderRadius: BorderRadius.circular(8.0)),
       margin: new EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
       child: ListTile(

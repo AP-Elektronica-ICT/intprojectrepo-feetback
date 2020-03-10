@@ -6,6 +6,7 @@ import 'package:feetback/models/jump.dart';
 import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:feetback/screens/jumpHistory/widgets/feetback_list.dart';
 import 'package:feetback/screens/jumpHistory/enums/sort_state.dart';
+import 'package:feetback/screens/jumpHistory/widgets/jump_history_popup.dart';
 
 
 
@@ -20,7 +21,7 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
 
   _JumpHistoryPageState() {
     jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 54.71, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 9, 14), 54.69, 3000));
     jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.200, 3000));
     jumps.add(Jump(DateTime.utc(2019, 9, 14), 49.32, 3000));
     jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000));
@@ -41,27 +42,12 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
           padding: EdgeInsets.only(left: 16, right: 16),
           automaticallyImplyLeading: false,
           actions: <Widget>[
-            PopupMenuButton<SortState>(
-              onSelected: (SortState result) {
-                setState(() {
-                  _selection = result;
-                });
-              },
-              itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<SortState>>[
-                const PopupMenuItem<SortState>(
-                  value: SortState.date,
-                  child: Text('By date'),
-                ),
-                const PopupMenuItem<SortState>(
-                  value: SortState.height,
-                  child: Text('By height'),
-                ),
-                const PopupMenuItem<SortState>(
-                  value: SortState.dayHeight,
-                  child: Text('By day and height'),
-                ),
-              ], icon:  Icon(Icons.sort,)
+            JumpHistoryPopup(
+              onSelected: (SortState selected) => {
+                this.setState(() {
+                  _selection = selected;
+                })
+              }
             )
           ],
         ),
