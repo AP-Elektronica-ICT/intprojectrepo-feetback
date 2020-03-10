@@ -28,6 +28,8 @@ This app will be used to connect to a mat that can measure your jump height.
 [Mandatory plugins for VS code](#mandatory-plugins-for-vs-code) <br/>
 [Handy plugins for VS code](#handy-plugins-for-vs-code) <br/>
 [Database](#database) <br/>
+[--> Firebase Authentication](#firebase-authentication) <br/>
+[--> Firebase Realtime Database](#firebase-realtime-database) <br/>
 
 ## Flutter documentation
 
