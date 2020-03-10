@@ -201,7 +201,7 @@ For the database we use Firebase Authentication and Firebase Realtime Database.
     >       Mom:
     >           Name: "Sarah"
     >           Age: 49
-    ```
+    >```
     For our database we have users wich contain user ID's. Those ID's contain their name, the ID of the user and the jumps.<br/>
     The jumps will have their own unique key once they get added after the user performed a jump on our product. The jump info include the height, date of the jump and probably some future related info that correspond to that jump. This way the app can easily find its way back to the certain jump info that the user requested in the app. We can use variable queries to request our data.<br/>
     **_But what about your user security?_**<br/>
