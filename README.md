@@ -206,6 +206,6 @@ For the database we use Firebase Authentication and Firebase Realtime Database.
     For our database we have users wich contain user ID's. Those ID's contain their name, the ID of the user and the jumps.<br/>
     The jumps will have their own unique key once they get added after the user performed a jump on our product. The jump info include the height, date of the jump and probably some future related info that correspond to that jump. This way the app can easily find its way back to the certain jump info that the user requested in the app. We can use variable queries to request our data.<br/><br/>
     The layout of our database looks like this:<br/>
-    ![Image of database-layout](https://) <br/>
+    ![Image of database-layout](https://github.com/AP-Elektronica-ICT/intprojectrepo-feetback/blob/documentation/assets/database.PNG) <br/>
     **_But what about your user security?_**<br/>
     This is a very important subject in terms of using a database with personal info. In Firebase we can use security rules wich can be programmed manually on the Firebase Console. We can configure wich data can be accessed and which data is secured. We separate the actions of accessing a database in reading and writing data. But wich info we secure... That's a secret :wink:.
