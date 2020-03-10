@@ -181,10 +181,10 @@ For the database we use Firebase Authentication and Firebase Realtime Database.
 2. ###### Firebase Realtime Database
     This is another service that Firebase provides to store certain data to the database of your app. You can store integers, strings, floats and so on. To get more structure the data can be stored like a JSON-file. For example:<br/>
     >Family:<br/>
-    >   Sons:<br/>
+    >   ```Sons:<br/>
     >       Son1:<br/>
     >           Name: "Mark"<br/>
-    >           Age: 21<br/>
+    >           Age: 21```<br/>
     >       Son2:<br/>
     >           Name: "Arthur"<br/>
     >           Age: 16<br/>
