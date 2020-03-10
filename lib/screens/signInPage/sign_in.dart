@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../signInPage/widgets/google_sign_in_button.dart';
@@ -43,7 +44,7 @@ class _SignInState extends State<SignInPage> {
 
     print("Signed in as " + fbUser.displayName);
     // Navigate to home.
-    Navigator.pushReplacementNamed(context, '/signin');
+    Navigator.pushReplacementNamed(context, '/');
   }
 
  /*Future<FirebaseUser> _handleSignOut() async {
@@ -59,23 +60,29 @@ class _SignInState extends State<SignInPage> {
   Widget build(BuildContext context) {  
 
     return Scaffold(
-      body: Container(
-        color: Theme.of(context).primaryColor,      
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image(image: AssetImage("assets/logo.png"), height: 320.0),
-              SignInButton(
-                onPressed: _handleSignIn,
-              ),
-              //_signOutButton(),
-              
-            ],
-          ),
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.light
         ),
-        
+        child: Container(
+          color: Theme.of(context).primaryColor,      
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image(image: AssetImage("assets/logo.png"), height: 320.0),
+                SignInButton(
+                  onPressed: _handleSignIn,
+                ),
+                //_signOutButton(),
+                
+              ],
+            ),
+          ),
+          
+        ),
       ),
       
     );

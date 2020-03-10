@@ -1,7 +1,11 @@
 import 'dart:core';
+
+import 'package:flutter/material.dart';
+
 import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
-import 'package:flutter/material.dart';
+import 'package:feetback/widgets/feetback_app_bar.dart';
+
 
 enum SequenceState { date, height, dayHeight }
 
@@ -68,7 +72,8 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
                 child: _graph()),
             Expanded(child: _buildList()),
           ],
-        ));
+        )
+    );
   }
 
   Widget _graph() {
@@ -92,9 +97,9 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
             jumps.sort((b, a) => a.date.month.compareTo(b.date.month));
             jumps.sort((b, a) => a.date.year.compareTo(b.date.year));
           }
-          return _buildRow(context, jumps[item], item);
-            
-        });
+          return _buildRow(context, jumps[item], item);  
+        }
+    );
   }
 
   Widget _buildRow(BuildContext context, Jump jump, int item) {
@@ -115,7 +120,8 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
               style: TextStyle(fontWeight: FontWeight.bold)),
           onTap: () {
             pushJump(context, item);
-          }),
+          },
+      ),
     );
   }
 
@@ -124,6 +130,7 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
         context,
         MaterialPageRoute(
           builder: (context) => JumpDetailPage(jump: jumps[index]),
-        ));
+        )
+    );
   }
 }
