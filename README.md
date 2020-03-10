@@ -182,7 +182,8 @@ For the database we use Firebase Authentication and Firebase Realtime Database.
 1. ###### Firebase Authentication
     This is a service that Firebase provides to authenticate Google users to get access to the database. When a user logs on the app for the first time, the app asks if the user wants to accept the terms and policies of the app. Afterwards the user gets added in our FB Auth list with logged on users with a unique Google ID. The extra information will be saved on the FB Realtime DB wich will be explained in the next paragraph.
 2. ###### Firebase Realtime Database
-    This is another service that Firebase provides to store certain data to the database of your app. You can store integers, strings, floats and so on. To get more structure the data can be stored like a JSON-file. For example:<br/>```
+    This is another service that Firebase provides to store certain data to the database of your app. You can store integers, strings, floats and so on. To get more structure the data can be stored like a JSON-file. For example:<br/>
+    >```
     >Family:
     >       Sons:
     >           Son1:
