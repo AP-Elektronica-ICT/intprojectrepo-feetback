@@ -46,11 +46,11 @@ class _SignInState extends State<SignInPage> {
       fbUser = signInResult.user;
 
       //Push a new user to Firebase
-      _firebaseRef.child(fbUser.uid).set({
+      _firebaseRef.child("users").child(fbUser.uid).set({
         "name": fbUser.displayName,
         "GUID": fbUser.uid,
       });
-      _firebaseRef.child(fbUser.uid).child("jumps").set({
+      _firebaseRef.child("users").child(fbUser.uid).child("jumps").set({
         "jump1": "wijoew",
         "jump2": "skrrrah",
       });
