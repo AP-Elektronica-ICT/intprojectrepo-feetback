@@ -25,13 +25,14 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   @override
   void initState() {
     super.initState();
-    _startApp();    
+    _startApp();
   }
 
   Future<void> _startApp() async {
     await Session.shared.checkBluetoothAdapter(this);
     isDiscovering = widget.start;
-    if(Session.shared.isBluetoothEnabled){      
+    if(Session.shared.isBluetoothEnabled){
+      isDiscovering = true;      
       if (isDiscovering) {
         _startDiscovery();
       }
@@ -67,7 +68,8 @@ class _DiscoveryPage extends State<DiscoveryPage> {
 
   Future<void> _enableBluetooth() async {                   
     await Session.shared.enableBluetooth();
-    _restartDiscovery();
+    if(Session.shared.isBluetoothEnabled) _restartDiscovery();
+    
                 
   }
 

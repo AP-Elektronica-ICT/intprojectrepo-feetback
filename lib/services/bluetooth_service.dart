@@ -23,7 +23,8 @@ class Session {
 
   Future<void> enableBluetooth() async {                   
     await FlutterBluetoothSerial.instance.requestEnable();
-    Session.shared.isBluetoothEnabled = true;   
+    if(await FlutterBluetoothSerial.instance.isEnabled)Session.shared.isBluetoothEnabled = true;   
+    
   }
 
   connect(BluetoothDevice _device) => {
