@@ -49,8 +49,8 @@ class AuthService {
         // Get authentication credentials.
         GoogleSignInAuthentication googleAuth = await googleUser.authentication;
         AuthCredential credential = GoogleAuthProvider.getCredential(
-          idToken: googleAuth.accessToken,
-          accessToken: googleAuth.idToken,
+          idToken: googleAuth.idToken,
+          accessToken: googleAuth.accessToken
         );
         // Sign in.
         AuthResult signInResult = await _auth.signInWithCredential(credential); 
