@@ -1,1 +1,1 @@
-enum SortState { date, height, dayHeight }
+enum SortState { date, height, dayHeight, favorite }
