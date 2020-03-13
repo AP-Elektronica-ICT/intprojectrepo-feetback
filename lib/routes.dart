@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:feetback/screens/homePage/home.dart';
-import 'package:feetback/screens/startupPage/startup_page.dart';
+import 'package:feetback/screens/startupPage/startup.dart';
 import 'package:feetback/screens/signInPage/sign_in.dart';
 import 'package:feetback/screens/jumpHistory/jump_history.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
