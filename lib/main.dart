@@ -8,7 +8,6 @@ import 'package:feetback/services/navigation_service.dart';
 void main() {
   setupLocator();
   runApp(FeetBackApp());
-  print('Loaded');
 }
 
 class FeetBackApp extends StatelessWidget {

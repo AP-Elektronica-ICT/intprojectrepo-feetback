@@ -16,7 +16,7 @@ class _StartUpPageState extends State<StartUpPage> {
   @override
   void initState() {
     super.initState();
-    print('Init');
+    
     handleStartUp();
   }
 
