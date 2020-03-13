@@ -1,3 +1,4 @@
+import 'package:feetback/screens/jumpHistory/widgets/date_indicator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -54,7 +55,7 @@ Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite) {
           borderRadius: BorderRadius.circular(8.0)),
       margin: new EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
       child: ListTile(
-          leading: FlutterLogo(size: 48.0),
+          leading: Padding(child: DateIndicator(date: jump.date,), padding: EdgeInsets.only(top: 5),),
           subtitle: Text(jump.date.day.toString() +
               "/" +
               jump.date.month.toString() +
