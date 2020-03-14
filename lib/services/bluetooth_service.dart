@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
-class Session {
+class BluetoothService {
   // singleton
-  static final Session _singleton = Session._internal();
-  factory Session() => _singleton;
-  Session._internal();
-  static Session get shared => _singleton;
+  static final BluetoothService _singleton = BluetoothService._internal();
+  factory BluetoothService() => _singleton;
+  BluetoothService._internal();
+  static BluetoothService get getBluetoothService => _singleton;
 
   BluetoothDevice device;
   bool streamActive = false;
@@ -15,7 +15,7 @@ class Session {
   BluetoothConnection connection;
 
   Future<bool> checkBluetoothAdapter(State state) async{   
-      Session.shared.isBluetoothEnabled =  await FlutterBluetoothSerial.instance.isEnabled;
+      BluetoothService.getBluetoothService.isBluetoothEnabled =  await FlutterBluetoothSerial.instance.isEnabled;
       state.setState((){});
       return await FlutterBluetoothSerial.instance.isEnabled;
       
@@ -23,12 +23,13 @@ class Session {
 
   Future<void> enableBluetooth() async {                   
     await FlutterBluetoothSerial.instance.requestEnable();
-    if(await FlutterBluetoothSerial.instance.isEnabled)Session.shared.isBluetoothEnabled = true;   
-    
+    if(await FlutterBluetoothSerial.instance.isEnabled)BluetoothService.getBluetoothService.isBluetoothEnabled = true;     
   }
 
+  
+
   connect(BluetoothDevice _device) => {
-    BluetoothConnection.toAddress(Session.shared.device.address).then((_connection) {
+    BluetoothConnection.toAddress(_device.address).then((_connection) {
           print('Connected to the device');
           connection = _connection;
           device = _device;

@@ -1,10 +1,15 @@
 import 'dart:async';
-import 'package:feetback/screens/homePage/home.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'package:feetback/screens/homePage/home.dart';
+
+import 'package:feetback/services/bluetooth_service.dart';
+
 import 'widgets/BluetoothDeviceListEntry.dart';
-import '../../services/bluetooth_service.dart';
+
 
 class DiscoveryPage extends StatefulWidget {
   /// If true, discovery starts on page start, otherwise user must press action button.
@@ -29,9 +34,9 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   }
 
   Future<void> _startApp() async {
-    await Session.shared.checkBluetoothAdapter(this);
+    await BluetoothService.getBluetoothService.checkBluetoothAdapter(this);
     isDiscovering = widget.start;
-    if(Session.shared.isBluetoothEnabled){
+    if(BluetoothService.getBluetoothService.isBluetoothEnabled){
       isDiscovering = true;      
       if (isDiscovering) {
         _startDiscovery();
@@ -67,10 +72,62 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   }
 
   Future<void> _enableBluetooth() async {                   
-    await Session.shared.enableBluetooth();
-    if(Session.shared.isBluetoothEnabled) _restartDiscovery();
-    
-                
+    await BluetoothService.getBluetoothService.enableBluetooth();
+    if(BluetoothService.getBluetoothService.isBluetoothEnabled) _restartDiscovery(); 
+  }
+
+  Future<void> _pairWithDevice(BluetoothDiscoveryResult result) async{   
+    try {
+      bool bonded = false;
+      if (result.device.isBonded) {
+        BluetoothService.getBluetoothService.connect(result.device);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()));                              
+      }
+      else {
+        print('Bonding with ${result.device.address}...');
+        bonded = await FlutterBluetoothSerial.instance.bondDeviceAtAddress(result.device.address);
+        print('Bonding with ${result.device.address} has ${bonded ? 'succed' : 'failed'}.');
+        if(bonded){
+          BluetoothService.getBluetoothService.connect(result.device);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()));
+          }
+                              
+        }
+        setState(() {
+          results[results.indexOf(result)] = BluetoothDiscoveryResult(
+            device: BluetoothDevice(
+            name: result.device.name ?? '',
+            address: result.device.address,
+            type: result.device.type,
+            bondState: bonded ? BluetoothBondState.bonded : BluetoothBondState.none,
+          ), 
+          rssi: result.rssi
+          );
+        });
+      }
+      catch (ex) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error occured while bonding'),
+              content: Text("${ex.toString()}"),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
   }
 
   @override
@@ -109,16 +166,15 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                   
                   children: <Widget>[
                     Container(
-                      child:Image(image: AssetImage("assets/connect_illustration.png"), height: 160),
+                      child:Image(image: AssetImage("images/connect_illustration.png"), height: 160),
                       padding: EdgeInsets.all(16.0),
                     ),
                   ],
                 ),
 
-                Session.shared.isBluetoothEnabled == false ? 
+                BluetoothService.getBluetoothService.isBluetoothEnabled == false ? 
                 Container(
-                  margin: const EdgeInsets.only(top: 240.0),
-                  
+                  margin: const EdgeInsets.only(top: 240.0),                  
                   child:Center(
                     child : MaterialButton(
                       child: Text("Enable Bluetooth"),
@@ -141,80 +197,23 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return AlertDialog(
-                                  
+                                return AlertDialog(                                  
                                   //title: Text('Pairing with ${result.device.name}'),
                                   content: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        
+                                      children: <Widget>[                                        
                                       SpinKitDoubleBounce(
                                         color: Theme.of(context).primaryColor,
-                                        size: 120.0,
-                                        
-                                      ),
-                                      
+                                        size: 120.0,                                        
+                                      ),                                      
                                       Text('Pairing with ${result.device.name}'),
                                     ],
-                                    
                                   ),
                                 );
                               },
                             );
-                          try {
-                            bool bonded = false;
-                            if (result.device.isBonded) {
-                                Session.shared.connect(result.device);
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => HomePage()));
-                              
-                            }
-                            else {
-                              print('Bonding with ${result.device.address}...');
-                              bonded = await FlutterBluetoothSerial.instance.bondDeviceAtAddress(result.device.address);
-                              print('Bonding with ${result.device.address} has ${bonded ? 'succed' : 'failed'}.');
-                              if(bonded){
-                                Session.shared.connect(result.device);
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => HomePage()));
-                              }
-                              
-                            }
-                            setState(() {
-                              results[results.indexOf(result)] = BluetoothDiscoveryResult(
-                                device: BluetoothDevice(
-                                  name: result.device.name ?? '',
-                                  address: result.device.address,
-                                  type: result.device.type,
-                                  bondState: bonded ? BluetoothBondState.bonded : BluetoothBondState.none,
-                                ), 
-                                rssi: result.rssi
-                              );
-                            });
-                          }
-                          catch (ex) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Error occured while bonding'),
-                                  content: Text("${ex.toString()}"),
-                                  actions: <Widget>[
-                                    new FlatButton(
-                                      child: new Text("Close"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        },
-                        
+                          _pairWithDevice(result);
+                        },                        
                       );
                     },
                   ),

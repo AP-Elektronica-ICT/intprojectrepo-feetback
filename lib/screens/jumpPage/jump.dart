@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import '../../services/bluetooth_service.dart';
+
+import 'package:feetback/services/bluetooth_service.dart';
+
 import 'package:feetback/screens/homePage/home.dart';
 
 class JumpPage extends StatefulWidget {
@@ -23,8 +26,8 @@ String _textString = "";
   void initState() {
     super.initState();
 
-          if(!Session.shared.streamActive){
-            Session.shared.connection.input.listen(_onDataReceived).onDone(() {
+          if(!BluetoothService.getBluetoothService.streamActive){
+            BluetoothService.getBluetoothService.connection.input.listen(_onDataReceived).onDone(() {
                 print("Listen done");
               if (isDisconnecting) {
                 print('Disconnecting locally!');
@@ -36,7 +39,7 @@ String _textString = "";
                 setState(() {});
               }
             });
-            Session.shared.streamActive = true;
+            BluetoothService.getBluetoothService.streamActive = true;
           }      
   }
 
@@ -75,8 +78,8 @@ String _textString = "";
   void _sendMessage() async {
       
       try {
-        Session.shared.connection.output.add(utf8.encode("s"));
-        await Session.shared.connection.output.allSent;
+        BluetoothService.getBluetoothService.connection.output.add(utf8.encode("s"));
+        await BluetoothService.getBluetoothService.connection.output.allSent;
         print("sended");
         
       }
@@ -96,19 +99,15 @@ String _textString = "";
     String temp = utf8.decode(data);
     resultaat = resultaat+temp;
     
-    if(temp.substring(temp.length-1)== "e") {
-      
+    if(temp.substring(temp.length-1)== "e") {    
 
       
       this.setState(() {
         this._textString = resultaat.substring(0,resultaat.length-1);
         this.endMessage = true;
-      });
-      
+      });      
       print("end message");
       print(resultaat);
-    }
-
-    
+    }    
   }
 }
