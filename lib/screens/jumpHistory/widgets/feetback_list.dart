@@ -1,3 +1,4 @@
+import 'package:feetback/screens/jumpHistory/widgets/date_indicator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -7,10 +8,12 @@ import 'package:feetback/screens/jumpHistory/enums/sort_state.dart';
 class FeetbackList  extends StatefulWidget {
   final List<Jump> jumpItems;
   final SortState currentSortState;
+  final void Function(Jump) onFavorite;
 
   FeetbackList({
     @required this.jumpItems,
     @required this.currentSortState,
+    @required this.onFavorite,
   });
 
   @override
@@ -36,20 +39,23 @@ class _FeetbackListState extends State<FeetbackList> {
             widget.jumpItems.sort((b, a) => a.date.month.compareTo(b.date.month));
             widget.jumpItems.sort((b, a) => a.date.year.compareTo(b.date.year));
           }
-          return _buildRow(context, widget.jumpItems[item]);  
+          else if(widget.currentSortState == SortState.favorite){
+            widget.jumpItems.sort((b, a) => compareBool(a.favorite, b.favorite));
+          }
+          return _buildRow(context, widget.jumpItems[item], widget.onFavorite);  
         }
     );
   }
 }
 
-Widget _buildRow(BuildContext context, Jump jump) {
+Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite) {
     return Container(
       decoration: BoxDecoration(
           color: Color.fromRGBO(0, 0, 0, 0.04),
           borderRadius: BorderRadius.circular(8.0)),
       margin: new EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
       child: ListTile(
-          leading: FlutterLogo(size: 48.0),
+          leading: Padding(child: DateIndicator(date: jump.date,), padding: EdgeInsets.only(top: 5),),
           subtitle: Text(jump.date.day.toString() +
               "/" +
               jump.date.month.toString() +
@@ -57,6 +63,15 @@ Widget _buildRow(BuildContext context, Jump jump) {
               jump.date.year.toString()),
           title: Text(jump.height.toString() + " cm",
               style: TextStyle(fontWeight: FontWeight.bold)),
+          trailing: 
+                IconButton(
+                  icon:Icon(
+                    jump.favorite ? Icons.favorite : 
+                    Icons.favorite_border,
+                    color: jump.favorite ? Theme.of(context).accentColor: null,
+                    ),
+                    onPressed: () => onFavorite(jump),
+                ),
           onTap: () {
             pushJump(context, jump);
           },
@@ -71,4 +86,10 @@ Widget _buildRow(BuildContext context, Jump jump) {
           builder: (context) => JumpDetailPage(jump: jump),
         )
     );
+  }
+
+  int compareBool(bool a, bool b){
+    if(a && !b) return 1;
+    else if(!a && b) return -1;
+    else return 0;
   }

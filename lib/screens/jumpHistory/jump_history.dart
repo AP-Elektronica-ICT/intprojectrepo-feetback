@@ -60,7 +60,11 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
                 margin:
                     new EdgeInsets.symmetric(vertical: 24.0, horizontal: 32.0),
                 child: _graph()),
-            Expanded(child: FeetbackList(currentSortState: _selection, jumpItems: jumps),),
+            Expanded(child: FeetbackList(
+              currentSortState: _selection,
+              jumpItems: jumps, 
+              onFavorite: (Jump jump) => setState(() => jump.favorite = !jump.favorite)
+              ),),
           ],
         )
     );
@@ -69,4 +73,4 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   Widget _graph() {
     return Image.asset('assets/chart.png');
   }
-}
+}  

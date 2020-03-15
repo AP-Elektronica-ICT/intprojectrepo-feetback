@@ -29,6 +29,10 @@ class _JumpHistoryPopupState extends State<JumpHistoryPopup> {
                   value: SortState.height,
                   child: Text('By height'),
                 ),
+                 const PopupMenuItem<SortState>(
+                  value: SortState.favorite,
+                  child: Text('By Favorite'),
+                ),
                 const PopupMenuItem<SortState>(
                   value: SortState.dayHeight,
                   child: Text('By day and height'),
