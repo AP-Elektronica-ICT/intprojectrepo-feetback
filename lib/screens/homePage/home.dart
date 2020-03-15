@@ -1,9 +1,14 @@
-import 'package:feetback/models/jump.dart';
 import 'package:flutter/material.dart';
 
+import 'package:feetback/models/jump.dart';
+import 'package:feetback/screens/jumpPage/jump.dart';
+import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/widgets/feetback_app_bar.dart';
 
 class HomePage extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +40,17 @@ class HomePage extends StatelessWidget {
               child: Text("Jump History"),
               onPressed: () => Navigator.pushNamed(context, "/jumphistory" ), 
             ),
+            Text("Perform a jump only works if already connected. These buttons are for testing purpose and may be removed."),
+            RaisedButton(
+              child: Text("Connect to a mat"),
+              onPressed: () => Navigator.pushNamed(context, "/connect"),
+            ),
+            RaisedButton(
+              child: Text("Perform a jump"),
+              onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => JumpPage())),
+            )
           ],
         ),
       )
