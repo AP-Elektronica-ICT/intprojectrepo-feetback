@@ -106,7 +106,9 @@ As a root widget of our app we'll use the ```MaterialApp``` widget which will pr
 This file contains should contain a ```Router``` class which is responsible for selecting the correct route when the app asks for it.
 When a route is requested we must return a ```MaterialRoute``` which handles platform specific transitions.<br/>
 [More information about advanced routing in Flutter.](https://dev.to/nitishk72/flutter-advance-routing-and-navigator-part-1-547l)<br/>
-[Passing data between screens](https://blog.usejournal.com/flutter-advance-routing-and-navigator-971c1e97d3d2)
+[Passing data between screens](https://blog.usejournal.com/flutter-advance-routing-and-navigator-971c1e97d3d2)<br/>
+[navigating through a navigation bottom bar](https://medium.com/flutter/getting-to-the-bottom-of-navigation-in-flutter-b3e440b9386)<br/>
+[official flutter navigation documenatation](https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html)
 
 ## Spacing/sizing convetions
 For the main part we'll use e 8x8 grid. Here are some example sizes: 8, 16, 32, 40, 48, 56, ...
@@ -169,5 +171,5 @@ When importing classes at the top of our files we will make sure to separate the
 3. [Firebase Database](https://pub.dev/packages/firebase_database)
 4. [FL Chart](https://pub.dev/packages/fl_chart)
 5. [Connectivity](https://pub.dev/packages/connectivity)
-6. [Bluetooth](https://pub.dev/packages/flutter_blue)
+6. [Bluetooth](https://pub.dev/packages/flutter_bluetooth_serial)
 7. [Permission handler](https://pub.dev/packages/permission_handler)
