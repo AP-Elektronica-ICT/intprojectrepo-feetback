@@ -38,29 +38,51 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  var jumping = Row(children: <Widget>[Image(image: AssetImage("assets/jump-illustration.png"))],);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: FeetbackAppBar(
         title: const Text("Home"),
-        height: 92,
+        height: 100,
         contentAlignment: Alignment.centerLeft,
         padding: EdgeInsets.only(left: 16, right: 16),
-        automaticallyImplyLeading: false,
+        
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.8),
+        padding: EdgeInsets.all(10),
+        
+        
         child: Container(
-          child : Center(
+          child: Center(
             child: Column(
               children: <Widget>[
-                Image(image: AssetImage("assets/home.png"),height: 320.0),
-                Text('Maximal jump heigt'),
+                
+                Image(image: AssetImage("assets/jump-illustration.png")),
+                
+
               ],
             ),
           ),
         ),
       ),
+
+      
+
+     
+
+
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+
+        },
+        label: const Text('Jump'),
+        backgroundColor: Colors.red
+        
+        
+        ,),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -68,18 +90,18 @@ class _HomePageState extends State<HomePage> {
             title: Text(''),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.brightness_auto),
+            icon: Icon(Icons.show_chart),
             title: Text(''),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.accessibility_new),
+            icon: Icon(Icons.settings),
             title: Text(''),
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).accentColor,
         backgroundColor: Colors.white,
-        iconSize: 20.0,
+        iconSize: 25.0,
         onTap: _onItemTapped,
       ),
     );
