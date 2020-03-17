@@ -1,4 +1,5 @@
 import 'package:feetback/models/jump.dart';
+import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 
 import 'package:flutter/material.dart';
 
@@ -42,16 +43,25 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: FeetbackAppBar(
         title: const Text("Home"),
-        
+        height: 92,
+        contentAlignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.4),
-          child: Container(
-            child:  ,),),
-
-
+        padding: EdgeInsets.all(16.8),
+        child: Container(
+          child : Center(
+            child: Column(
+              children: <Widget>[
+                Image(image: AssetImage("assets/home.png"),height: 320.0),
+                Text('Maximal jump heigt'),
+              ],
+            ),
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -70,15 +80,8 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: Theme.of(context).accentColor,
         backgroundColor: Colors.white,
         iconSize: 20.0,
-        
-
-      
         onTap: _onItemTapped,
-        
       ),
-
-      
-       
     );
   }
 }
