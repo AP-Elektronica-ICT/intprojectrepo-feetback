@@ -6,14 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 /// This service is used through a singleton, which is accessible on the [AuthService.instance] property.
 class AuthService {
   // ------------------------------------------------
-  //                    Contructor
-  // ------------------------------------------------
-  // Create singleton
-  AuthService._privateConstructor();
-  /// A shared instance of the AuthService.
-  static final AuthService instance = AuthService._privateConstructor();
-
-  // ------------------------------------------------
   //               Private properties
   // ------------------------------------------------
   // Get auth provider instances.

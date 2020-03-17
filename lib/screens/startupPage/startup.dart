@@ -10,7 +10,7 @@ class StartUpPage extends StatefulWidget {
 }
 
 class _StartUpPageState extends State<StartUpPage> {
-  final AuthService _authService = AuthService.instance;
+  final AuthService _authService = locator<AuthService>();
   final NavigationService _navService = locator<NavigationService>();
 
   @override

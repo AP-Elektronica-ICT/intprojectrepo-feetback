@@ -9,7 +9,7 @@ import '../signInPage/widgets/google_sign_in_button.dart';
 
 
 class SignInPage extends StatelessWidget {
-  final AuthService _authService = AuthService.instance;
+  final AuthService _authService = locator<AuthService>();
   final NavigationService _navService = locator<NavigationService>();
 
   void _handleSignIn() async {
