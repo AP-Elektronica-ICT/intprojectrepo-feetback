@@ -166,7 +166,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                   
                   children: <Widget>[
                     Container(
-                      child:Image(image: AssetImage("images/connect_illustration.png"), height: 160),
+                      child:Image(image: AssetImage("lib/images/connect_illustration.png"), height: 160),
                       padding: EdgeInsets.all(16.0),
                     ),
                   ],
