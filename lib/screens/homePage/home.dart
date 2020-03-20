@@ -1,9 +1,11 @@
-import 'package:feetback/models/jump.dart';
-import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 
 import 'package:flutter/material.dart';
 
+import 'package:feetback/models/jump.dart';
+import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
+import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/widgets/feetback_app_bar.dart';
+
 
 class HomePage extends StatefulWidget {
   static const List<Widget> _widgetOptions = <Widget>[
@@ -40,6 +42,7 @@ class _HomePageState extends State<HomePage> {
 
   var jumping = Row(children: <Widget>[Image(image: AssetImage("assets/jump-illustration.png"))],);
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +67,7 @@ class _HomePageState extends State<HomePage> {
 
               ],
             ),
-          ),
+
         ),
       ),
 

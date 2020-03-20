@@ -1,0 +1,1 @@
+enum SortState { date, height, dayHeight, favorite }

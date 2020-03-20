@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:feetback/routes.dart';
+import 'package:feetback/services/service_locator.dart';
+import 'package:feetback/services/navigation_service.dart';
 
 
-
-void main() => runApp(FeetBackApp());
+void main() {
+  setupLocator();
+  runApp(FeetBackApp());
+}
 
 class FeetBackApp extends StatelessWidget {
 
@@ -34,9 +38,13 @@ class FeetBackApp extends StatelessWidget {
       title: 'Feetback',
       theme: ThemeData(
         fontFamily: 'Product Sans',
-        textTheme: Theme.of(context).textTheme.apply(
+        textTheme: Theme.of(context).textTheme.copyWith(
+          button: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ).apply(
           bodyColor: _primaryColor,
-          displayColor: _primaryColor
+          displayColor: _primaryColor,
         ),
         primarySwatch: _primaryColor,
         primaryColorBrightness: Brightness.dark,
@@ -64,7 +72,8 @@ class FeetBackApp extends StatelessWidget {
           shape: StadiumBorder(),
         ),
       ),
-      initialRoute: "/",
+      navigatorKey: locator<NavigationService>().navigatorKey,
+      initialRoute: "/startup",
       onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
       debugShowCheckedModeBanner: true,
       
