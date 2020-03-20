@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  var jumping = Row(children: <Widget>[Image(image: AssetImage("assets/jump-illustration.png"))],);
+  var jumping = Row(children: <Widget>[Image(image: AssetImage("lib/images/jump-illustration.png"))],);
 
 
   @override
@@ -48,13 +48,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: FeetbackAppBar(
         title: const Text("Home"),
-        height: 100,
+        height: 92,
         contentAlignment: Alignment.centerLeft,
         padding: EdgeInsets.only(left: 16, right: 16),
         
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(16),
         
         
         child: Container(
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: <Widget>[
                 
-                Image(image: AssetImage("assets/jump-illustration.png")),
+                Image(image: AssetImage("lib/images/jump-illustration.png")),
                 
 
               ],
@@ -71,8 +71,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
 
-      
-
+      ),
+    
      
 
 
@@ -85,7 +85,11 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.red
         
         
-        ,),
+      )
+    ,
+        
+        
+
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -104,9 +108,13 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).accentColor,
         backgroundColor: Colors.white,
-        iconSize: 25.0,
+        iconSize: 24.0,
         onTap: _onItemTapped,
-      ),
+      )
+
     );
+      
+  
+    
   }
 }
