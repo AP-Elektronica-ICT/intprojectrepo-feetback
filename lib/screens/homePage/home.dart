@@ -1,12 +1,16 @@
+
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/jumpPage/jump.dart';
-import 'package:feetback/services/bluetooth_service.dart';
+
 import 'package:feetback/widgets/feetback_app_bar.dart';
 
 class HomePage extends StatelessWidget {
 
+
+  
+  
 
 
   @override
@@ -31,6 +35,12 @@ class HomePage extends StatelessWidget {
           
               onPressed: () => Navigator.pushNamed(context, "/jumpdetails" , arguments: Jump(DateTime.now(), 177, 4)), //dummy data to test arguments passing
               
+            ),
+            RaisedButton(
+              child: Text("Notifications"),
+              onPressed : () async {
+                //await _showWeeklyAtDayAndTime();
+              },
             ),
             RaisedButton(
               child: Text("SignIn"),
