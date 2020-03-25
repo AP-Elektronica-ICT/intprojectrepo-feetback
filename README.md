@@ -27,6 +27,9 @@ This app will be used to connect to a mat that can measure your jump height.
 [Pub packages we use](#pub-packages-we-use) <br/>
 [Mandatory plugins for VS code](#mandatory-plugins-for-vs-code) <br/>
 [Handy plugins for VS code](#handy-plugins-for-vs-code) <br/>
+[Database](#database) <br/>
+[--> Firebase Authentication](#firebase-authentication) <br/>
+[--> Firebase Realtime Database](#firebase-realtime-database) <br/>
 
 ## Flutter documentation
 
@@ -173,3 +176,36 @@ When importing classes at the top of our files we will make sure to separate the
 5. [Connectivity](https://pub.dev/packages/connectivity)
 6. [Bluetooth](https://pub.dev/packages/flutter_bluetooth_serial)
 7. [Permission handler](https://pub.dev/packages/permission_handler)
+
+## Database
+For the database we use Firebase Authentication and Firebase Realtime Database.
+1. ###### Firebase Authentication
+    This is a service that Firebase provides to authenticate Google users to get access to the database. When a user logs on the app for the first time, the app asks if the user wants to accept the terms and policies of the app. Afterwards the user gets added in our FB Auth list with logged on users with a unique Google ID. The extra information will be saved on the FB Realtime DB wich will be explained in the next paragraph.
+2. ###### Firebase Realtime Database
+    This is another service that Firebase provides to store certain data to the database of your app. You can store integers, strings, floats and so on. To get more structure the data can be stored like a JSON-file. For example:<br/>
+    >```
+    >Family:
+    >       Sons:
+    >           Son1:
+    >               Name: "Mark"
+    >               Age: 21
+    >           Son2:
+    >               Name: "Arthur"
+    >               Age: 16
+    >       Daughters:
+    >           Daughter1:
+    >               Name: "Emily"
+    >               Age: 18
+    >       Dad:
+    >           Name: "Michael"
+    >           Age: 51
+    >       Mom:
+    >           Name: "Sarah"
+    >           Age: 49
+    >```
+    For our database we have users wich contain user ID's. Those ID's contain their name, the ID of the user and the jumps.<br/>
+    The jumps will have their own unique key once they get added after the user performed a jump on our product. The jump info include the height, date of the jump and probably some future related info that correspond to that jump. This way the app can easily find its way back to the certain jump info that the user requested in the app. We can use variable queries to request our data.<br/><br/>
+    The layout of our database looks like this:<br/>
+    ![Image of database-layout](https://github.com/AP-Elektronica-ICT/intprojectrepo-feetback/blob/documentation/assets/database.PNG) <br/>
+    **_But what about your user security?_**<br/>
+    This is a very important subject in terms of using a database with personal info. In Firebase we can use security rules wich can be programmed manually on the Firebase Console. We can configure wich data can be accessed and which data is secured. We separate the actions of accessing a database in reading and writing data. But wich info we secure... That's a secret :wink:.
