@@ -2,14 +2,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
+
 import 'package:feetback/screens/jumpPage/jump.dart';
+
+import 'package:feetback/services/notification_service.dart';
+import 'package:feetback/services/navigation_service.dart';
+import 'package:feetback/services/service_locator.dart';
 
 import 'package:feetback/widgets/feetback_app_bar.dart';
 
 class HomePage extends StatelessWidget {
-
-
-  
+  final NotificationService _notificationService = locator<NotificationService>();
   
 
 
@@ -39,8 +42,14 @@ class HomePage extends StatelessWidget {
             RaisedButton(
               child: Text("Notifications"),
               onPressed : () async {
-                //await _showWeeklyAtDayAndTime();
+                await _notificationService.showWeeklyAtDayAndTime();
               },
+            ),
+            RaisedButton(
+              child: Text("Notifications"),
+              onPressed : () async {
+                await  _notificationService.showNotification();
+              }
             ),
             RaisedButton(
               child: Text("SignIn"),
