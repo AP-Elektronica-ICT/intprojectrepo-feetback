@@ -30,7 +30,7 @@ This app will be used to connect to a mat that can measure your jump height.
 [Database](#database) <br/>
 [--> Firebase Authentication](#firebase-authentication) <br/>
 [--> Firebase Realtime Database](#firebase-realtime-database) <br/>
-[General Data Protection Regulation (GDPR)](#general-data-protection-regulation-(GDPR)) <br/>
+[General Data Protection Regulation (GDPR)](#general-data-protection-regulation-gdpr) <br/>
 
 ## Flutter documentation
 
@@ -218,11 +218,9 @@ GDPR is enforced from May 25th 2018. It is designed to protect user data storage
 **Data Controller:** This is the entity that determines the purpose for and means of collecting and processing personal data. If you own a website or mobile app, and you’re deciding what is collected, how it is collected, and for what purpose, you are a Data Controller.
 
 <br/>
-<br/>
 
 **Data Processor:** A Data Processor is an organization that processes personal data on behalf of a data controller. For example, third-party services that plug into your website or app, such as Analytics (Google Analytics, KISSMetrics), Cloud Services (AWS), that access or host your customer data.
 
-<br/>
 <br/>
 
 **Data Subject:** a natural person whose data is processed. For example, an app user or a website visitor. <br/>
@@ -335,26 +333,26 @@ There are no contractual requirements to the use of this application.
 ##### Existence of profiling and any other types of automated descision-making and information about the logic behind them.
 Your data may be used to compare your jumps to the jumps of other users. This is or could become a feature of the application. If you don't want your data to be shared you can specify this in the applications settings.
 
-### The Right of Access
+#### The Right of Access
 [Article 15](https://gdpr-info.eu/art-15-gdpr/) outlines the first named right found in the GDPR: **The right to access**. This means that the data subject may access the personal data belonging to them. <br/>
 
 <br/>
 
-#### Your rights and how to use them
+##### Your rights and how to use them
 As a user you have the right to ask **why** and **how** your data is processed, **categories** of personal data involved, **who** sees the data (including countries outside the EU), **how long** your data is stored, how to exercise your rights, **source** of the data collected about you and wether we use **automated descision-making**. You may request a copy of your personal information once each month without any fees. You also may ask us to limit the use of your personal data or even delete it. <br/>
 
 You also have the right to complain to the Belgian privacy regulator should you feel your rights or the law has been compromised. <br/>
 
 <br/>
 
-##### How to get your data
+###### How to get your data
 1. Send us an email at [onthaal.ell@ap.be](mailto:onthaal.ell@ap.be)
 2. Use subject: "Request for personal data"
 3. Refer to the ICT-electronics department.
 4. Specify what data you would want to recieve.
 5. We'll get into touch in 48 hours.
 
-### The Right of Rectification
+#### The Right of Rectification
 [Article 16](https://gdpr-info.eu/art-16-gdpr/), the right to rectification, provides European data subjects with the right to change or modify the data they provide you when they believe the data is inaccurate or out-of-date. You need to provide this "without undue delay." Why is holding accurate data so important for you and your data subjects? Because incorrect data threatens the privacy of other individuals.
 
 For example, if you hold data subject phone numbers, you need to acknowledge that people change their phone numbers from time to time. If you hold old phone numbers that were then given away to new customers, you risk contacting a customer who didn't provide consent.
@@ -365,7 +363,7 @@ Holding data and contacting customers without their consent is a GDPR violation.
 
 As a user you have the right to adjust inaccurate or ou-of-date data. This can be done in the application settings. <br/>
 
-### The Right of Erasure
+#### The Right of Erasure
 [Article 17](https://gdpr-info.eu/art-17-gdpr/) describes the user right to erasure, which is better known as the right to be forgotten. When you make the decision to erase a data subject's data according to the right to erasure, you also need to share the request. All other controllers or processors with whom you have a contract also need to be aware of the erasure so that they can also erase:
 - Links to ...
 - Copies of...
@@ -375,28 +373,28 @@ As a user you have the right to adjust inaccurate or ou-of-date data. This can b
 
 As a user you have the right to request deletion of your data. You can do this by deleting your account in the application settings.
 
-### The Right to Restriction of Processing
+#### The Right to Restriction of Processing
 [Article 18](https://gdpr-info.eu/art-18-gdpr/) outlines the data subject's right to request the restriction of processing under certain conditions. That means you must temporarily stop processing their data as requested as long as their requests meets one of the following:
 - The data subject contests the accuracy of the data
 - The data subject objects to unlawful processing and the data subject prefers you to restrict the processing rather than erasing their data
 - The data controller does not need the data for processing but they need to keep the data pursuant to the "establishment, exercise, or defence of a legal claim"
 Article 18(3) states that if you temporarily stop processing data, then you must inform the data subject before lifting the restriction and resuming the processing, if you choose to do so.
 
-### The Right to Data Portability
+#### The Right to Data Portability
 The right to data portability outlined in [Article 20](https://gdpr-info.eu/art-20-gdpr/) refers to the data subject's right to receive the personal data held by the data controller in a commonly used format and send the data to another controller or use it for their personal purposes, under certain circumstances. <br/>
 
 <br/>
 
 As a user you have the right to recieve your personal data in a structured, machine readable and safe way.
 
-### The Right to Object
+#### The Right to Object
 [Article 21](https://gdpr-info.eu/art-21-gdpr/) outlines what is known as the right to object. In simple terms, it says that data subjects have the right to object to your data processing, including profiling, when it is on relevant grounds. <br/>
 
 <br/>
 
 As a user you have the right to object the use of your personal data, at any stage. You also have the right to object to out using of your personal data where our reason is based on legitimate intrests. We will have to stop processing until we can establish that we have compelling legitimate grounds which override your intrests, rights and freedoms, or that we need to continue using it for the establishment, exercise, or defense of legal claims.
 
-### The Right to Avoid Automated Decision-Making
+#### The Right to Avoid Automated Decision-Making
 The eighth and final right offered by the GDPR lies in [Article 22](https://gdpr-info.eu/art-22-gdpr/): Automated decision-making, including profiling. It says: "The data subject shall have the right not to be subject to a decision based solely on automated processing, including profiling, which produces legal effects concerning him or her or similarly affects him or her". <br/>
 
 <br/>
