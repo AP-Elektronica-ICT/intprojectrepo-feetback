@@ -1,11 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+
+import 'package:feetback/screens/jumpPage/widgets/result_screen.dart';
+import 'package:feetback/services/service_locator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/bluetooth_service.dart';
 
 import 'package:feetback/screens/homePage/home.dart';
+import 'package:feetback/screens/jumpPage/widgets/count_down_timer.dart';
+import 'package:feetback/widgets/feetback_app_bar.dart';
 
 class JumpPage extends StatefulWidget {
   final bool start;
@@ -21,81 +27,48 @@ bool isDisconnecting = false;
 bool endMessage = false;
 String resultaat = "";
 String _textString = "";
+final BluetoothService _bluetoothService = locator<BluetoothService>();
+StreamSubscription _streamSubscription;
 
 @override
   void initState() {
     super.initState();
+    asyncInit();    
+  }
 
-          if(!BluetoothService.getBluetoothService.streamActive){
-            BluetoothService.getBluetoothService.connection.input.listen(_onDataReceived).onDone(() {
-                print("Listen done");
-              if (isDisconnecting) {
-                print('Disconnecting locally!');
-              }
-              else {
-                print('Disconnected remotely!');
-              }
-              if (this.mounted) {
-                setState(() {});
-              }
-            });
-            BluetoothService.getBluetoothService.streamActive = true;
-          }      
+  void asyncInit() async{
+    if(await _bluetoothService.isBluetoothEnabled){
+        _bluetoothService.listenToDevice(_onDataReceived);
+    }
   }
 
  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(      
+    return new WillPopScope(
+        onWillPop: () async {
+          endMessage = false;
+          resultaat = "";
+          
+          print("back");
+          return true;
+        },
+        child:  Scaffold( 
         body: Center(
-          child: Container(
-            height: 500,
-            child: Column(
-              children: <Widget>[
-                this.endMessage == false ? RaisedButton(
-                  child: Text("Start"),
-                  onPressed: _sendMessage,
-                  )
-                :Text(""),                
-                Text(this._textString),
-                this.endMessage == true ? RaisedButton(
-                  child: Text("Next"),
-                  onPressed: () { 
-                    resultaat = "";
-                    endMessage = false;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()));},
-                )
-                :Text(""),                
-              ],)
-          )
-        ),
+          child:MaterialApp(
+              home:endMessage ? ResultScreen(resultaat): CountDownTimer(),
+            )
+          ),
+        )
     );
-  }
-
-  void _sendMessage() async {
-      
-      try {
-        BluetoothService.getBluetoothService.connection.output.add(utf8.encode("s"));
-        await BluetoothService.getBluetoothService.connection.output.allSent;
-        print("sended");
-        
-      }
-      catch (e) {
-        // Ignore error, but notify state
-        setState(() {});
-        print("error" +e);
-        return null;
-      }
-
   }
 
   
 
   void _onDataReceived(Uint8List data) {
         
+    print("data recieved");
     String temp = utf8.decode(data);
     resultaat = resultaat+temp;
     
