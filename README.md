@@ -177,6 +177,7 @@ When importing classes at the top of our files we will make sure to separate the
 5. [Connectivity](https://pub.dev/packages/connectivity)
 6. [Bluetooth](https://pub.dev/packages/flutter_bluetooth_serial)
 7. [Permission handler](https://pub.dev/packages/permission_handler)
+8. [Flutter Markdown](https://pub.dev/packages/flutter_markdown)
 
 ## Database
 For the database we use Firebase Authentication and Firebase Realtime Database.

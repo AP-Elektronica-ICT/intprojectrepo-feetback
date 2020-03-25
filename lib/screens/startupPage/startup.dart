@@ -24,7 +24,7 @@ class _StartUpPageState extends State<StartUpPage> {
     bool isSignedIn = await _authService.isUserSignedIn();
 
     if (isSignedIn) {
-      _navService.clearStackTo('/');
+      _navService.clearStackTo('/optin');
     } else {
       _navService.clearStackTo('/signin');
     }
