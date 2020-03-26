@@ -37,7 +37,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               Expanded(
                 child: Markdown(
                   controller: _scrollController,
-                  selectable: true,
+                  selectable: false,
                   data: snapshot.data,
                 ),
               ),
