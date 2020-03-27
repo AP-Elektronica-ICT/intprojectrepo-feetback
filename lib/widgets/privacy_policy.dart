@@ -51,6 +51,9 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 child: Text('Next'),
                 onPressed: _isPrivacyPolicyAccepted ? widget.onAccepted : null,
               ),
+              SizedBox(
+                height: 16,
+              ),
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[
