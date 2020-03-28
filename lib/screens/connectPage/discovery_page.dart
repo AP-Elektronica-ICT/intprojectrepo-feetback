@@ -37,7 +37,13 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   }
 
   Future<void> _initStateAsync() async {
+    if(await _bluetoothService.isBluetoothEnabled){
+        isDiscovering = true;
+        _startDiscovery();
+    }
+    else
     _bluetoothService.enableBluetooth((){
+      
       isDiscovering = true;
         _startDiscovery();
     });
@@ -51,21 +57,19 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _startDiscovery();
   }
 
-  void _startDiscovery() {
-    _bluetoothService.startListeningForBluetoothDiscoveryResults((r){
-      setState(() {
+  void _startDiscovery(){
+    _bluetoothService.startDiscovering((r){
+      setState(() { 
         bool check = true;
         for(int i = 0 ; i < results.length ; i++){
             if(results[i].device.address == r.device.address) check = false;
         } 
-          if(check == true) results.add(r);         
-        });
+          if(check == true) results.add(r); });
     });
-    _bluetoothService.discoveryStreamSubscription.onDone(() {
-      setState(() { isDiscovering = false; }); 
-    });
-  }
 
+    _bluetoothService.onDiscoveryDone((){setState(() { isDiscovering = false; });});
+
+  }
   Future<void> _pairWithDevice(BluetoothDiscoveryResult result) async{ 
     
     _bluetoothService.pairWithDevice(result, 
@@ -75,7 +79,8 @@ class _DiscoveryPage extends State<DiscoveryPage> {
           context,
           MaterialPageRoute(builder: (context) => HomePage()));}, 
     //onNotBonded
-    (){Navigator.push(
+    (){
+      Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomePage()));}, 
     //error
@@ -101,19 +106,14 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   @override
   void dispose() {
     // Avoid memory leak (`setState` after dispose) and cancel discovery
-    _bluetoothService.cancelConnectionStreamSubsciption();
+    _bluetoothService.cancelDiscoveryStreamSubscription();
     super.dispose();
   }
  
   @override
   Widget build(BuildContext context) {
       
-     return new WillPopScope(
-        onWillPop: () async {
-          //_bluetoothService.cancelConnectionStreamSubsciption();  
-          return true;
-        },
-        child: Scaffold(
+     return Scaffold(
             appBar: AppBar(
               title: isDiscovering ? Text('Discovering') : Text('Connect'),
               actions: <Widget>[
@@ -158,7 +158,6 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(                                  
-                                  //title: Text('Pairing with ${result.device.name}'),
                                   content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[                                        
@@ -180,7 +179,6 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 ),
               ],
             ),
-          ),
      );
   }
 }

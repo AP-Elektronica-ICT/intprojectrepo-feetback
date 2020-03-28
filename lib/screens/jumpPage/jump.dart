@@ -1,17 +1,13 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-
-import 'package:feetback/screens/jumpPage/widgets/result_screen.dart';
-import 'package:feetback/services/service_locator.dart';
 import 'package:flutter/material.dart';
 
+import 'package:feetback/services/service_locator.dart';
 import 'package:feetback/services/bluetooth_service.dart';
 
-import 'package:feetback/screens/homePage/home.dart';
 import 'package:feetback/screens/jumpPage/widgets/count_down_timer.dart';
-import 'package:feetback/widgets/feetback_app_bar.dart';
+import 'package:feetback/screens/jumpPage/widgets/result_screen.dart';
 
 class JumpPage extends StatefulWidget {
   final bool start;
@@ -26,9 +22,7 @@ bool isConnecting = true;
 bool isDisconnecting = false;
 bool endMessage = false;
 String resultaat = "";
-String _textString = "";
 final BluetoothService _bluetoothService = locator<BluetoothService>();
-StreamSubscription _streamSubscription;
 
 @override
   void initState() {
@@ -38,7 +32,7 @@ StreamSubscription _streamSubscription;
 
   void asyncInit() async{
     if(await _bluetoothService.isBluetoothEnabled){
-        _bluetoothService.listenToDevice(_onDataReceived);
+        _bluetoothService.startListening(_onDataReceived);
     }
   }
 
@@ -54,16 +48,28 @@ StreamSubscription _streamSubscription;
           print("back");
           return true;
         },
-        child:  Scaffold( 
+        
+        child:  Scaffold(
+        floatingActionButton: _getFAB(),
         body: Center(
-          child:MaterialApp(
-              home:endMessage ? ResultScreen(resultaat): CountDownTimer(),
-            )
+              child:endMessage ? ResultScreen(resultaat): CountDownTimer(),
           ),
         )
     );
+
+    
   }
 
+  Widget _getFAB() {
+    if (!endMessage) {
+      return Container();
+    } else {
+      return RaisedButton(
+            onPressed: (){Navigator.pop(context);},
+            child: Text("Next"),
+          );
+    }
+  }
   
 
   void _onDataReceived(Uint8List data) {
@@ -76,7 +82,7 @@ StreamSubscription _streamSubscription;
 
       
       this.setState(() {
-        this._textString = resultaat.substring(0,resultaat.length-1);
+        resultaat = resultaat.substring(0,resultaat.length-1);
         this.endMessage = true;
       });      
       print("end message");
