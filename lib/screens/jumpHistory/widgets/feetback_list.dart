@@ -1,9 +1,10 @@
-import 'package:feetback/screens/jumpHistory/widgets/date_indicator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 import 'package:feetback/screens/jumpHistory/enums/sort_state.dart';
+import 'package:feetback/screens/jumpHistory/widgets/date_indicator.dart';
+
 
 class FeetbackList  extends StatefulWidget {
   final List<Jump> jumpItems;

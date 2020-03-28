@@ -1,3 +1,6 @@
+import 'package:feetback/models/standardization.dart';
+import 'package:fl_chart/fl_chart.dart';
+
 class Jump{
     DateTime date;
     double height;
@@ -10,4 +13,8 @@ class Jump{
         this.airtime = airtime;
         this.favorite = false;
     }    
+
+    FlSpot getSpot(Standardization x, Standardization y){
+      return FlSpot(x.getStandard(this.date.millisecondsSinceEpoch.toDouble()), y.getStandard(this.height));
+    }
 }

@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:feetback/screens/jumpHistory/widgets/jump_graph.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -20,16 +21,20 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   SortState _selection = SortState.date;
 
   _JumpHistoryPageState() {
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 6, 5), 50.3, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 10, 25), 50.3, 3000));
     jumps.add(Jump(DateTime.utc(2019, 9, 14), 54.69, 3000));
     jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.200, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 49.32, 3000));
+    jumps.add(Jump(DateTime.utc(2019, 5, 14), 49.32, 3000));
     jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000));
     jumps.add(Jump(DateTime.utc(2019, 1, 1), 50.3, 3000));
     jumps.add(Jump(DateTime.utc(2017, 2, 3), 54.71, 3000));
     jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.100, 3000));
     jumps.add(Jump(DateTime.utc(2019, 2, 2), 49.32, 3000));
-    jumps.add(Jump(DateTime.utc(2020, 4, 14), 40.05, 3000));
+    jumps.add(Jump(DateTime.utc(2020, 4, 14), 55.05, 3000));
+    jumps.add(Jump(DateTime.utc(2020, 6, 1), 58.25, 3000));
+    jumps.add(Jump(DateTime.utc(2020, 6, 20), 56.05, 3000));
+    jumps.add(Jump(DateTime.utc(2020, 1, 14), 52.3, 3000));
   }
 
   @override
@@ -56,10 +61,7 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-                margin:
-                    new EdgeInsets.symmetric(vertical: 24.0, horizontal: 32.0),
-                child: _graph()),
+            _graph(),
             Expanded(child: FeetbackList(
               currentSortState: _selection,
               jumpItems: jumps, 
@@ -71,6 +73,7 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   }
 
   Widget _graph() {
-    return Image.asset('assets/chart.png');
+    return JumpGraph(jumpItems: jumps,);
+    //return Image.asset('assets/chart.png');
   }
 }  
