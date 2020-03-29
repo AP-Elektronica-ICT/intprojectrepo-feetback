@@ -7,7 +7,7 @@ import 'package:feetback/screens/optInPage/opt_in.dart';
 import 'package:feetback/screens/signInPage/sign_in.dart';
 import 'package:feetback/screens/jumpPage/jump.dart';
 import 'package:feetback/screens/jumpHistory/jump_history.dart';
-import 'package:feetback/screens/connectPage/connect.dart';
+import 'package:feetback/screens/connectPage/discovery_page.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 
 
