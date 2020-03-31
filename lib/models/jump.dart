@@ -14,8 +14,8 @@ class Jump{
 
   Jump.fromDB(this.jid, Map data) {
     date = DateTime.parse(data['date']);
-    height = data['height'];
-    airtime = data['airtime'];
+    height = data['height'].toDouble();
+    airtime = data['airtime'].toDouble();
     favorite = data['favorite'];
   }
 

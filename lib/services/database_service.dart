@@ -1,7 +1,3 @@
-import 'dart:wasm';
-import 'package:feetback/utils/date_utils.dart';
-import 'package:intl/intl.dart';
-
 import 'package:feetback/models/jump.dart';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -67,6 +63,20 @@ class DatabaseService {
       print(e);
     }
     }
-    
+  }
+
+  void toggleFavorite(String jumpId) async {
+    if (await _authService.isUserSignedIn()) {
+      final DatabaseReference ourDB = FirebaseDatabase.instance.reference().child("users").child(_authService.currentUser.uid).child("jumps").child(jumpId);
+      bool favorite = false;
+      try {
+        DataSnapshot snap = await ourDB.child("favorite").once();
+        favorite = snap.value;
+        await ourDB.reference().update({'favorite': !favorite});
+        print("Toggle favorite of \"$jumpId\" successful");
+      } on Exception catch (e) {
+        print(e);
+      }
+    } 
   }
 }
