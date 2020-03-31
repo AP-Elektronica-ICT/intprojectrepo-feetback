@@ -39,21 +39,9 @@ class HomePage extends StatelessWidget {
                         4)), //dummy data to test arguments passing
               ),
               RaisedButton(
-                child: Text("Notifications week"),
-                onPressed: () async {
-                  await _notificationService.showWeeklyAtDayAndTime();
-                },
-              ),
-              RaisedButton(
                 child: Text("Notifications"),
                 onPressed: () async {
                   await _notificationService.showNotification();
-                },
-              ),
-              RaisedButton(
-                child: Text("Notifications day"),
-                onPressed: () async {
-                  await _notificationService.showdailyAtTime();
                 },
               ),
               RaisedButton(
