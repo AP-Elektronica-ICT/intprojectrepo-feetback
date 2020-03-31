@@ -1,3 +1,4 @@
+import 'package:feetback/screens/settingsPage/settings.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/widgets.dart';
@@ -43,6 +44,9 @@ Route<dynamic> generateRoute(RouteSettings settings){
 
     case '/jumphistory' :
       return MaterialPageRoute(builder: (_) => JumpHistoryPage());
+    break;
+    case '/settings' :
+      return MaterialPageRoute(builder: (_) => SettingsPage());
     break;
 
     default :

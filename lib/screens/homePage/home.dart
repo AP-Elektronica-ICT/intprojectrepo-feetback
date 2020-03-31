@@ -51,6 +51,10 @@ class HomePage extends StatelessWidget {
                           context,
                           MaterialPageRoute(builder: (context) => JumpPage())),
             ),
+            RaisedButton(
+              child: Text("Settings"),
+              onPressed: () => Navigator.pushNamed(context, "/settings"),
+            ),
           ],
         ),
       )
