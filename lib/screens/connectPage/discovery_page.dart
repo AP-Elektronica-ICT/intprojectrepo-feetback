@@ -145,6 +145,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 240.0),
+                  
                   child:ListView.builder(
                     itemCount: results.length,
                     itemBuilder: (BuildContext context, index) {
@@ -178,7 +179,9 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                   ),
                 ),
               ],
+              
             ),
+            
      );
   }
 }

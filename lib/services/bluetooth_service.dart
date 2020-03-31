@@ -71,7 +71,7 @@ class BluetoothService {
   }
 
   ///Sets up a connection stream.
-  void setupConnectionStream(){
+  Future<void> setupConnectionStream() async{
     _connectionStream = connection.input.asBroadcastStream();
   }
 
@@ -116,23 +116,45 @@ class BluetoothService {
       bool bonded;
       if(result.device.isBonded){
         connect(result.device);
+        toastOnSucces();
         onAlreadyBonded();
       }
       else{
         print('Bonding with ${result.device.address}...');
         bonded = await FlutterBluetoothSerial.instance.bondDeviceAtAddress(result.device.address);
         print('Bonding with ${result.device.address} has ${bonded ? 'succed' : 'failed'}.');
-        
-        connect(result.device);
+        toastOnSucces();
+         connect(result.device);
         if(bonded){
           onNotBonded();
         }                              
       }      
     }
     catch(ex){
+      toastOnFail();
         onError(ex.toString());
     }
   } 
+
+  void toastOnSucces(){
+    Fluttertoast.showToast(
+              msg: "Successfully connected",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0
+          );
+  }
+
+  void toastOnFail(){
+    Fluttertoast.showToast(
+              msg: "Error while connecting",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0
+          );
+  }
 
   //Here the _connectionStream is set without using the function setupConnectionStream because that gave error. 
   ///Connects with a given Bluetooth device and set up a connection stream.
@@ -141,25 +163,27 @@ class BluetoothService {
           print('Connected to the device');
           connection = _connection;
           device = _device;
-          _connectionStream = connection.input.asBroadcastStream();
+          //_connectionStream = connection.input.asBroadcastStream();
           isConnected = true;
+          setupConnectionStream();
+          /*
           Fluttertoast.showToast(
               msg: "Successfully connected",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               fontSize: 16.0
-          );      
+          );*/
           return true;
         }).catchError((error) {
           print('Cannot connect, exception occured');
-          Fluttertoast.showToast(
+          /*Fluttertoast.showToast(
               msg: "Error while connecting",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               fontSize: 16.0
-          );  
+          );  */
           print(error);
           return false;
         })
