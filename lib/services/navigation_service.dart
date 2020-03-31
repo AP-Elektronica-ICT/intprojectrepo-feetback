@@ -11,4 +11,8 @@ class NavigationService {
   Future<dynamic> replaceTo(String routeName) {
     return navigatorKey.currentState.pushReplacementNamed(routeName);
   }
+
+  Future<dynamic> clearStackTo(String routeName) {
+    return navigatorKey.currentState.pushNamedAndRemoveUntil(routeName, (route) => false);
+  }
 }

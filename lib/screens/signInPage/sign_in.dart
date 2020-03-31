@@ -17,7 +17,7 @@ class SignInPage extends StatelessWidget {
     
     if (await _authService.isUserSignedIn()) {
       // Navigate to home.
-      _navService.replaceTo('/');
+      _navService.clearStackTo('/');
     }
   } 
 
