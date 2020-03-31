@@ -14,7 +14,7 @@ class Jump{
         this.favorite = false;
     }    
 
-    FlSpot getSpot(Standardization x, Standardization y){
-      return FlSpot(x.getStandard(this.date.millisecondsSinceEpoch.toDouble()), y.getStandard(this.height));
+    FlSpot getSpot(Standardization x){
+      return FlSpot(x.getStandard(this.date.millisecondsSinceEpoch.toDouble()), this.height);
     }
 }

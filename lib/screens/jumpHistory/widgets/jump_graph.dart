@@ -67,6 +67,9 @@ class _JumpGraphState extends State<JumpGraph> {
       gridData: FlGridData( //Draws helping lines
         show: true,
         drawVerticalLine: true,
+        checkToShowHorizontalLine: (double value) {
+              return value == 45 || value == 50 || value == 55 || value == 60 || value == 65;
+        },
         getDrawingHorizontalLine: (value) {
           return const FlLine(
             color: Colors.grey,
@@ -110,12 +113,12 @@ class _JumpGraphState extends State<JumpGraph> {
           ),
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '40 cm';
-              case 2:
+              case 50:
+                return '50 cm';
+              case 55:
+                return '55 cm';
+              case 60:
                 return '60 cm';
-              case 3:
-                return '80 cm';
             }
             return '';
           },
@@ -127,20 +130,11 @@ class _JumpGraphState extends State<JumpGraph> {
           FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
       minX: 0, //gives values 0->11 = Jan ->Dec
       maxX: 11,
-      minY: 0,
-      maxY: 4,
+      minY: 45,
+      maxY: 65,
       lineBarsData: [
         LineChartBarData(
-          spots: getLastYearSpots()
-          /*const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ]*/,
+          spots: getLastYearSpots(),
           isCurved: true,
           colors: [Theme.of(context).accentColor],
           barWidth: 5,
@@ -265,6 +259,7 @@ class _JumpGraphState extends State<JumpGraph> {
   List<FlSpot> getLastYearSpots(){
     widget.jumpItems.sort((b, a) => a.date.compareTo(b.date));
     List<FlSpot> spots = new List();
+    List<FlSpot> tmp = new List();
     var lastJump = widget.jumpItems[0].date;
 
     DateTime dateBoundary = Jiffy(lastJump).subtract(years: 1);
@@ -272,15 +267,19 @@ class _JumpGraphState extends State<JumpGraph> {
       dateBoundary.millisecondsSinceEpoch.toDouble(),
       lastJump.millisecondsSinceEpoch.toDouble(),
       11);
-    Standardization standY = Standardization(20, 100, 4);
 
     for (var item in widget.jumpItems) {
       if (item.date.compareTo(dateBoundary)>=0) {
-        spots.add(item.getSpot(standX, standY)); 
-        print(item.getSpot(standX, standY).y); 
+        spots.add(item.getSpot(standX)); 
+        //print(item.getSpot(standX, standY).y); 
+      }
+      else{
+        tmp.add(item.getSpot(standX));
       }
     }
-    //spots.add(FlSpot(0,0));
+    tmp.sort((b, a) => a.x.compareTo(b.x));
+    spots.add(FlSpot(standX.getStandard(dateBoundary.millisecondsSinceEpoch.toDouble()), tmp[0].y));
+
     return spots;
   }
 }
