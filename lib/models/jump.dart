@@ -1,5 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
-
 class Jump{
   String jid;
   DateTime date;
@@ -23,12 +21,6 @@ class Jump{
 
   @override
   String toString() {
-    //   print(jump.jid);
-    //   print('\t' + jump.height.toString());
-    //   print('\t' + jump.date.toString());
-    //   print('\t' + jump.airtime.toString());
-    //   print('\t' + jump.favorite.toString());
-    //   print('\n\n');
     return "jid: " + jid 
           + '\n\t' + "date:     " + date.toString()
           + '\n\t' + "height:   " + height.toString()
