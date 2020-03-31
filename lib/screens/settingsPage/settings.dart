@@ -1,9 +1,7 @@
-import 'dart:core';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 import 'package:feetback/widgets/feetback_app_bar.dart';
+import 'package:feetback/screens/settingsPage/widget/setting_option.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -22,19 +20,17 @@ class _SettingsPageState extends State<SettingsPage> {
         contentAlignment: Alignment.centerLeft,
         padding: EdgeInsets.only(left:16, right:16),
         automaticallyImplyLeading: false,
-      ),
-      
-      body: Column (
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: new EdgeInsets.symmetric(vertical: 24.0, horizontal: 32.0),
-            child: Text("hallo"),
-            
-          ),
-          
+        actions: <Widget>[
+          new IconTheme(
+            data: new IconThemeData(
+              color: Theme.of(context).primaryColor,
+              size: 35
+            ), 
+            child: new Icon(Icons.refresh),
+          )
         ],
-      ),);
+      ),
+      body: SettingOptions()
+      );
   }
 }
