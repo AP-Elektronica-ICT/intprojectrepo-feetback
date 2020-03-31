@@ -30,7 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
         children: <Widget>[
           Container(
             margin: new EdgeInsets.symmetric(vertical: 24.0, horizontal: 32.0),
-            child: StyleElement(),
+            child: Text("hallo"),
+            
           ),
           
         ],
