@@ -163,27 +163,11 @@ class BluetoothService {
           print('Connected to the device');
           connection = _connection;
           device = _device;
-          //_connectionStream = connection.input.asBroadcastStream();
           isConnected = true;
           setupConnectionStream();
-          /*
-          Fluttertoast.showToast(
-              msg: "Successfully connected",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              fontSize: 16.0
-          );*/
           return true;
         }).catchError((error) {
           print('Cannot connect, exception occured');
-          /*Fluttertoast.showToast(
-              msg: "Error while connecting",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              fontSize: 16.0
-          );  */
           print(error);
           return false;
         })
