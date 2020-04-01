@@ -2,21 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
 
-import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
-
 import 'package:feetback/widgets/feetback_app_bar.dart';
 
 import 'package:feetback/services/database_service.dart';
-import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/services/service_locator.dart';
 
 class HomePage extends StatefulWidget {
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Index 0 : Home'),
-    Text('Index 1 : other'),
-    Text('Index 2 : also other')
-  ];
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -24,23 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  String highestJump = "";
-
-  DatabaseService dbs = locator<DatabaseService>();
-
-  @override
-  void initState() {
-    super.initState();
-    //_initAsync();
-  }
-
-  void _initAsync() async {
-    Jump jump = await dbs.getHighestJump();
-
-    setState(() {
-      highestJump = jump.height.toString();
-    });
-  }
+  DatabaseService _dbs = locator<DatabaseService>();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -60,12 +35,6 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
-
-  var jumping = Row(
-    children: <Widget>[
-      Image(image: AssetImage("lib/images/jump-illustration.png"))
-    ],
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -91,11 +60,26 @@ class _HomePageState extends State<HomePage> {
                       image:
                           AssetImage("lib/images/Icon-material-history.png")),
                   SizedBox(width: 16),
-                  Text("80",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontWeight: FontWeight.bold)),
+                  FutureBuilder<Jump>(
+                    future: _dbs.getHighestJump(),
+                    builder: (BuildContext context, AsyncSnapshot<Jump> snapshot) {
+                      String highestJump;
+
+                      if (snapshot.hasData) {
+                        highestJump= snapshot.data.height.toString();
+                      } else {
+                        highestJump= "--";
+                      }
+
+                      return Text(
+                        highestJump,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(fontWeight: FontWeight.bold)
+                      );
+                    },
+                  ),
                 ],
               ),
               SizedBox(height: 32),
