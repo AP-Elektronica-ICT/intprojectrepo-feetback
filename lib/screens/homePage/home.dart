@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/jumpPage/jump.dart';
-import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/widgets/feetback_app_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
               onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => JumpPage())),
-            )
+            ),
           ],
         ),
       )
