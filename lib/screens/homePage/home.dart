@@ -24,25 +24,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  String highestJump;
+  String highestJump = "";
 
   DatabaseService dbs = locator<DatabaseService>();
 
-  @override void initState() {
-    
+  @override
+  void initState() {
     super.initState();
-
-    
+    //_initAsync();
   }
 
   void _initAsync() async {
-      
-      Jump jump = await dbs.getHighestJump();
+    Jump jump = await dbs.getHighestJump();
 
-      setState(() {
-        highestJump = jump.height.toString();
-
-      });
+    setState(() {
+      highestJump = jump.height.toString();
+    });
   }
 
   void _onItemTapped(int index) {
@@ -73,90 +70,82 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: FeetbackAppBar(
-          title: const Text("Home"),
-          height: 92,
-          contentAlignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 16, right: 16),
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(32),
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Center(child: Image(image: AssetImage("lib/images/jump-illustration.png"))),
-
-                Row(
-                  children: <Widget>[
-                    Image(image: AssetImage("lib/images/Icon-material-history.png")),
-                    SizedBox(width : 16),
-                    Text( highestJump , style : Theme.of(context).textTheme.headline4.copyWith( fontWeight: FontWeight.bold)),
-                  ],
-                ),
-                
-
-                
-
-                SizedBox(height : 32),
-
-                Text('Instructions', style : Theme.of(context).textTheme.headline5.copyWith( fontWeight : FontWeight.bold)),
-
-                SizedBox(height : 16),
-
-                Text('1. Stand on the mat, align your feet to the pads', style : Theme.of(context).textTheme.subtitle1),
-
-                SizedBox(height : 32),
-
-                Text('2. When you press JUMP we will start counting down form 3, jump on GO.', style : Theme.of(context).textTheme.subtitle1),
-
-                SizedBox(height : 32),
-
-                Text('3. Try to land with both feet on the pads.', style : Theme.of(context).textTheme.subtitle1),
-
-
-                
-              ],
-            ),
-
+      appBar: FeetbackAppBar(
+        title: const Text("Home"),
+        height: 92,
+        contentAlignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 16, right: 16),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(32),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                  child: Image(
+                      image: AssetImage("lib/images/jump-illustration.png"))),
+              Row(
+                children: <Widget>[
+                  Image(
+                      image:
+                          AssetImage("lib/images/Icon-material-history.png")),
+                  SizedBox(width: 16),
+                  Text("80",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(fontWeight: FontWeight.bold)),
+                ],
+              ),
+              SizedBox(height: 32),
+              Text('Instructions',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      .copyWith(fontWeight: FontWeight.bold)),
+              SizedBox(height: 16),
+              Text('1. Stand on the mat, align your feet to the pads',
+                  style: Theme.of(context).textTheme.subtitle1),
+              SizedBox(height: 32),
+              Text(
+                  '2. When you press JUMP we will start counting down form 3, jump on GO.',
+                  style: Theme.of(context).textTheme.subtitle1),
+              SizedBox(height: 32),
+              Text('3. Try to land with both feet on the pads.',
+                  style: Theme.of(context).textTheme.subtitle1),
+            ],
           ),
         ),
-
-
-
-
-
-
-        floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {},
-            label: const Text('JUMP'),
-            backgroundColor: Colors.red),
-            
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('home'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart),
-              title: Text('chart'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('settings'),
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Theme.of(context).accentColor,
-          backgroundColor: Colors.white,
-          elevation: 0 ,
-          iconSize: 24.0,
-          onTap: _onItemTapped,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-
-          
-        ));
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {},
+          label: const Text('JUMP'),
+          backgroundColor: Colors.red),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            title: Text('chart'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('settings'),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).accentColor,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconSize: 24.0,
+        onTap: _onItemTapped,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+      )
+    );
   }
 }
