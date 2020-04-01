@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-
+import 'package:feetback/services/notification_service.dart';
 import 'package:feetback/routes.dart';
 import 'package:feetback/services/service_locator.dart';
 import 'package:feetback/services/navigation_service.dart';
+
 
 
 void main() {
   setupLocator();
   runApp(FeetBackApp());
 }
+
+
+
+
 
 class FeetBackApp extends StatelessWidget {
 
@@ -25,6 +30,10 @@ class FeetBackApp extends StatelessWidget {
     800 : Color.fromRGBO(51, 66, 91, .9),
     900 : Color.fromRGBO(51, 66, 91, 1),
   };
+
+  
+
+  
 
   static const MaterialColor _primaryColor = const MaterialColor(0xFF33425B, _primaryColorCodes);
   static const Color _accentColor = const Color(0xFFF33535);
