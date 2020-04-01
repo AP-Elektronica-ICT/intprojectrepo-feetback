@@ -1,5 +1,6 @@
 import 'dart:async';
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:feetback/screens/homePage/home.dart';
 
 import 'package:feetback/services/bluetooth_service.dart';
+import 'package:feetback/services/service_locator.dart';
 
 import 'widgets/BluetoothDeviceListEntry.dart';
 
@@ -22,29 +24,29 @@ class DiscoveryPage extends StatefulWidget {
 }
 
 class _DiscoveryPage extends State<DiscoveryPage> {
-  StreamSubscription<BluetoothDiscoveryResult> _streamSubscription;
   List<BluetoothDiscoveryResult> results = List<BluetoothDiscoveryResult>();
   bool isDiscovering;
   _DiscoveryPage();
+  final BluetoothService _bluetoothService = locator<BluetoothService>();
 
   @override
   void initState() {
     super.initState();
-    _startApp();
+    isDiscovering = false;
+    _initStateAsync();
   }
 
-  Future<void> _startApp() async {
-    await BluetoothService.getBluetoothService.checkBluetoothAdapter(this);
-    isDiscovering = widget.start;
-    if(BluetoothService.getBluetoothService.isBluetoothEnabled){
-      isDiscovering = true;      
-      if (isDiscovering) {
+  Future<void> _initStateAsync() async {
+    if(await _bluetoothService.isBluetoothEnabled){
+        isDiscovering = true;
         _startDiscovery();
-      }
     }
-    else{
-      isDiscovering = false;
-    }
+    else
+    _bluetoothService.enableBluetooth((){
+      
+      isDiscovering = true;
+        _restartDiscovery();
+    });
   }
 
   void _restartDiscovery() {
@@ -55,62 +57,34 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _startDiscovery();
   }
 
-  void _startDiscovery() {
-    _streamSubscription = FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
-      setState(() {
+  void _startDiscovery(){
+    _bluetoothService.startDiscovering((r){
+      setState(() { 
         bool check = true;
         for(int i = 0 ; i < results.length ; i++){
             if(results[i].device.address == r.device.address) check = false;
         } 
-          if(check == true) results.add(r);         
-        });
+          if(check == true) results.add(r); });
     });
 
-    _streamSubscription.onDone(() {
-      setState(() { isDiscovering = false; });
-    });
-  }
+    _bluetoothService.onDiscoveryDone((){setState(() { isDiscovering = false; });});
 
-  Future<void> _enableBluetooth() async {                   
-    await BluetoothService.getBluetoothService.enableBluetooth();
-    if(BluetoothService.getBluetoothService.isBluetoothEnabled) _restartDiscovery(); 
   }
-
-  Future<void> _pairWithDevice(BluetoothDiscoveryResult result) async{   
-    try {
-      bool bonded = false;
-      if (result.device.isBonded) {
-        BluetoothService.getBluetoothService.connect(result.device);
+  Future<void> _pairWithDevice(BluetoothDiscoveryResult result) async{ 
+    
+    _bluetoothService.pairWithDevice(result, 
+    //Already bonded
+    (){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()));                              
-      }
-      else {
-        print('Bonding with ${result.device.address}...');
-        bonded = await FlutterBluetoothSerial.instance.bondDeviceAtAddress(result.device.address);
-        print('Bonding with ${result.device.address} has ${bonded ? 'succed' : 'failed'}.');
-        if(bonded){
-          BluetoothService.getBluetoothService.connect(result.device);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()));
-          }
-                              
-        }
-        setState(() {
-          results[results.indexOf(result)] = BluetoothDiscoveryResult(
-            device: BluetoothDevice(
-            name: result.device.name ?? '',
-            address: result.device.address,
-            type: result.device.type,
-            bondState: bonded ? BluetoothBondState.bonded : BluetoothBondState.none,
-          ), 
-          rssi: result.rssi
-          );
-        });
-      }
-      catch (ex) {
-        showDialog(
+          MaterialPageRoute(builder: (context) => HomePage()));}, 
+    //onNotBonded
+    (){
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()));}, 
+    //error
+    (ex){showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -126,24 +100,22 @@ class _DiscoveryPage extends State<DiscoveryPage> {
               ],
             );
           },
-        );
-      }
+        );});
   }
 
   @override
   void dispose() {
     // Avoid memory leak (`setState` after dispose) and cancel discovery
-    _streamSubscription?.cancel();
-
+    _bluetoothService.cancelDiscoveryStreamSubscription();
     super.dispose();
   }
-
  
   @override
   Widget build(BuildContext context) {
+      
      return Scaffold(
             appBar: AppBar(
-              title: isDiscovering ? Text('Discovering devices') : Text('Connect'),
+              title: isDiscovering ? Text('Discovering') : Text('Connect'),
               actions: <Widget>[
                 (
                   isDiscovering ?
@@ -159,7 +131,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 )
               ],
             ),
-            body:Stack(
+            body: Stack(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -171,20 +143,9 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                     ),
                   ],
                 ),
-
-                BluetoothService.getBluetoothService.isBluetoothEnabled == false ? 
-                Container(
-                  margin: const EdgeInsets.only(top: 240.0),                  
-                  child:Center(
-                    child : MaterialButton(
-                      child: Text("Enable Bluetooth"),
-                      onPressed:(){_enableBluetooth();},
-                    ),              
-                    ),
-                  )
-                :
                 Container(
                   margin: const EdgeInsets.only(top: 240.0),
+                  
                   child:ListView.builder(
                     itemCount: results.length,
                     itemBuilder: (BuildContext context, index) {
@@ -198,7 +159,6 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(                                  
-                                  //title: Text('Pairing with ${result.device.name}'),
                                   content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[                                        
@@ -219,7 +179,9 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                   ),
                 ),
               ],
+              
             ),
-          );
+            
+     );
   }
 }

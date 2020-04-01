@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:feetback/services/database_service.dart';
+
 import 'package:feetback/models/jump.dart';
+
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
-import 'package:feetback/services/bluetooth_service.dart';
+
 import 'package:feetback/widgets/feetback_app_bar.dart';
+
+import 'package:feetback/services/database_service.dart';
+import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/services/service_locator.dart';
+
 class HomePage extends StatefulWidget {
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Index 0 : Home'),

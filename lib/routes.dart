@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:feetback/screens/homePage/home.dart';
 import 'package:feetback/screens/startupPage/startup.dart';
+import 'package:feetback/screens/optInPage/opt_in.dart';
 import 'package:feetback/screens/signInPage/sign_in.dart';
 import 'package:feetback/screens/jumpPage/jump.dart';
 import 'package:feetback/screens/jumpHistory/jump_history.dart';
-import 'package:feetback/screens/connectPage/connect.dart';
+import 'package:feetback/screens/connectPage/discovery_page.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 
 
@@ -17,32 +18,35 @@ Route<dynamic> generateRoute(RouteSettings settings){
   switch(settings.name){
 
     case '/' : 
-        return MaterialPageRoute(builder: (_) => HomePage());
-      break;
+      return MaterialPageRoute(builder: (_) => HomePage());
+    break;
 
     case '/startup':
-        return MaterialPageRoute(builder: (_) => StartUpPage());
-      break;
+      return MaterialPageRoute(builder: (_) => StartUpPage());
+    break;
+
+    case '/optin':
+      return MaterialPageRoute(builder: (_) => OptInPage());
+    break;
   
     case '/signin' : 
-        return MaterialPageRoute(builder:  (_) => SignInPage());
-      break;
+      return MaterialPageRoute(builder:  (_) => SignInPage());
+    break;
       
     case '/connect' : 
-        return MaterialPageRoute(builder:  (_) => DiscoveryPage());
-      break;
+      return MaterialPageRoute(builder:  (_) => DiscoveryPage());
+    break;
 
     case '/jumpdetails' :
-        return MaterialPageRoute(builder: (_) => JumpDetailPage(jump : args ));
+      return MaterialPageRoute(builder: (_) => JumpDetailPage(jump : args ));
     break;
 
     case '/jumphistory' :
-        return MaterialPageRoute(builder: (_) => JumpHistoryPage());
+      return MaterialPageRoute(builder: (_) => JumpHistoryPage());
     break;
-    
 
     default :
-        return _errorRoute();
+      return _errorRoute();
     break;
   }
 }
