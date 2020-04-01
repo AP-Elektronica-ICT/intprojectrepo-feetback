@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:feetback/models/jump.dart';
 
 import 'package:feetback/screens/jumpPage/jump.dart';

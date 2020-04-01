@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:feetback/services/service_locator.dart';
 import 'package:feetback/services/auth_service.dart';
 import 'package:feetback/services/navigation_service.dart';
+import 'package:feetback/services/settings_service.dart';
 
 class StartUpPage extends StatefulWidget {
   @override
@@ -12,21 +13,25 @@ class StartUpPage extends StatefulWidget {
 class _StartUpPageState extends State<StartUpPage> {
   final AuthService _authService = locator<AuthService>();
   final NavigationService _navService = locator<NavigationService>();
+  final SettingsService _settingsService = locator<SettingsService>();
 
   @override
   void initState() {
     super.initState();
-    
     handleStartUp();
   }
 
   void handleStartUp() async {
-    bool isSignedIn = await _authService.isUserSignedIn();
+    if (await _settingsService.isPrivacyPolicyAccepted) {
+      bool isSignedIn = await _authService.isUserSignedIn();
 
-    if (isSignedIn) {
-      _navService.clearStackTo('/');
+      if (isSignedIn) {
+        _navService.clearStackTo('/');
+      } else {
+        _navService.clearStackTo('/signin');
+      }
     } else {
-      _navService.clearStackTo('/signin');
+      _navService.clearStackTo('/optin');
     }
   }
 
