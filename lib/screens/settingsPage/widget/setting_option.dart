@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SettingOptions extends StatelessWidget {
+class SettingOptions extends StatefulWidget {
+  @override
+  _SettingOptionsState createState() => _SettingOptionsState();
+}
+
+class _SettingOptionsState extends State<SettingOptions> {
   @override
   Widget build(BuildContext context) {
     return _settingView(context);
@@ -15,10 +20,16 @@ Widget _settingView(BuildContext context) {
           'Unit',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        trailing: Row(
+        trailing: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            Text("Dutch"),
-            Icon(Icons.arrow_forward_ios),
+            Text("Metric"),
+            IconTheme(
+              data: IconThemeData(
+                color: Theme.of(context).primaryColor,
+              ), 
+              child: 
+                Icon(Icons.chevron_right))
           ],
         ),
         onTap: () => print('Unit'),
@@ -28,10 +39,16 @@ Widget _settingView(BuildContext context) {
           'Language',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        trailing: Row(
+        trailing: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
             Text("Dutch"),
-            Icon(Icons.arrow_forward_ios),
+            IconTheme(
+              data: IconThemeData(
+                color: Theme.of(context).primaryColor,
+              ), 
+              child: 
+                Icon(Icons.chevron_right))
           ],
         ),
         onTap: () => print('Language'),
@@ -41,14 +58,20 @@ Widget _settingView(BuildContext context) {
           'Connected mat',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        trailing: Row(
+        trailing: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            Text("Dutch"),
-            Icon(Icons.arrow_forward_ios),
+            Text("Not Connected", style: TextStyle(fontStyle: FontStyle.italic),),
+            IconTheme(
+              data: IconThemeData(
+                color: Theme.of(context).primaryColor,
+              ), 
+              child: 
+                Icon(Icons.chevron_right))
           ],
         ),
         onTap: () => print('Connected mat'),
       ),
-    ]),
+    ]).toList(),
   );
 }

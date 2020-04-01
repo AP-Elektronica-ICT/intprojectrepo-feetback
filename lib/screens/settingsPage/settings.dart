@@ -20,17 +20,11 @@ class _SettingsPageState extends State<SettingsPage> {
         contentAlignment: Alignment.centerLeft,
         padding: EdgeInsets.only(left:16, right:16),
         automaticallyImplyLeading: false,
-        actions: <Widget>[
-          new IconTheme(
-            data: new IconThemeData(
-              color: Theme.of(context).primaryColor,
-              size: 35
-            ), 
-            child: new Icon(Icons.refresh),
-          )
-        ],
       ),
-      body: SettingOptions()
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SettingOptions(),
+      )
       );
   }
 }
