@@ -45,7 +45,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _bluetoothService.enableBluetooth((){
       
       isDiscovering = true;
-        _startDiscovery();
+        _restartDiscovery();
     });
   }
 
