@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:feetback/services/database_service.dart';
 import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/widgets/feetback_app_bar.dart';
-
+import 'package:feetback/services/service_locator.dart';
 class HomePage extends StatefulWidget {
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Index 0 : Home'),
@@ -18,6 +18,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+
+  String highestJump;
+
+  DatabaseService dbs = locator<DatabaseService>();
+
+  @override void initState() {
+    
+    super.initState();
+
+    
+  }
+
+  void _initAsync() async {
+      
+      Jump jump = await dbs.getHighestJump();
+
+      setState(() {
+        highestJump = jump.height.toString();
+
+      });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -65,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     Image(image: AssetImage("lib/images/Icon-material-history.png")),
                     SizedBox(width : 16),
-                    Text('80 cm' , style : Theme.of(context).textTheme.headline4.copyWith( fontWeight: FontWeight.bold)),
+                    Text( highestJump , style : Theme.of(context).textTheme.headline4.copyWith( fontWeight: FontWeight.bold)),
                   ],
                 ),
                 
