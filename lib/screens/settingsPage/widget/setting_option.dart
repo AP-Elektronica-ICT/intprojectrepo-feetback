@@ -16,6 +16,7 @@ Widget _settingView(BuildContext context) {
   return ListView(
     children: ListTile.divideTiles(context: context, tiles: [
       ListTile(
+
         title: Text(
           'Unit',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -34,6 +35,7 @@ Widget _settingView(BuildContext context) {
         ),
         onTap: () => print('Unit'),
       ),
+
       ListTile(
         title: Text(
           'Language',
@@ -53,6 +55,7 @@ Widget _settingView(BuildContext context) {
         ),
         onTap: () => print('Language'),
       ),
+
       ListTile(
         title: Text(
           'Connected mat',
@@ -72,6 +75,7 @@ Widget _settingView(BuildContext context) {
         ),
         onTap: () => print('Connected mat'),
       ),
+
     ]).toList(),
   );
 }
