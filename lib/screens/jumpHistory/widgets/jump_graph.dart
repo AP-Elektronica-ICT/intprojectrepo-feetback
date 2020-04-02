@@ -9,7 +9,7 @@ class JumpGraph extends StatefulWidget {
   final List<Jump> jumpItems;
 
   JumpGraph({
-    @required List<Jump> this.jumpItems,
+    @required this.jumpItems,
   });
 
   @override
@@ -19,6 +19,8 @@ class JumpGraph extends StatefulWidget {
 class _JumpGraphState extends State<JumpGraph> {
 
   bool showAvg = false;
+  DateTime beginDate = DateTime.now();
+  double referanceHeight = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -92,13 +94,15 @@ class _JumpGraphState extends State<JumpGraph> {
               //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
               TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'MAR';
-              case 5:
-                return 'JUN';
-              case 8:
-                return 'SEP';
+            List<String> months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            int offset = Jiffy(beginDate).month-1;
+            List<int> titlesToDisplay = [2 , 6, 9];
+            
+            if (titlesToDisplay.contains(value.toInt())) {
+              if(value.toInt()+offset > 11){
+                return months[value.toInt()+offset-12].toUpperCase();
+              }
+              return months[value.toInt()+offset].toUpperCase();
             }
             return '';
           },
@@ -112,13 +116,9 @@ class _JumpGraphState extends State<JumpGraph> {
             fontSize: 14,
           ),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 50:
-                return '50 cm';
-              case 55:
-                return '55 cm';
-              case 60:
-                return '60 cm';
+            List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
+            if (titlesToDisplay.contains(value)) {
+              return "${value.toInt()} cm";
             }
             return '';
           },
@@ -220,8 +220,8 @@ class _JumpGraphState extends State<JumpGraph> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: makeSpotList(),
-           /* [
+          spots: //makeSpotList(),
+            [
             FlSpot(0, 3.44),
             FlSpot(2.6, 3.44),
             FlSpot(4.9, 3.44),
@@ -229,7 +229,7 @@ class _JumpGraphState extends State<JumpGraph> {
             FlSpot(8, 3.44),
             FlSpot(9.5, 3.44),
             FlSpot(11, 3.44),
-          ], */
+          ], 
           isCurved: true,
           colors: [
             Theme.of(context).primaryColor
@@ -246,15 +246,6 @@ class _JumpGraphState extends State<JumpGraph> {
       ],
     );
   }
-  
-  List<FlSpot> makeSpotList(){
-    List<FlSpot> spots = new List();
-    for (var item in widget.jumpItems) {
-      //spots.add(item.getSpot());
-    }
-
-    return spots;
-  }
 
   List<FlSpot> getLastYearSpots(){
     widget.jumpItems.sort((b, a) => a.date.compareTo(b.date));
@@ -262,24 +253,51 @@ class _JumpGraphState extends State<JumpGraph> {
     List<FlSpot> tmp = new List();
     var lastJump = widget.jumpItems[0].date;
 
-    DateTime dateBoundary = Jiffy(lastJump).subtract(years: 1);
+    setState(() {
+                beginDate = Jiffy(lastJump).subtract(years: 1);
+              });
     Standardization standX = Standardization(
-      dateBoundary.millisecondsSinceEpoch.toDouble(),
+      beginDate.millisecondsSinceEpoch.toDouble(),
       lastJump.millisecondsSinceEpoch.toDouble(),
       11);
 
     for (var item in widget.jumpItems) {
-      if (item.date.compareTo(dateBoundary)>=0) {
+      if (item.date.compareTo(beginDate)>=0) {
         spots.add(item.getSpot(standX)); 
-        //print(item.getSpot(standX, standY).y); 
+        //print(item.getSpot(standX).y); 
       }
       else{
         tmp.add(item.getSpot(standX));
       }
     }
-    tmp.sort((b, a) => a.x.compareTo(b.x));
-    spots.add(FlSpot(standX.getStandard(dateBoundary.millisecondsSinceEpoch.toDouble()), tmp[0].y));
+
+    if(tmp != null){
+      tmp.sort((b, a) => a.x.compareTo(b.x));
+      spots.add(FlSpot(standX.getStandard(beginDate.millisecondsSinceEpoch.toDouble()), tmp[0].y));
+    }
+
+    setState(() {
+               referanceHeight = roundTo5or0(averageHeight(spots));
+              });
 
     return spots;
+  }
+
+  double averageHeight(List<FlSpot> list){
+    double sum = 0;
+    for (var item in list) {
+      sum += item.y;
+    }
+    return sum/list.length;
+  }
+
+  double roundTo5or0(double nr){
+    if(nr%5<= 2.5) {
+      nr=nr-(nr%5);
+    }
+    else if(nr%5>2.5) {
+      nr=nr+(5-nr%5);
+    }
+    return nr;
   }
 }
