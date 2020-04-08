@@ -39,7 +39,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.4
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path_ios: "assets/app_logo/appIcon_square.png"
+  image_path_android: "assets/app_logo/appIcon_round_circle.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
