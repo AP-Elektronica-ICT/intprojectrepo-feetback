@@ -44,24 +44,23 @@ class DatabaseService {
         print(e);
       }
     }
-    
     return null;
   }  
 
   void addJump(double height, double airtime, bool isFavorite)async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance.reference().child("users").child(_authService.currentUser.uid).child("jumps");
-    try {
-      await ourDB.reference().push().set({
-        'height': height,
-        'date': DateTime.now().toString(),
-        'airtime': airtime,
-        'favorite': isFavorite,
-      });
-      print('Add successful');
-    } on Exception catch (e) {
-      print(e);
-    }
+      try {
+        await ourDB.reference().push().set({
+          'height': height,
+          'date': DateTime.now().toString(),
+          'airtime': airtime,
+          'favorite': isFavorite,
+        });
+        print('Add successful');
+      } on Exception catch (e) {
+        print(e);
+      }
     }
   }
 
