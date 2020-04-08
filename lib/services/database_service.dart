@@ -79,4 +79,20 @@ class DatabaseService {
       }
     } 
   }
+
+  Future<void> addUserToDB(String _uid, String _name) async {
+    final DatabaseReference ourDB = FirebaseDatabase.instance.reference().child("users");
+    try {
+      DataSnapshot snap = await ourDB.child(_uid).once();
+      if (snap.value == null) {
+        await ourDB.reference().child(_uid).set({
+          'GUID': _uid,
+          'name': _name
+        });
+        print ("New user added (ID:$_uid)");
+      }
+    } on Exception catch (e) {
+      print (e);
+    }
+  }
 }
