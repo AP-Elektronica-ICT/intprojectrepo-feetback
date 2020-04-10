@@ -13,28 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
   DatabaseService _dbs = locator<DatabaseService>();
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-
-      switch (index) {
-        case 0:
-          Navigator.pushNamed(context, "/jumphistory");
-          break;
-        case 1:
-          Navigator.pushNamed(context, "/signin");
-          break;
-        case 2:
-          Navigator.pushNamed(context, "/jumpdetails",
-              arguments: Jump(DateTime.now(), 177, 4));
-          break;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,33 +82,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
-          label: const Text('JUMP'),
-          backgroundColor: Colors.red),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            title: Text('chart'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('settings'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).accentColor,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconSize: 24.0,
-        onTap: _onItemTapped,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-      )
+        onPressed: () {},
+        label: const Text('JUMP'),
+        backgroundColor: Colors.red
+      ),
     );
   }
 }

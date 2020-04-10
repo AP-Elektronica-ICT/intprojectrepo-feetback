@@ -1,3 +1,4 @@
+import 'package:feetback/screens/rootPage/root.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/widgets.dart';
@@ -18,6 +19,10 @@ Route<dynamic> generateRoute(RouteSettings settings){
   switch(settings.name){
 
     case '/' : 
+      return MaterialPageRoute(builder: (_) => RootPage());
+    break;
+
+    case '/home' : 
       return MaterialPageRoute(builder: (_) => HomePage());
     break;
 
