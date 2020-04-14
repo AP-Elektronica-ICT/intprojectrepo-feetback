@@ -26,10 +26,10 @@ class _HomePageState extends State<HomePage> {
           Navigator.pushNamed(context, "/jumphistory");
           break;
         case 1:
-          Navigator.pushNamed(context, "/signin");
+          Navigator.pushNamed(context, "/jumphistory");
           break;
         case 2:
-          Navigator.pushNamed(context, "/jumpdetails",
+          Navigator.pushNamed(context, "/connect",
               arguments: Jump(DateTime.now(), 177, 4));
           break;
       }
@@ -103,7 +103,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, "/standonmatpage",
+              arguments: Jump(DateTime.now(), 177, 4));
+          },
           label: const Text('JUMP'),
           backgroundColor: Colors.red),
       bottomNavigationBar: BottomNavigationBar(

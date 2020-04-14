@@ -37,8 +37,10 @@ class BluetoothService {
   ///Use dicoveryStream.listen((BluetoothDiscoveryResult){ do something with BluetoothDiscoveryResult});
   ///Check if there is an existing Bluetoothadapter first and if it is enabled
   void startDiscovering(Function onResult(BluetoothDiscoveryResult r)){
+ 
     setupDiscoveryStream();
     _discoveryStreamSubscription = _discoveryStream.listen((result) {onResult(result);});
+  
   }
 
   ///Excecutes the given function when the discovery is done
@@ -54,6 +56,7 @@ class BluetoothService {
   ///Sets up a discovery stream.
   void setupDiscoveryStream(){
     _discoveryStream = _bluetoothSerial.startDiscovery();
+
   }
 
   ///Cancel the current discoveryStreamSubsciption.
