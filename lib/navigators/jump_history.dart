@@ -1,8 +1,10 @@
-import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
-import 'package:feetback/screens/jumpHistory/jump_history.dart';
 import 'package:flutter/material.dart';
 
-import 'package:feetback/routes.dart';
+import 'package:feetback/services/navigation_service.dart';
+import 'package:feetback/services/service_locator.dart';
+
+import 'package:feetback/screens/jumpHistory/jump_history.dart';
+import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 
 class JumpHistoryNavigator extends StatefulWidget {
   JumpHistoryNavigator({
@@ -14,9 +16,13 @@ class JumpHistoryNavigator extends StatefulWidget {
 }
 
 class _JumpHistoryNavigatorState extends State<JumpHistoryNavigator> {
+
   @override
   Widget build(BuildContext context) {
+    print("Build Jump History Navigator");
+    
     return Navigator(
+      key: locator<NavigationService>().jumpHistoryNavigatorKey,
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(
           settings: settings,
@@ -31,11 +37,13 @@ class _JumpHistoryNavigatorState extends State<JumpHistoryNavigator> {
               break;
             }
 
-            return JumpHistoryPage();
+            return Center(
+              child: Text('Route not found in HomeNavigator.')
+            );
           },
         );
       },
-      initialRoute: '/jumphistory',
+      initialRoute: '/',
     );
   }
 }

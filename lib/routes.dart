@@ -17,17 +17,19 @@ Route<dynamic> generateRoute(RouteSettings settings){
   final args = settings.arguments;
 
   switch(settings.name){
-
+    // Normally this route was assigned to RootPage. This isn't possible because the default initial route of a navigator is '/'.
+    // Apparently flutter builds the widget of this route by default. When we build RootPage we execute code that can't be executed before
+    // the startup initialization is done. That's why we swapped StartUpPage to the '/' route and gave RootPage it's own dedicated route.
     case '/' : 
-      return MaterialPageRoute(builder: (_) => RootPage());
+      return MaterialPageRoute(builder: (_) => StartUpPage());
     break;
 
     case '/home' : 
       return MaterialPageRoute(builder: (_) => HomePage());
     break;
 
-    case '/startup':
-      return MaterialPageRoute(builder: (_) => StartUpPage());
+    case '/root':
+      return MaterialPageRoute(builder: (_) => RootPage());
     break;
 
     case '/optin':

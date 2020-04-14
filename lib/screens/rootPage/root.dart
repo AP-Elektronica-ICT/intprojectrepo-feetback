@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:feetback/services/navigation_service.dart';
+import 'package:feetback/services/service_locator.dart';
+
 import 'package:feetback/navigators/home.dart';
 import 'package:feetback/navigators/jump_history.dart';
 import 'package:feetback/navigators/settings.dart';
@@ -12,23 +15,37 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> with TickerProviderStateMixin<RootPage> {
+  static NavigationService _navService = locator<NavigationService>();
+  
   List<AnimationController> _faders;
   List<Key> _destinationKeys;
   int _currentDestinationIndex = 0;
 
-  List<Destination> _destinations = <Destination>[
-    Destination(0, HomeNavigator()),
-    Destination(1, JumpHistoryNavigator()),
-    Destination(2, SettingsNavigator())
+  /// This factory is used to lazy load the navigators (pages).
+  static Map<String, Widget Function()> _navigatorFactory = <String, Widget Function()>{
+    '/home':        () => HomeNavigator(),
+    '/jumphistory': () => JumpHistoryNavigator(),
+    '/settings':    () => SettingsNavigator()
+  };
+
+  /// Destinations matching the items in the bottom navigation bar.
+  static List<Destination> _destinations = <Destination>[
+    Destination(0, '/home', _navService.homeNavigatorKey),
+    Destination(1, '/jumphistory', _navService.jumpHistoryNavigatorKey),
+    Destination(2, '/settings', _navService.settingsNavigatorKey)
+  ];
+
+  List<Destination> _activeDestinations = <Destination>[
+    _destinations[0],
   ];
 
   @override
   void initState() {
     super.initState();
-
+    print("Init root");
     // Generate an AnimationController for each destination.
     _faders = _destinations.map<AnimationController>((Destination destination) {
-      return AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+      return AnimationController(vsync: this, duration: Duration(milliseconds: 5000));
     }).toList();
     // Set the opacity of the initial destination.
     _faders[_currentDestinationIndex].value = 1.0;
@@ -42,46 +59,73 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin<RootP
     for (AnimationController controller in _faders) {
       controller.dispose();
     }
-
+    print("Disposed Root");
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        top: false,
-        child: Stack(
-          fit: StackFit.expand,
-          children: _destinations.map((Destination destination) {
-            final Widget view = FadeTransition(
-              opacity: _faders[destination.index].drive(CurveTween(curve: Curves.fastOutSlowIn)),
-              child: KeyedSubtree(
-                key: _destinationKeys[destination.index],
-                child: destination.navigator,
-              ),
-            );
+    print("Build Root");
+    return WillPopScope(
+      onWillPop: () async {
+        return _navService.goBack();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          top: false, // Disable top because the app bar in the screens takes care of that.
+          child: Stack(
+            fit: StackFit.expand,
+            // TODO: Lazy load destinations.
+            children: _activeDestinations.map((Destination destination) { // Here the view for each destination is build. (thus destinations are not lazy loaded!)
+              final bool active = destination.index == _currentDestinationIndex;
+              
+              final Widget view = FadeTransition(
+                opacity: _faders[destination.index].drive(CurveTween(curve: Curves.fastOutSlowIn)),
+                child: KeyedSubtree( // Used in combination with the destination keys to track the state of the children.
+                  key: _destinationKeys[destination.index],
+                  child: _navigatorFactory[destination.navigatorRoute](),
+                ),
+              );
 
-            if (destination.index == _currentDestinationIndex) {
-              _faders[destination.index].forward();
-              return view;
-            } else {
-              _faders[destination.index].reverse();
-              if (_faders[destination.index].isAnimating) {
-                return IgnorePointer(child: view);
+              if (active) {
+                // Start the fading animation when page is selected.
+                print('Animating forward: ${destination.navigatorRoute}');
+                _faders[destination.index].forward();
+                // Select the navigator.
+                _navService.selectNavigator(destination.navigatorKey);
+              } else {
+                // Otherwise reverse the animation (fade out).
+                print('Animating backward: ${destination.navigatorRoute}');
+                _faders[destination.index].reverse();
               }
-              return Offstage(child: view);
+
+              return Offstage(
+                offstage: false,
+                child: IgnorePointer(
+                  ignoring: _faders[destination.index].isAnimating,
+                  child: view,
+                )
+              );
+
+            }).toList(),
+          )
+        ),
+        bottomNavigationBar: FeetbackBottomNavigationBar(
+          currentIndex: _currentDestinationIndex,
+          onTap: (index) {
+            if (index != _currentDestinationIndex) {
+              // Lazy load the navigators
+              if (_activeDestinations.length < _destinations.length && !_activeDestinations.contains(_destinations[index])) {
+                setState(() {
+                  _activeDestinations.add(_destinations[index]);
+                });
+              }
+              setState(() {
+                _currentDestinationIndex = index;
+              });
             }
-          }).toList(),
-        )
-      ),
-      bottomNavigationBar: FeetbackBottomNavigationBar(
-        currentIndex: _currentDestinationIndex,
-        onTap: (index) {
-          setState(() {
-            _currentDestinationIndex = index;
-          });
-        },
+          },
+        ),
       ),
     );
   }
@@ -89,7 +133,9 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin<RootP
 
 class Destination {
   final int index;
-  final Widget navigator;
+  /// The string specified in the factory.
+  final String navigatorRoute;
+  final GlobalKey<NavigatorState> navigatorKey;
 
-  Destination(this.index, this.navigator);
+  Destination(this.index, this.navigatorRoute, this.navigatorKey);
 }

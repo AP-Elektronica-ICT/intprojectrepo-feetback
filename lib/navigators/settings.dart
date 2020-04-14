@@ -1,6 +1,9 @@
-import 'package:feetback/screens/connectPage/discovery_page.dart';
-import 'package:feetback/screens/signInPage/sign_in.dart';
 import 'package:flutter/material.dart';
+
+import 'package:feetback/services/navigation_service.dart';
+import 'package:feetback/services/service_locator.dart';
+
+import 'package:feetback/screens/signInPage/sign_in.dart';
 
 class SettingsNavigator extends StatefulWidget {
   SettingsNavigator({
@@ -12,9 +15,13 @@ class SettingsNavigator extends StatefulWidget {
 }
 
 class _SettingsNavigatorState extends State<SettingsNavigator> {
+
   @override
   Widget build(BuildContext context) {
+    print("Build Settings Navigator");
+    
     return Navigator(
+      key: locator<NavigationService>().settingsNavigatorKey,
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(
           settings: settings,
@@ -25,7 +32,9 @@ class _SettingsNavigatorState extends State<SettingsNavigator> {
               break;
             }
 
-            return SignInPage();
+            return Center(
+              child: Text('Route not found in HomeNavigator.')
+            );
           },
         );
       },
