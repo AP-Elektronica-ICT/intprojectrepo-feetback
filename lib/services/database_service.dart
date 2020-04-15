@@ -44,24 +44,23 @@ class DatabaseService {
         print(e);
       }
     }
-    
     return null;
   }  
 
   void addJump(double height, double airtime, bool isFavorite)async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance.reference().child("users").child(_authService.currentUser.uid).child("jumps");
-    try {
-      await ourDB.reference().push().set({
-        'height': height,
-        'date': DateTime.now().toString(),
-        'airtime': airtime,
-        'favorite': isFavorite,
-      });
-      print('Add successful');
-    } on Exception catch (e) {
-      print(e);
-    }
+      try {
+        await ourDB.reference().push().set({
+          'height': height,
+          'date': DateTime.now().toString(),
+          'airtime': airtime,
+          'favorite': isFavorite,
+        });
+        print('Add successful');
+      } on Exception catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -78,5 +77,21 @@ class DatabaseService {
         print(e);
       }
     } 
+  }
+
+  Future<void> addUserToDB(String _uid, String _name) async {
+    final DatabaseReference ourDB = FirebaseDatabase.instance.reference().child("users");
+    try {
+      DataSnapshot snap = await ourDB.child(_uid).once();
+      if (snap.value == null) {
+        await ourDB.reference().child(_uid).set({
+          'GUID': _uid,
+          'name': _name
+        });
+        print ("New user added (ID:$_uid)");
+      }
+    } on Exception catch (e) {
+      print (e);
+    }
   }
 }

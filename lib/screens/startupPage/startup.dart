@@ -26,11 +26,14 @@ class _StartUpPageState extends State<StartUpPage> {
       bool isSignedIn = await _authService.isUserSignedIn();
 
       if (isSignedIn) {
+        print('Go to root');
         _navService.clearStackTo('/');
       } else {
+        print('Go to sign in');
         _navService.clearStackTo('/signin');
       }
     } else {
+      print('Go to optin');
       _navService.clearStackTo('/optin');
     }
   }
