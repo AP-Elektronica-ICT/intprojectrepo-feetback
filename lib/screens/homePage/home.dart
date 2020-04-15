@@ -17,8 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
   DatabaseService _dbs = locator<DatabaseService>();
   final PermissionService _permissionService = locator<PermissionService>();
   final BluetoothService _bluetoothService = locator<BluetoothService>();
@@ -43,7 +41,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _bluetoothService.connectWithSavedDevice());
@@ -131,31 +128,8 @@ class _HomePageState extends State<HomePage> {
               
           },
           label: const Text('JUMP'),
-          backgroundColor: Colors.red),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            title: Text('chart'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('settings'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).accentColor,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconSize: 24.0,
-        onTap: _onItemTapped,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-      )
+          backgroundColor: Colors.red
+      ),
     );
   }
 }
