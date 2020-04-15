@@ -6,6 +6,7 @@ import 'package:feetback/widgets/feetback_app_bar.dart';
 
 import 'package:feetback/services/database_service.dart';
 import 'package:feetback/services/service_locator.dart';
+import 'package:feetback/services/navigation_service.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,6 +15,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
+  final NavigationService _navService = locator<NavigationService>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +85,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+            _navService.navigateTo('/notConnected');
+        },
         label: const Text('JUMP'),
         backgroundColor: Colors.red
       ),
