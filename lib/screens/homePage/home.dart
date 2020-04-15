@@ -18,25 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
   final PermissionService _permissionService = locator<PermissionService>();
-  
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-
-      switch (index) {
-        case 0:
-          Navigator.pushNamed(context, "/jumphistory");
-          break;
-        case 1:
-          Navigator.pushNamed(context, "/jumphistory");
-          break;
-        case 2:
-          Navigator.pushNamed(context, "/connect",
-              arguments: Jump(DateTime.now(), 177, 4));
-          break;
-      }
-    });
-  }
 
   @override
   void initState() {
