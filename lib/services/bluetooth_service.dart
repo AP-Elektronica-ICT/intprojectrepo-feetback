@@ -2,20 +2,24 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BluetoothService {
 
   FlutterBluetoothSerial _bluetoothSerial = FlutterBluetoothSerial.instance;
 
-  BluetoothDevice device;
+  //BluetoothDevice device;
+  String nameOfDevice;
+  String macOfDevice;
   bool streamActive = false;
   bool isConnected = false;
   BluetoothConnection connection;
   Future<bool> get isBluetoothEnabled async => await _bluetoothSerial.isEnabled;
   Future<bool> get isBluetoothExists async => await _bluetoothSerial.isAvailable;
-  Future<bool> get isBluetoothConnected async => device.isConnected;
+  //Future<bool> get isBluetoothConnected async => device.isConnected;
   
   //Stream<BluetoothDiscoveryResult> discoveryStream => _bluetoothSerial.startDiscovery();
   ///StreamSubscription used to discover BluetoothDiscoveryResults
@@ -29,6 +33,23 @@ class BluetoothService {
   StreamSubscription<Uint8List> _connectionStreamSubscription;
 
   Stream<Uint8List> _connectionStream;
+
+  Future<void> saveDevice(BluetoothDevice device) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('macOfDevice', device.address);  
+    await prefs.setString('nameOfDevice', device.name);
+    print(prefs.getString("MAC_Bluetooth"));
+  }
+
+  Future<String> getSavedDeviceMAC() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("macOfDevice");
+  }
+
+  Future<String> getSavedDeviceName() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("nameOfDevice");
+  }
 
   
   Stream<BluetoothDiscoveryResult> _discoveryStream;  
@@ -113,34 +134,41 @@ class BluetoothService {
     }    
   }
 
+
   ///The app will pair and connect to the device given as a BluetoothDiscoveryResult.
   ///onAlreadyBonded will be called when the device is already paired with the device
   ///onNotBonded will be called when the device is not already bonden. The function wil pair with the device before calling this function
   ///onError will be called if there where any errors
   ///
   ///This function will also automatically connect with the given device!
-  Future<void> pairWithDevice(BluetoothDiscoveryResult result,Function onAlreadyBonded,Function onNotBonded,Function onError(String ex)) async{
+  Future<void> pairWithDevice(BluetoothDiscoveryResult result,Function onBonded,Function onError(String ex)) async{
     try{
       bool bonded;
       if(result.device.isBonded){
-        connect(result.device);
-        toastOnSucces();
-        onAlreadyBonded();
+        connect(result.device,onBonded());
+        
+       
+        saveDevice(result.device);
+        
       }
       else{
         print('Bonding with ${result.device.address}...');
         bonded = await FlutterBluetoothSerial.instance.bondDeviceAtAddress(result.device.address);
         print('Bonding with ${result.device.address} has ${bonded ? 'succed' : 'failed'}.');
-        toastOnSucces();
-         connect(result.device);
+        //toastOnSucces();
+         
         if(bonded){
-          onNotBonded();
-        }                              
+          connect(result.device,onBonded());
+          
+        }
+        else{
+          onError("Unknown error. Make sure you entered the correct PIN.");
+        }                             
       }      
     }
     catch(ex){
-      toast("Error while connecting");
-        onError(ex.toString());
+      toast("Error while pairing");
+      onError(ex.toString());
     }
   } 
 
@@ -148,7 +176,7 @@ class BluetoothService {
 
   void toastOnSucces(){
     Fluttertoast.showToast(
-              msg: "Successfully connected",
+              msg: "Succesfully connected",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -168,11 +196,12 @@ class BluetoothService {
 
   //Here the _connectionStream is set without using the function setupConnectionStream because that gave error. 
   ///Connects with a given Bluetooth device and set up a connection stream.
-   connect(BluetoothDevice _device) => {
+   /*connect(BluetoothDevice _device) => {
+     
     BluetoothConnection.toAddress(_device.address).then((_connection) {
           print('Connected to the device');
           connection = _connection;
-          device = _device;
+          //device = _device;
           isConnected = true;
           setupConnectionStream();
           return true;
@@ -180,9 +209,77 @@ class BluetoothService {
           print('Cannot connect, exception occured');
           print(error);
           return false;
+        }).then((value) => (){
+          if(isConnected == true){
+            //nameOfDevice = _device.name;
+            //macOfDevice = _device.address;
+            
+            toast("Succes");
+          }
         })
   
 
-  };
+  };*/
+
+  Future<void> connect(BluetoothDevice _device, Function f) async{
+     BluetoothConnection.toAddress(_device.address).then((_connection) {
+          print('Connected to the device');
+          connection = _connection;
+          //device = _device;
+          isConnected = true;
+          setupConnectionStream();
+          return true;
+        }).catchError((error) {
+          print('Cannot connect, exception occured');
+          print(error);
+          return false;
+        }).whenComplete(() => onConnected(f));
+  }
+
+  void onConnected(Function f){
+    if(isConnected == true)    
+    toast("Succesfully connected!");
+    f();
+  }
+
+  
+  Future<void> connectWithSavedDevice() async{
+    String mac = await getSavedDeviceMAC(); 
+    print(mac);
+    print("isConnected" + isConnected.toString());
+    if(mac != null && isConnected == false){
+     
+        BluetoothConnection.toAddress(mac).then((_connection) {
+              //print('Connected to the device');
+              connection = _connection;
+              isConnected = true;   
+              //createBluetoothDevice(mac);    
+              //setupConnectionStream();
+              return true;
+            }).catchError((error) {
+              print('Cannot connect, exception occured');
+              print(error);
+              AlertDialog(
+                title:Text("Error"),
+                content: error,
+                );
+              //toast(error);
+              return false;
+            }).whenComplete(() => createBluetoothDevice(mac));
+      
+    }
+  }
+
+  void createBluetoothDevice(String mac)async{
+    if(isConnected == true){
+      //setupConnectionStream();
+      //print("CREATE BLUETOOTH DEVICE");
+      nameOfDevice = await getSavedDeviceName();
+      macOfDevice = await getSavedDeviceMAC();
+      toast("Succesfully conected with " +nameOfDevice+".");
+      
+    }
+  }
+  
 }
 

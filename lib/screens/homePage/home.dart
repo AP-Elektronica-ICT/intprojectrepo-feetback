@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   DatabaseService _dbs = locator<DatabaseService>();
   final PermissionService _permissionService = locator<PermissionService>();
+  final BluetoothService _bluetoothService = locator<BluetoothService>();
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -43,15 +45,21 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => _bluetoothService.connectWithSavedDevice());
+
     asyncInit();
   }
 
   Future<void> asyncInit() async{        
-      _permissionService.requestLocationPermission((){exit(0);});    
+      _permissionService.requestLocationPermission((){exit(0);}); 
+      
   }
-
+  
+  
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: FeetbackAppBar(
         title: const Text("Home"),
@@ -120,6 +128,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.pushNamed(context, "/standonmatpage",
               arguments: Jump(DateTime.now(), 177, 4));
+              
           },
           label: const Text('JUMP'),
           backgroundColor: Colors.red),
