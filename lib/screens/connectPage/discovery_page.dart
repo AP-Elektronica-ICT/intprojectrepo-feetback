@@ -88,9 +88,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _bluetoothService.pairWithDevice(result, 
     //Already bonded
     (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()));}, 
+        Navigator.pushNamed(context, "/");}, 
     //error
     (ex){showDialog(
           context: context,
@@ -102,7 +100,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 new FlatButton(
                   child: new Text("Close"),
                   onPressed: () {
-                    Navigator.pushNamed(context, "/connect");
+                    Navigator.pushNamed(context, "/");
                   },
                 ),
               ],
@@ -181,6 +179,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                               },
                             );
                           _pairWithDevice(result);
+                        
                         },                        
                       );
                     },

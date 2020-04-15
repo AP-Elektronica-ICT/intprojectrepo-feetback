@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final BluetoothService _bluetoothService = locator<BluetoothService>();
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      //_selectedIndex = index;
 
       switch (index) {
         case 0:
@@ -43,14 +43,16 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => _bluetoothService.connectWithSavedDevice());
+    //WidgetsBinding.instance.addPostFrameCallback((_) => _bluetoothService.connectWithSavedDevice());
+    // WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.pushNamed(context, "/connect"));
 
     asyncInit();
   }
 
   Future<void> asyncInit() async{        
       _permissionService.requestLocationPermission((){exit(0);}); 
-      
+      _bluetoothService.connectWithSavedDevice();
+       
   }
   
   
@@ -123,11 +125,12 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, "/standonmatpage",
-              arguments: Jump(DateTime.now(), 177, 4));
+            _bluetoothService.isConnected ? Navigator.pushNamed(context, "/standonmat",
+              arguments: Jump(DateTime.now(), 177, 4)) : 
+              Navigator.pushNamed(context, "/connect");
               
           },
-          label: const Text('JUMP'),
+          label: _bluetoothService.isConnected ? Text("JUMP") : Text("Connect"),
           backgroundColor: Colors.red
       ),
     );

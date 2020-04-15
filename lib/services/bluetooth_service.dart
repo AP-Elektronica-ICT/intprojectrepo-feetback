@@ -146,7 +146,6 @@ class BluetoothService {
       bool bonded;
       if(result.device.isBonded){
         connect(result.device,onBonded());
-        
        
         saveDevice(result.device);
         
@@ -158,6 +157,7 @@ class BluetoothService {
         //toastOnSucces();
          
         if(bonded){
+          // BluetoothConnection.toAddress(result.device.address).then((_connection) {});
           connect(result.device,onBonded());
           
         }
@@ -193,10 +193,10 @@ class BluetoothService {
               fontSize: 16.0
           );
   }
-
+/*
   //Here the _connectionStream is set without using the function setupConnectionStream because that gave error. 
   ///Connects with a given Bluetooth device and set up a connection stream.
-   /*connect(BluetoothDevice _device) => {
+   connect(BluetoothDevice _device) => {
      
     BluetoothConnection.toAddress(_device.address).then((_connection) {
           print('Connected to the device');
@@ -209,19 +209,12 @@ class BluetoothService {
           print('Cannot connect, exception occured');
           print(error);
           return false;
-        }).then((value) => (){
-          if(isConnected == true){
-            //nameOfDevice = _device.name;
-            //macOfDevice = _device.address;
-            
-            toast("Succes");
-          }
-        })
+        }).timeout(Duration(seconds:4))
   
 
   };*/
 
-  Future<void> connect(BluetoothDevice _device, Function f) async{
+  void connect(BluetoothDevice _device, Function f){
      BluetoothConnection.toAddress(_device.address).then((_connection) {
           print('Connected to the device');
           connection = _connection;
@@ -229,11 +222,11 @@ class BluetoothService {
           isConnected = true;
           setupConnectionStream();
           return true;
-        }).catchError((error) {
+        }).whenComplete(() => onConnected(f));/*).catchError((error) {
           print('Cannot connect, exception occured');
           print(error);
           return false;
-        }).whenComplete(() => onConnected(f));
+        }).timeout(Duration(seconds: 4));*///.whenComplete(() => onConnected(f));
   }
 
   void onConnected(Function f){
@@ -248,7 +241,7 @@ class BluetoothService {
     print(mac);
     print("isConnected" + isConnected.toString());
     if(mac != null && isConnected == false){
-     
+     /*
         BluetoothConnection.toAddress(mac).then((_connection) {
               //print('Connected to the device');
               connection = _connection;
@@ -266,7 +259,8 @@ class BluetoothService {
               //toast(error);
               return false;
             }).whenComplete(() => createBluetoothDevice(mac));
-      
+            
+      */
     }
   }
 

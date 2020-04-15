@@ -56,7 +56,7 @@ super.dispose();
 
       return RaisedButton(
             onPressed: (){
-              Navigator.pushNamed(context, "/jumppage");
+              Navigator.pushNamed(context, "/jump");
               },
             child: Text("Jump"),
           );
