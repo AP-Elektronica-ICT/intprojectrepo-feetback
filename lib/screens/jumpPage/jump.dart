@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:feetback/services/database_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/service_locator.dart';
@@ -23,6 +24,7 @@ bool isDisconnecting = false;
 bool endMessage = false;
 String resultaat = "";
 final BluetoothService _bluetoothService = locator<BluetoothService>();
+final DatabaseService _databaseService = locator<DatabaseService>();
 
 @override
   void initState() {
@@ -32,6 +34,7 @@ final BluetoothService _bluetoothService = locator<BluetoothService>();
 
   void asyncInit() async{
     if(await _bluetoothService.isBluetoothEnabled){
+      _bluetoothService.cancelConnectionStreamSubsciption();
         _bluetoothService.startListening(_onDataReceived);
     }
   }
@@ -43,8 +46,7 @@ final BluetoothService _bluetoothService = locator<BluetoothService>();
     return new WillPopScope(
         onWillPop: () async {
           endMessage = false;
-          resultaat = "";
-          
+          resultaat = "";          
           print("back");
           return true;
         },
@@ -60,12 +62,19 @@ final BluetoothService _bluetoothService = locator<BluetoothService>();
     
   }
 
+  Widget _getScaffold(){
+    
+  }
+
   Widget _getFAB() {
     if (!endMessage) {
       return Container();
     } else {
+
       return RaisedButton(
-            onPressed: (){Navigator.pop(context);},
+            onPressed: (){
+              Navigator.pushNamed(context, "/");
+              },
             child: Text("Next"),
           );
     }
@@ -76,14 +85,14 @@ final BluetoothService _bluetoothService = locator<BluetoothService>();
         
     print("data recieved");
     String temp = utf8.decode(data);
-    resultaat = resultaat+temp;
-    
+    print(temp);
+    resultaat = resultaat+temp;    
     if(temp.substring(temp.length-1)== "e") {    
-
-      
       this.setState(() {
         resultaat = resultaat.substring(0,resultaat.length-1);
         this.endMessage = true;
+        _databaseService.addJump(double.parse(resultaat.substring(0,resultaat.length-1)), 0, false);
+        _bluetoothService.cancelConnectionStreamSubsciption();
       });      
       print("end message");
       print(resultaat);

@@ -1,7 +1,7 @@
-import 'package:feetback/screens/rootPage/root.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/widgets.dart';
+import 'package:feetback/screens/rootPage/root.dart';
 import 'package:feetback/screens/homePage/home.dart';
 import 'package:feetback/screens/startupPage/startup.dart';
 import 'package:feetback/screens/optInPage/opt_in.dart';
@@ -10,6 +10,7 @@ import 'package:feetback/screens/jumpPage/jump.dart';
 import 'package:feetback/screens/jumpHistory/jump_history.dart';
 import 'package:feetback/screens/connectPage/discovery_page.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
+import 'package:feetback/screens/standOnMatPage/stand_on_mat.dart';
 
 
 Route<dynamic> generateRoute(RouteSettings settings){
@@ -48,6 +49,14 @@ Route<dynamic> generateRoute(RouteSettings settings){
 
     case '/jumphistory' :
       return MaterialPageRoute(builder: (_) => JumpHistoryPage());
+    break;
+
+    case '/jumppage' :
+      return MaterialPageRoute(builder: (_) => JumpPage());
+    break;
+
+    case '/standonmatpage' :
+      return MaterialPageRoute(builder: (_) => StandOnMatPage());
     break;
 
     default :

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -14,6 +17,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
+  final PermissionService _permissionService = locator<PermissionService>();
+  
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+
+      switch (index) {
+        case 0:
+          Navigator.pushNamed(context, "/jumphistory");
+          break;
+        case 1:
+          Navigator.pushNamed(context, "/jumphistory");
+          break;
+        case 2:
+          Navigator.pushNamed(context, "/connect",
+              arguments: Jump(DateTime.now(), 177, 4));
+          break;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    asyncInit();
+  }
+
+  Future<void> asyncInit() async{        
+      _permissionService.requestLocationPermission((){exit(0);});    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +115,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: const Text('JUMP'),
-        backgroundColor: Colors.red
+          onPressed: () {
+            Navigator.pushNamed(context, "/standonmatpage",
+              arguments: Jump(DateTime.now(), 177, 4));
+          },
+          label: const Text('JUMP'),
+          backgroundColor: Colors.red
       ),
     );
   }

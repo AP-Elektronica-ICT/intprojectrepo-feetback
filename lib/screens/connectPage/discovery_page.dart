@@ -1,6 +1,7 @@
 import 'dart:async';
 
 
+import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,7 +17,7 @@ import 'widgets/BluetoothDeviceListEntry.dart';
 class DiscoveryPage extends StatefulWidget {
   /// If true, discovery starts on page start, otherwise user must press action button.
   final bool start;
-
+  
   const DiscoveryPage({this.start = true});
 
   @override
@@ -29,26 +30,39 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   _DiscoveryPage();
   final BluetoothService _bluetoothService = locator<BluetoothService>();
 
+
   @override
   void initState() {
     super.initState();
+    
     isDiscovering = false;
     _initStateAsync();
   }
 
-  Future<void> _initStateAsync() async {
-    if(await _bluetoothService.isBluetoothEnabled){
-        isDiscovering = true;
-        _startDiscovery();
-    }
-    else
-    _bluetoothService.enableBluetooth((){
-      
-      isDiscovering = true;
-        _restartDiscovery();
-    });
-  }
+  Future<void> _initStateAsync() async {   
 
+      if(await _bluetoothService.isBluetoothEnabled){
+        isDiscovering = true;
+        try{
+          _startDiscovery();
+        }
+        on Exception catch (exception){}
+        catch (error){
+
+        }
+      }
+      else
+      _bluetoothService.enableBluetooth((){
+        
+        isDiscovering = true;
+          _restartDiscovery();
+      },
+      (){
+        Navigator.pop(context);
+      }
+      );   
+    
+  }
   void _restartDiscovery() {
     setState(() {
       results.clear();
