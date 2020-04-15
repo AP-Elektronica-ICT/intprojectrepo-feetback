@@ -19,14 +19,15 @@ class JumpPage extends StatefulWidget {
 }
 
 class _JumpState extends State<JumpPage> {
-bool isConnecting = true;
-bool isDisconnecting = false;
-bool endMessage = false;
-String resultaat = "";
-final BluetoothService _bluetoothService = locator<BluetoothService>();
-final DatabaseService _databaseService = locator<DatabaseService>();
+  final BluetoothService _bluetoothService = locator<BluetoothService>();
+  final DatabaseService _databaseService = locator<DatabaseService>();
 
-@override
+  bool isConnecting = true;
+  bool isDisconnecting = false;
+  bool endMessage = false;
+  String resultaat = "";
+
+  @override
   void initState() {
     super.initState();
     asyncInit();    
@@ -39,58 +40,47 @@ final DatabaseService _databaseService = locator<DatabaseService>();
     }
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
-        onWillPop: () async {
-          endMessage = false;
-          resultaat = "";          
-          print("back");
-          return true;
-        },
-        
-        child:  Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        endMessage = false;
+        resultaat = "";          
+        print("back");
+        return true;
+      },
+      
+      child:  Scaffold(
         floatingActionButton: _getFAB(),
         body: Center(
-              child:endMessage ? ResultScreen(resultaat): CountDownTimer(),
-          ),
-        )
+          child:endMessage ? ResultScreen(resultaat): CountDownTimer(),
+        ),
+      )
     );
-
-    
-  }
-
-  Widget _getScaffold(){
-    
   }
 
   Widget _getFAB() {
     if (!endMessage) {
       return Container();
     } else {
-
       return RaisedButton(
-            onPressed: (){
-              Navigator.pushNamed(context, "/");
-              },
-            child: Text("Next"),
-          );
+        onPressed: (){
+          Navigator.pushNamed(context, "/");
+          },
+        child: Text("Next"),
+      );
     }
   }
   
-
   void _onDataReceived(Uint8List data) {
-        
     print("data recieved");
     String temp = utf8.decode(data);
     print(temp);
     resultaat = resultaat+temp;    
     if(temp.substring(temp.length-1)== "e") {    
-      this.setState(() {
+      setState(() {
         resultaat = resultaat.substring(0,resultaat.length-1);
-        this.endMessage = true;
+        endMessage = true;
         _databaseService.addJump(double.parse(resultaat.substring(0,resultaat.length-1)), 0, false);
         _bluetoothService.cancelConnectionStreamSubsciption();
       });      

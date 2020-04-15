@@ -13,11 +13,10 @@ class StandOnMatPage extends StatefulWidget {
 }
 
 class _StandOnMatState extends State<StandOnMatPage> {
+  final BluetoothService _bluetoothService = locator<BluetoothService>();
+  bool isStandingOnMat = false;
 
-bool isStandingOnMat = false;
-final BluetoothService _bluetoothService = locator<BluetoothService>();
-
-@override
+  @override
   void initState() {
     super.initState();
     asyncInit();    
@@ -25,44 +24,38 @@ final BluetoothService _bluetoothService = locator<BluetoothService>();
 
   void asyncInit() async{
     if(await _bluetoothService.isBluetoothEnabled){
-        _bluetoothService.startListening(_onDataReceived);
+      _bluetoothService.startListening(_onDataReceived);
     }
   } 
 
   @override
   void dispose(){
-
-
-_bluetoothService.cancelConnectionStreamSubsciption();
-super.dispose();
+    _bluetoothService.cancelConnectionStreamSubsciption();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: _getFAB(),
-        body: Center(
-              child:isStandingOnMat ? Text("Press Jump tot start the countdown.") : Text("Please stand on the mat."),
-          ),
+      floatingActionButton: _getFAB(),
+      body: Center(
+        child:isStandingOnMat ? Text("Press Jump tot start the countdown.") : Text("Please stand on the mat."),
+      ),
     );
-
-    
   }
 
   Widget _getFAB() {
     if (!isStandingOnMat) {
       return Container();
     } else {
-
       return RaisedButton(
-            onPressed: (){
-              Navigator.pushNamed(context, "/jumppage");
-              },
-            child: Text("Jump"),
-          );
+        onPressed: (){
+          Navigator.pushNamed(context, "/jumppage");
+        },
+        child: Text("Jump"),
+      );
     }
   }
-  
 
   void _onDataReceived(Uint8List data) {
     String temp = utf8.decode(data);
@@ -77,6 +70,5 @@ super.dispose();
         this.isStandingOnMat = false;
       });
     }
-     
   }
 }
