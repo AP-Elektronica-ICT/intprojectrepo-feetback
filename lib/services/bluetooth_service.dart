@@ -66,10 +66,15 @@ class BluetoothService {
 
   ///asks for activating Bluetooth.
   ///Wil call given function when bluetooth is enabled
-  Future<void> enableBluetooth(Function ifBluetoothIsTurnedOn) async{
+  Future<void> enableBluetooth(Function ifBluetoothIsTurnedOn, Function ifBluetoothIsNotTurnedOn) async{
     await FlutterBluetoothSerial.instance.requestEnable();
     if(await FlutterBluetoothSerial.instance.isEnabled){
       ifBluetoothIsTurnedOn();
+      toast("Bluetooth succesfully turned on");
+    }
+    else{
+      ifBluetoothIsNotTurnedOn();
+      toast("Bluetooth not turned on");
     }
   }
 
@@ -90,7 +95,7 @@ class BluetoothService {
 
   ///Executes the given function when there is an error while listening.
   void onListeningError(Function onError){
-    _connectionStreamSubscription.onDone(onError);
+    _connectionStreamSubscription.onError(onError);
   }
 
   ///closes the current connectionStreamSubscription that listens to the bluetooth module.
@@ -134,10 +139,12 @@ class BluetoothService {
       }      
     }
     catch(ex){
-      toastOnFail();
+      toast("Error while connecting");
         onError(ex.toString());
     }
   } 
+
+  
 
   void toastOnSucces(){
     Fluttertoast.showToast(
@@ -149,9 +156,9 @@ class BluetoothService {
           );
   }
 
-  void toastOnFail(){
+  void toast(String message){
     Fluttertoast.showToast(
-              msg: "Error while connecting",
+              msg: message,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
