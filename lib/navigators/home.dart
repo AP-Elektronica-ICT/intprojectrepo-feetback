@@ -1,7 +1,9 @@
-import 'package:feetback/screens/homePage/home.dart';
 import 'package:flutter/material.dart';
 
-import 'package:feetback/routes.dart';
+import 'package:feetback/services/navigation_service.dart';
+import 'package:feetback/services/service_locator.dart';
+
+import 'package:feetback/screens/homePage/home.dart';
 
 class HomeNavigator extends StatefulWidget {
   HomeNavigator({
@@ -12,11 +14,19 @@ class HomeNavigator extends StatefulWidget {
   _HomeNavigatorState createState() => _HomeNavigatorState();
 }
 
-class _HomeNavigatorState extends State<HomeNavigator> {
+class _HomeNavigatorState extends State<HomeNavigator>
+  with AutomaticKeepAliveClientMixin  {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    print("Build Home Navigator");
+
     return Navigator(
-      key: new GlobalKey<NavigatorState>(),
+      key: locator<NavigationService>().homeNavigatorKey,
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(
           settings: settings,
@@ -27,7 +37,9 @@ class _HomeNavigatorState extends State<HomeNavigator> {
               break;
             }
 
-            return HomePage();
+            return Center(
+              child: Text('Route not found in HomeNavigator.')
+            );
           },
         );
       },

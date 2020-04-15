@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:feetback/services/navigation_service.dart';
+import 'package:feetback/services/service_locator.dart';
+
 import 'package:feetback/navigators/home.dart';
 import 'package:feetback/navigators/jump_history.dart';
 import 'package:feetback/navigators/settings.dart';
@@ -11,85 +14,75 @@ class RootPage extends StatefulWidget {
   _RootPageState createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> with TickerProviderStateMixin<RootPage> {
-  List<AnimationController> _faders;
-  List<Key> _destinationKeys;
-  int _currentDestinationIndex = 0;
+class _RootPageState extends State<RootPage> {
+  static NavigationService _navService = locator<NavigationService>();
 
-  List<Destination> _destinations = <Destination>[
-    Destination(0, HomeNavigator()),
-    Destination(1, JumpHistoryNavigator()),
-    Destination(2, SettingsNavigator())
+  final _navigators = [
+    HomeNavigator(),
+    JumpHistoryNavigator(),
+    SettingsNavigator()
   ];
+
+  final _navigatorController = PageController(
+    keepPage: true
+  );
+  
+  int _currentNavigatorIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    print("Init root");
 
-    // Generate an AnimationController for each destination.
-    _faders = _destinations.map<AnimationController>((Destination destination) {
-      return AnimationController(vsync: this, duration: Duration(milliseconds: 250));
-    }).toList();
-    // Set the opacity of the initial destination.
-    _faders[_currentDestinationIndex].value = 1.0;
-    // Generate keys for each destination, these keys are used to track the state of a page.
-    _destinationKeys = List<Key>.generate(_destinations.length, (index) => GlobalKey()).toList();
   }
 
   @override
   void dispose() {
-    // Clean up the animation controllers.
-    for (AnimationController controller in _faders) {
-      controller.dispose();
-    }
-
+    print("Disposed Root");
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        top: false,
-        child: Stack(
-          fit: StackFit.expand,
-          children: _destinations.map((Destination destination) {
-            final Widget view = FadeTransition(
-              opacity: _faders[destination.index].drive(CurveTween(curve: Curves.fastOutSlowIn)),
-              child: KeyedSubtree(
-                key: _destinationKeys[destination.index],
-                child: destination.navigator,
-              ),
-            );
+    print("Build Root");
+    return WillPopScope(
+      onWillPop: () async {
+        _navService.goBack();
+        // Return false so that the root navigator doesn't pop.
+        return false;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          top: false, // Disable top because the app bar in the screens takes care of that.
+          child: PageView(
+            controller: _navigatorController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentNavigatorIndex = index;
+              });
+            },
+            children: _navigators,
+            physics: NeverScrollableScrollPhysics(), // No left, right sliding to change page.
+          ),
+        ),
 
-            if (destination.index == _currentDestinationIndex) {
-              _faders[destination.index].forward();
-              return view;
-            } else {
-              _faders[destination.index].reverse();
-              if (_faders[destination.index].isAnimating) {
-                return IgnorePointer(child: view);
-              }
-              return Offstage(child: view);
+        bottomNavigationBar: FeetbackBottomNavigationBar(
+          currentIndex: _currentNavigatorIndex,
+          onTap: (index) {
+            //_navigatorController.jumpToPage(index);
+            _navigatorController.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.easeInOut);
+            if (index == 0) {
+              _navService.selectNavigator(_navService.homeNavigatorKey);
             }
-          }).toList(),
-        )
-      ),
-      bottomNavigationBar: FeetbackBottomNavigationBar(
-        currentIndex: _currentDestinationIndex,
-        onTap: (index) {
-          setState(() {
-            _currentDestinationIndex = index;
-          });
-        },
+            if (index == 1) {
+              _navService.selectNavigator(_navService.jumpHistoryNavigatorKey);
+            }
+            if (index == 2) {
+              _navService.selectNavigator(_navService.settingsNavigatorKey);
+            }
+          },
+        ),
       ),
     );
   }
-}
-
-class Destination {
-  final int index;
-  final Widget navigator;
-
-  Destination(this.index, this.navigator);
 }
