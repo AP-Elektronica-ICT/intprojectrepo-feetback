@@ -14,10 +14,15 @@ class HomeNavigator extends StatefulWidget {
   _HomeNavigatorState createState() => _HomeNavigatorState();
 }
 
-class _HomeNavigatorState extends State<HomeNavigator> {
+class _HomeNavigatorState extends State<HomeNavigator>
+  with AutomaticKeepAliveClientMixin  {
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     print("Build Home Navigator");
 
     return Navigator(

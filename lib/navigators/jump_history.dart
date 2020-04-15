@@ -15,12 +15,17 @@ class JumpHistoryNavigator extends StatefulWidget {
   _JumpHistoryNavigatorState createState() => _JumpHistoryNavigatorState();
 }
 
-class _JumpHistoryNavigatorState extends State<JumpHistoryNavigator> {
+class _JumpHistoryNavigatorState extends State<JumpHistoryNavigator>
+  with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     print("Build Jump History Navigator");
-    
+
     return Navigator(
       key: locator<NavigationService>().jumpHistoryNavigatorKey,
       onGenerateRoute: (RouteSettings settings) {

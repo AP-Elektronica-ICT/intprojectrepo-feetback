@@ -14,12 +14,17 @@ class SettingsNavigator extends StatefulWidget {
   _SettingsNavigatorState createState() => _SettingsNavigatorState();
 }
 
-class _SettingsNavigatorState extends State<SettingsNavigator> {
+class _SettingsNavigatorState extends State<SettingsNavigator>
+  with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     print("Build Settings Navigator");
-    
+
     return Navigator(
       key: locator<NavigationService>().settingsNavigatorKey,
       onGenerateRoute: (RouteSettings settings) {
