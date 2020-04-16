@@ -137,7 +137,10 @@ class BluetoothService {
     try{
       bool bonded;
       if(result.device.isBonded){
-        if(await connect(result.device.address)) onBonded();
+        if(await connect(result.device.address)){
+          toast("succesfully connected to "+ result.device.name);
+           onBonded();
+        }
        
         saveDevice(result.device);
         
@@ -148,7 +151,10 @@ class BluetoothService {
         print('Bonding with ${result.device.address} has ${bonded ? 'succed' : 'failed'}.');
          
         if(bonded){
-          if(await connect(result.device.address)) onBonded();
+          if(await connect(result.device.address)){
+            toast("succesfully connected to "+ result.device.name);
+             onBonded();
+          }
         }
         else{
           onError("Unknown error. Make sure you entered the correct PIN.");
@@ -174,7 +180,7 @@ class BluetoothService {
   Future<bool> connect(String mac) async {
     try {
       connection = await BluetoothConnection.toAddress(mac);
-      print('Connected to device: $mac');
+      
       setupConnectionStream();
      // return connection.isConnected;
     } catch (e) {

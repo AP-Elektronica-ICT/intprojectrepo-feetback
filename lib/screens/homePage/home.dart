@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
-  final PermissionService _permissionService = locator<PermissionService>();
+  
   final BluetoothService _bluetoothService = locator<BluetoothService>();
 
   @override
@@ -34,9 +34,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> asyncInit() async{
-    if (!await _permissionService.requestLocationPermission()) {
-      exit(0);
-    }
+    
     
   }
   
@@ -110,7 +108,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-             Navigator.pushNamed(context, "/notconnected",
+             Navigator.pushNamed(context, "/standonmat",
               arguments: Jump(DateTime.now(), 177, 4));
               
           },

@@ -26,6 +26,7 @@ class DiscoveryPage extends StatefulWidget {
 class _DiscoveryPage extends State<DiscoveryPage> {
   List<BluetoothDiscoveryResult> results = List<BluetoothDiscoveryResult>();
   bool isDiscovering;
+  BuildContext _alertContext; 
   _DiscoveryPage();
   final BluetoothService _bluetoothService = locator<BluetoothService>();
 
@@ -70,6 +71,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _startDiscovery();
   }
 
+
   void _startDiscovery(){
     _bluetoothService.startDiscovering((r){
       setState(() { 
@@ -88,7 +90,9 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _bluetoothService.pairWithDevice(result, 
     //Already bonded
     (){
-        Navigator.pushNamed(context, "/");}, 
+        Navigator.of(_alertContext).pop();
+        Navigator.pushNamed(context, "/");
+      }, 
     //error
     (ex){showDialog(
           context: context,
@@ -96,10 +100,12 @@ class _DiscoveryPage extends State<DiscoveryPage> {
             return AlertDialog(
               title: const Text('Error occured while bonding'),
               content: Text("${ex.toString()}"),
+              
               actions: <Widget>[
                 new FlatButton(
                   child: new Text("Close"),
                   onPressed: () {
+                    
                     Navigator.pushNamed(context, "/");
                   },
                 ),
@@ -113,6 +119,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   void dispose() {
     // Avoid memory leak (`setState` after dispose) and cancel discovery
     _bluetoothService.cancelDiscoveryStreamSubscription();
+
     super.dispose();
   }
  
@@ -155,6 +162,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                   child:ListView.builder(
                     itemCount: results.length,
                     itemBuilder: (BuildContext context, index) {
+                      
                       BluetoothDiscoveryResult result = results[index];
                       return BluetoothDeviceListEntry(
                         device: result.device,
@@ -164,6 +172,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
+                                _alertContext = context;
                                 return AlertDialog(                                  
                                   content: Column(
                                       mainAxisSize: MainAxisSize.min,

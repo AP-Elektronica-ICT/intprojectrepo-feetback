@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/service_locator.dart';
@@ -14,6 +17,7 @@ class _StartUpPageState extends State<StartUpPage> {
   final AuthService _authService = locator<AuthService>();
   final NavigationService _navService = locator<NavigationService>();
   final SettingsService _settingsService = locator<SettingsService>();
+  final PermissionService _permissionService = locator<PermissionService>();
 
   @override
   void initState() {
@@ -23,16 +27,20 @@ class _StartUpPageState extends State<StartUpPage> {
   }
 
   void handleStartUp() async {
-    if (await _settingsService.isPrivacyPolicyAccepted) {
-      if (await _authService.isUserSignedIn()) {
-        _navService.clearStackTo('/root');
-      } else {
-        _navService.clearStackTo('/signin');
-      }
-    } else {
-      _navService.clearStackTo('/optin');
+    if (!await _permissionService.requestLocationPermission()) {
+      exit(0);
     }
-
+    else{
+      if (await _settingsService.isPrivacyPolicyAccepted) {
+        if (await _authService.isUserSignedIn()) {
+          _navService.clearStackTo('/root');
+        } else {
+          _navService.clearStackTo('/signin');
+        }
+      } else {
+        _navService.clearStackTo('/optin');
+      }
+    }
     print("Finish startup init");
   }
 
