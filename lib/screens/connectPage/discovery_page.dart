@@ -16,7 +16,7 @@ import 'widgets/BluetoothDeviceListEntry.dart';
 class DiscoveryPage extends StatefulWidget {
   /// If true, discovery starts on page start, otherwise user must press action button.
   final bool start;
-
+  
   const DiscoveryPage({this.start = true});
 
   @override
@@ -29,26 +29,39 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   _DiscoveryPage();
   final BluetoothService _bluetoothService = locator<BluetoothService>();
 
+
   @override
   void initState() {
     super.initState();
+    
     isDiscovering = false;
     _initStateAsync();
   }
 
-  Future<void> _initStateAsync() async {
-    if(await _bluetoothService.isBluetoothEnabled){
-        isDiscovering = true;
-        _startDiscovery();
-    }
-    else
-    _bluetoothService.enableBluetooth((){
-      
-      isDiscovering = true;
-        _restartDiscovery();
-    });
-  }
+  Future<void> _initStateAsync() async {   
 
+      if(await _bluetoothService.isBluetoothEnabled){
+        isDiscovering = true;
+        try{
+          _startDiscovery();
+        }
+        on Exception catch (exception){}
+        catch (error){
+
+        }
+      }
+      else
+      _bluetoothService.enableBluetooth((){
+        
+        isDiscovering = true;
+          _restartDiscovery();
+      },
+      (){
+        Navigator.pop(context);
+      }
+      );   
+    
+  }
   void _restartDiscovery() {
     setState(() {
       results.clear();
@@ -75,14 +88,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _bluetoothService.pairWithDevice(result, 
     //Already bonded
     (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()));}, 
-    //onNotBonded
-    (){
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()));}, 
+        Navigator.pushNamed(context, "/");}, 
     //error
     (ex){showDialog(
           context: context,
@@ -94,7 +100,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 new FlatButton(
                   child: new Text("Close"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, "/");
                   },
                 ),
               ],
@@ -173,6 +179,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                               },
                             );
                           _pairWithDevice(result);
+                        
                         },                        
                       );
                     },

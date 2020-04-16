@@ -17,29 +17,29 @@ class _StartUpPageState extends State<StartUpPage> {
 
   @override
   void initState() {
+    print("Init startup");
     super.initState();
     handleStartUp();
   }
 
   void handleStartUp() async {
     if (await _settingsService.isPrivacyPolicyAccepted) {
-      bool isSignedIn = await _authService.isUserSignedIn();
-
-      if (isSignedIn) {
-        print('Go to root');
-        _navService.clearStackTo('/');
+      if (await _authService.isUserSignedIn()) {
+        _navService.clearStackTo('/root');
       } else {
-        print('Go to sign in');
         _navService.clearStackTo('/signin');
       }
     } else {
-      print('Go to optin');
       _navService.clearStackTo('/optin');
     }
+
+    print("Finish startup init");
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Build Startup");
+
     return Container(
       width: double.infinity,
       height: double.infinity,
