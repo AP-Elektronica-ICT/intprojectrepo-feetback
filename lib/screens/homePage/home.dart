@@ -1,3 +1,5 @@
+import 'package:feetback/screens/jumpPage/jump.dart';
+import 'package:feetback/screens/notConnectedPage/notConnected.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -16,7 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
   final NavigationService _navService = locator<NavigationService>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +45,21 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: 16),
                   FutureBuilder<Jump>(
                     future: _dbs.getHighestJump(),
-                    builder: (BuildContext context, AsyncSnapshot<Jump> snapshot) {
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Jump> snapshot) {
                       String highestJump;
 
                       if (snapshot.hasData) {
-                        highestJump= snapshot.data.height.toString();
+                        highestJump = snapshot.data.height.toString();
                       } else {
-                        highestJump= "--";
+                        highestJump = "--";
                       }
 
-                      return Text(
-                        highestJump,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontWeight: FontWeight.bold)
-                      );
+                      return Text(highestJump,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontWeight: FontWeight.bold));
                     },
                   ),
                 ],
@@ -85,12 +85,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-            _navService.navigateTo('/notConnected');
-        },
-        label: const Text('JUMP'),
-        backgroundColor: Colors.red
-      ),
+          onPressed: () {},
+          label: const Text('JUMP'),
+          backgroundColor: Colors.red),
     );
   }
 }

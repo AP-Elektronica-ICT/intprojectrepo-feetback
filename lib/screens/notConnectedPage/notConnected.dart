@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:feetback/widgets/feetback_app_bar.dart';
-import 'package:feetback/services/navigation_service.dart';
-
+import 'package:feetback/screens/connectPage/discovery_page.dart';
 
 class NotConnectedPage extends StatefulWidget {
   @override
@@ -9,9 +8,6 @@ class NotConnectedPage extends StatefulWidget {
 }
 
 class _NotConnectedState extends State<NotConnectedPage> {
-  NavigationService _navService = NavigationService();
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,26 +24,25 @@ class _NotConnectedState extends State<NotConnectedPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Center(
-                  child: Image(
-                      image: AssetImage("lib/images/notConnected.png"))),
-              
+                  child:
+                      Image(image: AssetImage("lib/images/notConnected.png"))),
               SizedBox(height: 32),
               Text('Oops seems like you are not connected',
                   style: Theme.of(context)
                       .textTheme
                       .headline4
                       .copyWith(fontWeight: FontWeight.bold)),
-              
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _navService.clearStackTo('/connect');
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DiscoveryPage()));
         },
         label: const Text('Connect to a jump mat'),
-        backgroundColor : Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
