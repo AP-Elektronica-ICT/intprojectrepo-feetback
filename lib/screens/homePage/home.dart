@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:feetback/services/bluetooth_service.dart';
-import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -10,6 +8,8 @@ import 'package:feetback/widgets/feetback_app_bar.dart';
 
 import 'package:feetback/services/database_service.dart';
 import 'package:feetback/services/service_locator.dart';
+import 'package:feetback/services/bluetooth_service.dart';
+import 'package:feetback/services/permission_service.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,10 +24,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-//_bluetoothService.connectWithSavedDevice();
-    //WidgetsBinding.instance.addPostFrameCallback((_) => _bluetoothService.connectWithSavedDevice());
-    // WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.pushNamed(context, "/connect"));
-
     asyncInit();
   }
 
@@ -35,7 +31,6 @@ class _HomePageState extends State<HomePage> {
     if (!await _permissionService.requestLocationPermission()) {
       exit(0);
     }
-
     _bluetoothService.connectWithSavedDevice();
   }
   
@@ -67,22 +62,21 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: 16),
                   FutureBuilder<Jump>(
                     future: _dbs.getHighestJump(),
-                    builder: (BuildContext context, AsyncSnapshot<Jump> snapshot) {
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Jump> snapshot) {
                       String highestJump;
 
                       if (snapshot.hasData) {
-                        highestJump= snapshot.data.height.toString();
+                        highestJump = snapshot.data.height.toString();
                       } else {
-                        highestJump= "--";
+                        highestJump = "--";
                       }
 
-                      return Text(
-                        highestJump,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontWeight: FontWeight.bold)
-                      );
+                      return Text(highestJump,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontWeight: FontWeight.bold));
                     },
                   ),
                 ],
