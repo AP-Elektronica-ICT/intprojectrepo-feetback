@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 
@@ -18,19 +19,30 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
   final PermissionService _permissionService = locator<PermissionService>();
+  final BluetoothService _bluetoothService = locator<BluetoothService>();
 
   @override
   void initState() {
     super.initState();
+//_bluetoothService.connectWithSavedDevice();
+    //WidgetsBinding.instance.addPostFrameCallback((_) => _bluetoothService.connectWithSavedDevice());
+    // WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.pushNamed(context, "/connect"));
+
     asyncInit();
   }
 
-  Future<void> asyncInit() async{        
-      _permissionService.requestLocationPermission((){exit(0);});    
-  }
+  Future<void> asyncInit() async{
+    if (!await _permissionService.requestLocationPermission()) {
+      exit(0);
+    }
 
+    _bluetoothService.connectWithSavedDevice();
+  }
+  
+  
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: FeetbackAppBar(
         title: const Text("Home"),
@@ -97,10 +109,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, "/standonmatpage",
+             Navigator.pushNamed(context, "/standonmat",
               arguments: Jump(DateTime.now(), 177, 4));
+              
           },
-          label: const Text('JUMP'),
+          label:Text("Jump"),
           backgroundColor: Colors.red
       ),
     );

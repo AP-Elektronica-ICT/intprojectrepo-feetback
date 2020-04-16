@@ -49,11 +49,11 @@ class _StandOnMatState extends State<StandOnMatPage> {
       return Container();
     } else {
       return RaisedButton(
-        onPressed: (){
-          Navigator.pushNamed(context, "/jumppage");
-        },
-        child: Text("Jump"),
-      );
+            onPressed: (){
+              Navigator.pushNamed(context, "/jump");
+              },
+            child: Text("Jump"),
+          );
     }
   }
 

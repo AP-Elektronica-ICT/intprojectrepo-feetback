@@ -1,7 +1,6 @@
 import 'dart:async';
 
 
-import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -89,14 +88,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     _bluetoothService.pairWithDevice(result, 
     //Already bonded
     (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()));}, 
-    //onNotBonded
-    (){
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()));}, 
+        Navigator.pushNamed(context, "/");}, 
     //error
     (ex){showDialog(
           context: context,
@@ -108,7 +100,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 new FlatButton(
                   child: new Text("Close"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, "/");
                   },
                 ),
               ],
@@ -187,6 +179,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                               },
                             );
                           _pairWithDevice(result);
+                        
                         },                        
                       );
                     },

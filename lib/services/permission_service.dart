@@ -11,11 +11,8 @@ class PermissionService{
     }
     return false;
   }
-  Future<bool> requestLocationPermission(Function onPermissionDenied) async {
+  Future<bool> requestLocationPermission() async {
     var granted = await _requestPermission(PermissionGroup.locationAlways);
-    if(!granted){
-      onPermissionDenied();
-    }
     return granted;
   }
 

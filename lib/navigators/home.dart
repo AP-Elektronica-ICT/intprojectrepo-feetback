@@ -1,4 +1,3 @@
-import 'package:feetback/screens/jumpPage/jump.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/navigation_service.dart';
@@ -6,6 +5,8 @@ import 'package:feetback/services/service_locator.dart';
 
 import 'package:feetback/screens/homePage/home.dart';
 import 'package:feetback/screens/standOnMatPage/stand_on_mat.dart';
+import 'package:feetback/screens/connectPage/discovery_page.dart';
+import 'package:feetback/screens/jumpPage/jump.dart';
 
 class HomeNavigator extends StatefulWidget {
   HomeNavigator({
@@ -37,12 +38,13 @@ class _HomeNavigatorState extends State<HomeNavigator>
               case '/':
                 return HomePage();
               break;
-
-              case '/standonmatpage':
+              case '/standonmat':
                 return StandOnMatPage();
               break;
-
-              case '/jumppage':
+              case '/connect':
+                return DiscoveryPage();
+              break;
+              case '/jump':
                 return JumpPage();
               break;
             }
