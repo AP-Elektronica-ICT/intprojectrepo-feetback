@@ -18,9 +18,10 @@ class JumpGraph extends StatefulWidget {
 
 class _JumpGraphState extends State<JumpGraph> {
 
-  bool showAvg = false;
+  bool showWeek = false;
   DateTime beginDate = DateTime.now();
   double referanceHeight = 0;
+  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,49 +29,55 @@ class _JumpGraphState extends State<JumpGraph> {
       children: <Widget>[
         AspectRatio(
           aspectRatio: 1.70,
-          child: Container(
-            decoration: BoxDecoration( //can be deleted
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(0),
-                ),
-                color: Colors.transparent),
+          child: Dismissible(
+            resizeDuration: null,
+            onDismissed: (DismissDirection direction) {
+              print(direction);
+              counter += direction == DismissDirection.endToStart ? 1 : -1;
+              print(counter);
+              showWeek ? weekData() : yearData();
+            },
+            key: ValueKey(counter),
             child: Padding(
               padding: const EdgeInsets.only(right: 32, left: 18, top: 8, bottom: 18),
               child: LineChart(
-                showAvg ? avgData() : mainData(),
-              ),
+                showWeek ? weekData() : yearData(),),
             ),
           ),
         ),
         SizedBox(
-          width: 60,
+          width: 64,
           height: 34,
           child: FlatButton(
             onPressed: () {
-              setState(() {
-                showAvg = !showAvg;
-              });
+                setState(() {
+                  counter = 0;
+                  showWeek = !showWeek;
+                });
             },
-            child: Text(
-              'avg',
-              style: TextStyle(
-                fontSize: 12,
-                color: showAvg ? Theme.of(context).accentColor.withOpacity(0.5) : Theme.of(context).accentColor,
-                fontWeight: FontWeight.w100),
-            ),
+            child: Icon(Icons.swap_horiz, //timeline, today, swap_horiz
+              color: showWeek ? Theme.of(context).accentColor.withOpacity(0.5) : Theme.of(context).accentColor,
+                ),
           ),
         ),
       ],
     );
   }
 
-  LineChartData mainData() {
+  LineChartData yearData() {
+    var spots = getSpots(
+      DateTime(Jiffy().year+counter),
+      DateTime(Jiffy().year+1+counter),
+      Jiffy(Jiffy(beginDate).add(years: counter)).isLeapYear ? 366:365);
     return LineChartData(
       gridData: FlGridData( //Draws helping lines
         show: true,
         drawVerticalLine: true,
         checkToShowHorizontalLine: (double value) {
-              return value == 45 || value == 50 || value == 55 || value == 60 || value == 65;
+          return value%5 == 0; 
+        },
+        checkToShowVerticalLine: (double value){
+          return Jiffy(Jiffy(beginDate).add(days: value.toInt())).date == 1;
         },
         getDrawingHorizontalLine: (value) {
           return const FlLine(
@@ -95,16 +102,14 @@ class _JumpGraphState extends State<JumpGraph> {
               TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
           getTitles: (value) {
             List<String> months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            int offset = Jiffy(beginDate).month-1;
-            List<int> titlesToDisplay = [2 , 6, 9];
+            List<int> titlesToDisplay = [2,5,8,11]; //met of zonder 11
             
-            if (titlesToDisplay.contains(value.toInt())) {
-              if(value.toInt()+offset > 11){
-                return months[value.toInt()+offset-12].toUpperCase();
-              }
-              return months[value.toInt()+offset].toUpperCase();
+            var _date = Jiffy(beginDate).add(days: value.toInt());
+            if (Jiffy(_date).date == 1 && titlesToDisplay.contains(_date.month))
+            {
+              return months[_date.month-1].toUpperCase();
             }
-            return '';
+            return "";
           },
           margin: 8,
         ),
@@ -128,14 +133,17 @@ class _JumpGraphState extends State<JumpGraph> {
       ),
       borderData:
           FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
-      minX: 0, //gives values 0->11 = Jan ->Dec
-      maxX: 11,
-      minY: 45,
-      maxY: 65,
+      minX: 0,
+      maxX: Jiffy(beginDate).isLeapYear ? 365:364,
+      minY: referanceHeight-10,
+      maxY: referanceHeight+10,
       lineBarsData: [
         LineChartBarData(
-          spots: getLastYearSpots(),
+          spots: spots,
           isCurved: true,
+          //curveSmoothness: 0.3,
+          //preventCurveOverShooting: true,
+          //preventCurveOvershootingThreshold:100,
           colors: [Theme.of(context).accentColor],
           barWidth: 5,
           isStrokeCapRound: true,
@@ -151,19 +159,26 @@ class _JumpGraphState extends State<JumpGraph> {
     );
   }
 
-  LineChartData avgData() {
+  LineChartData weekData() {
+    var spots = getSpots(
+      Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: counter),
+      Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: 1+counter),
+      7);
+
     return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
+      gridData: FlGridData( //Draws helping lines
         show: true,
-        drawHorizontalLine: true,
-        getDrawingVerticalLine: (value) {
+        drawVerticalLine: true,
+        checkToShowHorizontalLine: (double value) {
+          return value%5 == 0; 
+        },
+        getDrawingHorizontalLine: (value) {
           return const FlLine(
             color: Colors.grey,
             strokeWidth: 1,
           );
         },
-        getDrawingHorizontalLine: (value) {
+        getDrawingVerticalLine: (value) {
           return const FlLine(
             color: Colors.grey,
             strokeWidth: 1,
@@ -174,112 +189,111 @@ class _JumpGraphState extends State<JumpGraph> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          reservedSize: 22,
+          reservedSize: 22, //smaller value increases size of graph along y-axis
           textStyle:
-              TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
+              //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
+              TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'MAR1';
-              case 5:
-                return 'JUN1';
-              case 8:
-                return 'SEP1';
+            List<String> days = ["Mn", "Te", "Wd", "Tu", "Fr", "St", "Sn"];
+            if(value < 7){
+              //print(value.toInt());
+              return days[value.toInt()];
             }
-            return '';
+            return "";
           },
           margin: 8,
         ),
         leftTitles: SideTitles(
           showTitles: true,
           textStyle: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.normal,
             fontSize: 14,
           ),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '10k';
-              case 3:
-                return '30k';
-              case 5:
-                return '50k';
-            }
+            List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
+              if (titlesToDisplay.contains(value)) {
+                return "${value.toInt()} cm";
+              }
             return '';
           },
-          reservedSize: 28,
+          reservedSize: 32,
           margin: 12,
         ),
       ),
       borderData:
           FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
       minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
+      maxX: 6,
+      minY: referanceHeight-10,
+      maxY: referanceHeight+10,
       lineBarsData: [
         LineChartBarData(
-          spots: //makeSpotList(),
-            [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ], 
+          spots: spots,
           isCurved: true,
-          colors: [
-            Theme.of(context).primaryColor
-          ],
+          //curveSmoothness: 0.3,
+          preventCurveOverShooting: true,
+          //preventCurveOvershootingThreshold:5,
+          colors: [Theme.of(context).accentColor],
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: const FlDotData(
-            show: true, //set false for cleaner result
+            show: false,
           ),
-          belowBarData: BarAreaData(show: true, colors: [
-           Theme.of(context).primaryColor
-          ]),
+          belowBarData: BarAreaData(
+            show: false,
+            colors: [Theme.of(context).accentColor],
+          ),
         ),
       ],
     );
   }
 
-  List<FlSpot> getLastYearSpots(){
+  List<FlSpot> getSpots(DateTime _begindDate, DateTime endDate, double intervalDays){
     widget.jumpItems.sort((b, a) => a.date.compareTo(b.date));
     List<FlSpot> spots = new List();
-    List<FlSpot> tmp = new List();
-    var lastJump = widget.jumpItems[0].date;
+    List<FlSpot> tmpBefore = new List();
+    List<FlSpot> tmpAfter = new List();
 
     setState(() {
-                beginDate = Jiffy(lastJump).subtract(years: 1);
+                beginDate = _begindDate;
               });
+
     Standardization standX = Standardization(
       beginDate.millisecondsSinceEpoch.toDouble(),
-      lastJump.millisecondsSinceEpoch.toDouble(),
-      11);
+      endDate.millisecondsSinceEpoch.toDouble(),
+      intervalDays-1);
 
     for (var item in widget.jumpItems) {
-      if (item.date.compareTo(beginDate)>=0) {
-        spots.add(item.getSpot(standX)); 
-        //print(item.getSpot(standX).y); 
+      if (Jiffy(item.date).isBetween(beginDate, endDate)) {
+        spots.add(item.getSpot(standX));  
       }
-      else{
-        tmp.add(item.getSpot(standX));
+      else if(Jiffy(item.date).isSameOrBefore(endDate)){
+        tmpBefore.add(item.getSpot(standX));
+      }
+      else if(Jiffy(item.date).isSameOrAfter(endDate)){
+        tmpAfter.add(item.getSpot(standX));
       }
     }
 
-    if(tmp != null){
-      tmp.sort((b, a) => a.x.compareTo(b.x));
-      spots.add(FlSpot(standX.getStandard(beginDate.millisecondsSinceEpoch.toDouble()), tmp[0].y));
-    }
+    
+    
+    if(tmpBefore.isNotEmpty){
+        tmpBefore.sort((b, a) => a.x.compareTo(b.x));
+        spots.add(FlSpot(standX.getStandard(beginDate.millisecondsSinceEpoch.toDouble()), tmpBefore[0].y));
+      }
+
+    if(tmpAfter.isNotEmpty){
+        tmpAfter.sort((b, a) => b.x.compareTo(a.x));
+        spots.add(FlSpot(standX.getStandard(endDate.millisecondsSinceEpoch.toDouble()), tmpAfter[0].y));
+      }
 
     setState(() {
-               referanceHeight = roundTo5or0(averageHeight(spots));
-              });
+                  referanceHeight = roundTo5or0(averageHeight(spots));
+                });
+                print(referanceHeight);
 
+    spots.sort((b, a) => a.x.compareTo(b.x));
     return spots;
   }
 
@@ -299,5 +313,12 @@ class _JumpGraphState extends State<JumpGraph> {
       nr=nr+(5-nr%5);
     }
     return nr;
+  }
+
+  DateTime getFirstDayOfWeek(DateTime date){
+    while(Jiffy(date).day != 1){
+      date = Jiffy(date).subtract(days: 1);
+    }
+    return date;
   }
 }
