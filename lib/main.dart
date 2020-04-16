@@ -1,4 +1,3 @@
-import 'package:feetback/screens/homePage/home.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/routes.dart';
@@ -19,7 +18,7 @@ class FeetBackApp extends StatelessWidget {
       title: 'Feetback',
       theme: getFeetbackTheme(context),
       navigatorKey: locator<NavigationService>().navigatorKey,
-      initialRoute: "/startup",
+      initialRoute: "/",
       onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
       debugShowCheckedModeBanner: true,
     );
