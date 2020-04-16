@@ -42,17 +42,19 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+//_bluetoothService.connectWithSavedDevice();
     //WidgetsBinding.instance.addPostFrameCallback((_) => _bluetoothService.connectWithSavedDevice());
     // WidgetsBinding.instance.addPostFrameCallback((_) => Navigator.pushNamed(context, "/connect"));
 
     asyncInit();
   }
 
-  Future<void> asyncInit() async{        
-      _permissionService.requestLocationPermission((){exit(0);}); 
-      _bluetoothService.connectWithSavedDevice();
-       
+  Future<void> asyncInit() async{
+    if (!await _permissionService.requestLocationPermission()) {
+      exit(0);
+    }
+
+    _bluetoothService.connectWithSavedDevice();
   }
   
   
@@ -125,12 +127,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            _bluetoothService.isConnected ? Navigator.pushNamed(context, "/standonmat",
-              arguments: Jump(DateTime.now(), 177, 4)) : 
-              Navigator.pushNamed(context, "/connect");
+             Navigator.pushNamed(context, "/standonmat",
+              arguments: Jump(DateTime.now(), 177, 4));
               
           },
-          label: _bluetoothService.isConnected ? Text("JUMP") : Text("Connect"),
+          label:Text("Jump"),
           backgroundColor: Colors.red
       ),
     );
