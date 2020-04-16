@@ -46,22 +46,22 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: FeetbackAppBar(
-          title: Text("Jump history"),
-          height: 92,
-          contentAlignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          automaticallyImplyLeading: false,
-          actions: <Widget>[
-            JumpHistoryPopup(
-              onSelected: (SortState selected) => {
-                this.setState(() {
-                  _selection = selected;
-                })
-              }
-            )
-          ],
-        ),
+      appBar: FeetbackAppBar(
+        title: Text("Jump history"),
+        height: 92,
+        contentAlignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          JumpHistoryPopup(
+            onSelected: (SortState selected) => {
+              this.setState(() {
+                _selection = selected;
+              })
+            }
+          )
+        ],
+      ),
 
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,

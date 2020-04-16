@@ -17,4 +17,20 @@ class Jump{
     FlSpot getSpot(Standardization x){
       return FlSpot(x.getStandard(this.date.millisecondsSinceEpoch.toDouble()), this.height);
     }
+
+  Jump.fromDB(this.jid, Map data) {
+    date = DateTime.parse(data['date']);
+    height = data['height'].toDouble();
+    airtime = data['airtime'].toDouble();
+    favorite = data['favorite'];
+  }
+
+  @override
+  String toString() {
+    return "jid: " + jid 
+          + '\n\t' + "date:     " + date.toString()
+          + '\n\t' + "height:   " + height.toString()
+          + '\n\t' + "airtime:  " + airtime.toString()
+          + '\n\t' + "favorite: " + favorite.toString();
+  }
 }

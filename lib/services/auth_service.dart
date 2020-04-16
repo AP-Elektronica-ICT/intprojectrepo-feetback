@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:feetback/services/database_service.dart';
+import 'package:feetback/services/service_locator.dart';
 /// Used to authenticate users.
 /// 
 /// This service is used through a singleton, which is accessible on the [AuthService.instance] property.
@@ -22,7 +25,8 @@ class AuthService {
   /// Checks if there is any signed in user.
   Future<bool> isUserSignedIn() async {
     FirebaseUser user = await _auth.currentUser();
-    return user != null;
+    currentUser = user;
+    return currentUser != null;
   }
 
   // ------------------------------------------------
@@ -47,6 +51,8 @@ class AuthService {
         // Sign in.
         AuthResult signInResult = await _auth.signInWithCredential(credential); 
         currentUser = signInResult.user;
+        final DatabaseService _databaseService = locator<DatabaseService>();
+        await _databaseService.addUserToDB(currentUser.uid, currentUser.displayName); //this code checks if the user is in the database and if not it adds the user to the database
       } catch (e) {
         currentUser = null;
 

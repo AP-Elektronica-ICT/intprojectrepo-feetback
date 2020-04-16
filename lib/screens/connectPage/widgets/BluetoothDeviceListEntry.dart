@@ -11,9 +11,9 @@ class BluetoothDeviceListEntry extends Center {
     bool enabled = true
   }) : super(
     child: Container(
-      width: 311,
+      //width: 311,
       height: 72,
-      margin: const EdgeInsets.only(bottom: 8.0,top: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0,top: 8.0,  left: 24, right: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(16)),
         color: background,
