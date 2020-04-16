@@ -18,27 +18,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
-  final PermissionService _permissionService = locator<PermissionService>();
+  
   final BluetoothService _bluetoothService = locator<BluetoothService>();
 
   @override
   void initState() {
     super.initState();
-    asyncInit();
+    
+
+    if(!_bluetoothService.isConnected){
+     WidgetsBinding.instance.addPostFrameCallback((_) =>  Navigator.pushNamed(context, "/notconnected", arguments: Jump(DateTime.now(), 177, 4)));
+    }
+
+    //asyncInit();
   }
 
   Future<void> asyncInit() async{
-    if (!await _permissionService.requestLocationPermission()) {
-      exit(0);
-    }
-    _bluetoothService.connectWithSavedDevice();
+    
+    
   }
   
   
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+  return new WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
       appBar: FeetbackAppBar(
         title: const Text("Home"),
         height: 92,
@@ -110,6 +115,6 @@ class _HomePageState extends State<HomePage> {
           label:Text("Jump"),
           backgroundColor: Colors.red
       ),
-    );
+    ));
   }
 }

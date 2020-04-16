@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/service_locator.dart';

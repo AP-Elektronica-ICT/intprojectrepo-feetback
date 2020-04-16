@@ -1,3 +1,4 @@
+import 'package:feetback/screens/notConnectedPage/notConnected.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/navigation_service.dart';
@@ -46,6 +47,9 @@ class _HomeNavigatorState extends State<HomeNavigator>
               break;
               case '/jump':
                 return JumpPage();
+              break;
+              case '/notconnected':
+              return NotConnectedPage();
               break;
             }
 
