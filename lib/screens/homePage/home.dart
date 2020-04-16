@@ -24,7 +24,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    asyncInit();
+    
+
+    if(!_bluetoothService.isConnected){
+     WidgetsBinding.instance.addPostFrameCallback((_) =>  Navigator.pushNamed(context, "/notconnected", arguments: Jump(DateTime.now(), 177, 4)));
+    }
+
+    //asyncInit();
   }
 
   Future<void> asyncInit() async{
@@ -103,7 +109,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-             Navigator.pushNamed(context, "/standonmat",
+             Navigator.pushNamed(context, "/notconnected",
               arguments: Jump(DateTime.now(), 177, 4));
               
           },

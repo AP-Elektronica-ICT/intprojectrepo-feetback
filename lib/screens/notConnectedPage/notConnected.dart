@@ -38,8 +38,12 @@ class _NotConnectedState extends State<NotConnectedPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DiscoveryPage()));
+         // Navigator.push(context,
+              //MaterialPageRoute(builder: (context) => DiscoveryPage()));
+              //Navigator.pushNamed(context, "/jumppage");
+              
+              Navigator.pushNamed(context, "/connect");
+              
         },
         label: const Text('Connect to a jump mat'),
         backgroundColor: Theme.of(context).primaryColor,
