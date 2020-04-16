@@ -43,8 +43,9 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+  return new WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
       appBar: FeetbackAppBar(
         title: const Text("Home"),
         height: 92,
@@ -116,6 +117,6 @@ class _HomePageState extends State<HomePage> {
           label:Text("Jump"),
           backgroundColor: Colors.red
       ),
-    );
+    ));
   }
 }
