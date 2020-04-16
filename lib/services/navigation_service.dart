@@ -26,7 +26,8 @@ class NavigationService {
   bool goBack() {
     print("Try popping: $_currentNavigator");
     if (_currentNavigator.currentState.canPop()) {
-      return _currentNavigator.currentState.pop();
+      _currentNavigator.currentState.pop();
+      return true;
     }
 
     return false;
