@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     if (!await _permissionService.requestLocationPermission()) {
       exit(0);
     }
-    _bluetoothService.connectWithSavedDevice();
+    
   }
   
   

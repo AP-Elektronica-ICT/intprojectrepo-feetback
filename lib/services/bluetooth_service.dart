@@ -188,12 +188,13 @@ class BluetoothService {
   }
 
   
-  void connectWithSavedDevice() async{
+  void connectWithSavedDevice(Function onConnected) async{
     String mac = await getSavedDeviceMAC(); 
     print('Try connecting with saved device: $mac');
     if(isConnected == false) if (await connect(mac)) {
       print('Connected to saved device: $mac');
       createBluetoothDevice();
+      onConnected();
     } else {
       print('Not connected to saved deice: $mac');
     }
