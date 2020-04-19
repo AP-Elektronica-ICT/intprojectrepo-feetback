@@ -16,8 +16,8 @@ class SignInPage extends StatelessWidget {
     await _authService.signInWithGoogle();
     
     if (await _authService.isUserSignedIn()) {
-      // Navigate to home.
-      _navService.clearStackTo('/');
+      // Navigate to root.
+      _navService.clearStackTo('/root');
     }
   } 
 

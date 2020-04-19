@@ -13,21 +13,27 @@ class DatabaseService {
       try {
         final DatabaseReference ourDB = FirebaseDatabase.instance.reference().child("users").child(_authService.currentUser.uid).child("jumps");
         DataSnapshot snap = await ourDB.reference().orderByChild("date").once();
-        Map<dynamic, dynamic> data = snap.value;
-        List<Jump> allJumps = new List<Jump>();
-        data.forEach((key, value) {
-        allJumps.add(Jump.fromDB(key, value));
-        });
-        allJumps.forEach((element) {
-          print (element.toString());
-        });
-        return allJumps;
+
+        if (snap != null && snap.value != null) {
+          Map<dynamic, dynamic> data = snap.value;
+
+          List<Jump> allJumps = new List<Jump>();
+          data.forEach((key, value) {
+            allJumps.add(Jump.fromDB(key, value));
+          });
+          
+          return allJumps;
+        } else {
+          // Return empty list
+          return List<Jump>();
+        }
+        
       } on Exception catch (e) {
         print(e);
       }
     }
-
-    return null;
+    // Return empty list
+    return List<Jump>();
   }
 
   Future<Jump> getHighestJump() async {
@@ -35,11 +41,16 @@ class DatabaseService {
       try {
         final DatabaseReference ourDB = FirebaseDatabase.instance.reference().child("users").child(_authService.currentUser.uid).child("jumps");
         DataSnapshot snap = await ourDB.orderByChild("height").limitToLast(1).once();
-        Map<dynamic, dynamic> data = snap.value;
-        String highestJumpId = data.keys.first;
-        Jump highestJump = Jump.fromDB(highestJumpId, data[highestJumpId]);
-        print (highestJump.toString());
-        return highestJump;
+
+        if (snap != null && snap.value != null) {
+          Map<dynamic, dynamic> data = snap.value;
+          String highestJumpId = data.keys.first;
+          Jump highestJump = Jump.fromDB(highestJumpId, data[highestJumpId]);
+          return highestJump;
+        } else {
+          return null;
+        }
+
       } on Exception catch (e) {
         print(e);
       }
