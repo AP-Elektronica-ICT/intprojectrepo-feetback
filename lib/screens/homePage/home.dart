@@ -39,59 +39,61 @@ class _HomePageState extends State<HomePage> {
         contentAlignment: Alignment.centerLeft,
         padding: EdgeInsets.only(left: 16, right: 16),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(32),
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Center(
-                  child: Image(
-                      image: AssetImage("lib/images/jump-illustration.png"))),
-              Row(
-                children: <Widget>[
-                  Image(
-                      image:
-                          AssetImage("lib/images/Icon-material-history.png")),
-                  SizedBox(width: 16),
-                  FutureBuilder<Jump>(
-                    future: _dbs.getHighestJump(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<Jump> snapshot) {
-                      String highestJump;
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(32),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                    child: Image(
+                        image: AssetImage("lib/images/jump-illustration.png"))),
+                Row(
+                  children: <Widget>[
+                    Image(
+                        image:
+                            AssetImage("lib/images/Icon-material-history.png")),
+                    SizedBox(width: 16),
+                    FutureBuilder<Jump>(
+                      future: _dbs.getHighestJump(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<Jump> snapshot) {
+                        String highestJump;
 
-                      if (snapshot.hasData) {
-                        highestJump = snapshot.data.height.toString();
-                      } else {
-                        highestJump = "--";
-                      }
+                        if (snapshot.hasData) {
+                          highestJump = snapshot.data.height.toString();
+                        } else {
+                          highestJump = "--";
+                        }
 
-                      return Text(highestJump,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              .copyWith(fontWeight: FontWeight.bold));
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 32),
-              Text('Instructions',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(fontWeight: FontWeight.bold)),
-              SizedBox(height: 16),
-              Text('1. Stand on the mat, align your feet to the pads',
-                  style: Theme.of(context).textTheme.subtitle1),
-              SizedBox(height: 32),
-              Text(
-                  '2. When you press JUMP we will start counting down form 3, jump on GO.',
-                  style: Theme.of(context).textTheme.subtitle1),
-              SizedBox(height: 32),
-              Text('3. Try to land with both feet on the pads.',
-                  style: Theme.of(context).textTheme.subtitle1),
-            ],
+                        return Text(highestJump,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                .copyWith(fontWeight: FontWeight.bold));
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 32),
+                Text('Instructions',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(fontWeight: FontWeight.bold)),
+                SizedBox(height: 16),
+                Text('1. Stand on the mat, align your feet to the pads',
+                    style: Theme.of(context).textTheme.subtitle1),
+                SizedBox(height: 32),
+                Text(
+                    '2. When you press JUMP we will start counting down form 3, jump on GO.',
+                    style: Theme.of(context).textTheme.subtitle1),
+                SizedBox(height: 32),
+                Text('3. Try to land with both feet on the pads.',
+                    style: Theme.of(context).textTheme.subtitle1),
+              ],
+            ),
           ),
         ),
       ),
