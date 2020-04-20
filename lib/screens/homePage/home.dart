@@ -28,17 +28,8 @@ class _HomePageState extends State<HomePage> {
 
     if(!_bluetoothService.isConnected){
      WidgetsBinding.instance.addPostFrameCallback((_) =>  Navigator.pushNamed(context, "/notconnected"));
-     //Navigator.pushNamed(context, '/notconnected');
     }
-
-    //asyncInit();
-  }
-
-  Future<void> asyncInit() async{
-    
-    
-  }
-  
+  }  
   
   @override
   Widget build(BuildContext context) {
