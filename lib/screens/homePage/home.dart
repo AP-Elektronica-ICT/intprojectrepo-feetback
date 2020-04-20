@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -9,7 +7,6 @@ import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:feetback/services/database_service.dart';
 import 'package:feetback/services/service_locator.dart';
 import 'package:feetback/services/bluetooth_service.dart';
-import 'package:feetback/services/permission_service.dart';
 
 class HomePage extends StatefulWidget {
   @override
