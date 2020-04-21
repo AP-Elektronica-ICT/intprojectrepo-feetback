@@ -55,6 +55,10 @@ class HomePage extends StatelessWidget {
               child: Text("Settings"),
               onPressed: () => Navigator.pushNamed(context, "/settings"),
             ),
+            RaisedButton(
+              child: Text("Test"),
+              onPressed: () => Navigator.pushNamed(context, "/test"),
+            )
           ],
         ),
       )

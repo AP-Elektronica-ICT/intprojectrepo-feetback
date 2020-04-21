@@ -1,3 +1,4 @@
+import 'package:feetback/screens/animationTest/widget1.dart';
 import 'package:feetback/screens/settingsPage/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +48,9 @@ Route<dynamic> generateRoute(RouteSettings settings){
     break;
     case '/settings' :
       return MaterialPageRoute(builder: (_) => SettingsPage());
+    break;
+    case '/test' :
+      return MaterialPageRoute(builder: (_) => Widget1());
     break;
 
     default :
