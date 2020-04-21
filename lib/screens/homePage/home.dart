@@ -17,13 +17,13 @@ class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
 
   final BluetoothService _bluetoothService = locator<BluetoothService>();
-  static bool _isVisible = true;
+  static bool _isConnect = true;
   @override
   void initState() {
     super.initState();
 
     if (!_bluetoothService.isConnected) {
-      _isVisible = false;
+      _isConnect = false;
       WidgetsBinding.instance.addPostFrameCallback(
           (_) => Navigator.pushNamed(context, "/notconnected"));
     }
@@ -99,22 +99,22 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        floatingActionButton: _isVisible ? button1() : button2(),
+        floatingActionButton: _isConnect ? jumpButton() : connectButton(),
       ),
     );
   }
 
-  FloatingActionButton button1() {
+  FloatingActionButton jumpButton() {
     return FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pushNamed(context, "/standonmat",
-              arguments: Jump(DateTime.now(), 177, 4));
+          Navigator.pushNamed(context, "/standonmat");
+              
         },
         label: Text("Jump"),
         backgroundColor: Colors.red);
   }
 
-  FloatingActionButton button2() {
+  FloatingActionButton connectButton() {
     return FloatingActionButton.extended(
       onPressed: () {
         Navigator.pushNamed(context, "/connect");
