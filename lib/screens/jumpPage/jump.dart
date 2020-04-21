@@ -81,7 +81,7 @@ class _JumpState extends State<JumpPage> {
       setState(() {
         resultaat = resultaat.substring(0,resultaat.length-1);
         endMessage = true;
-        _databaseService.addJump(double.parse(resultaat.substring(0,resultaat.length-1)), 0, false);
+        _databaseService.addJump(double.parse(resultaat.substring(0,resultaat.length)), 0, false);
         _bluetoothService.cancelConnectionStreamSubsciption();
       });      
       print("end message");
