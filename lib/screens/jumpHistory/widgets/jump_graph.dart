@@ -32,9 +32,9 @@ class _JumpGraphState extends State<JumpGraph> {
           child: Dismissible(
             resizeDuration: null,
             onDismissed: (DismissDirection direction) {
-              print(direction);
+              //print(direction);
               counter += direction == DismissDirection.endToStart ? 1 : -1;
-              print(counter);
+              //print(counter);
               showWeek ? weekData() : yearData();
             },
             key: ValueKey(counter),
@@ -97,6 +97,7 @@ class _JumpGraphState extends State<JumpGraph> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22, //smaller value increases size of graph along y-axis
+                            //should be set smaller
           textStyle:
               //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
               TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
@@ -141,7 +142,7 @@ class _JumpGraphState extends State<JumpGraph> {
         LineChartBarData(
           spots: spots,
           isCurved: true,
-          //curveSmoothness: 0.3,
+          curveSmoothness: 0.2,
           //preventCurveOverShooting: true,
           //preventCurveOvershootingThreshold:100,
           colors: [Theme.of(context).accentColor],
@@ -149,10 +150,7 @@ class _JumpGraphState extends State<JumpGraph> {
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: false,
-            colors: [Theme.of(context).accentColor],
+            dotColor: Colors.red,
           ),
         ),
       ],
@@ -231,8 +229,8 @@ class _JumpGraphState extends State<JumpGraph> {
         LineChartBarData(
           spots: spots,
           isCurved: true,
-          //curveSmoothness: 0.3,
-          preventCurveOverShooting: true,
+          curveSmoothness: 0.2,
+         //preventCurveOverShooting: true,
           //preventCurveOvershootingThreshold:5,
           colors: [Theme.of(context).accentColor],
           barWidth: 5,
@@ -276,24 +274,49 @@ class _JumpGraphState extends State<JumpGraph> {
       }
     }
 
-    
-    
-    if(tmpBefore.isNotEmpty){
-        tmpBefore.sort((b, a) => a.x.compareTo(b.x));
-        spots.add(FlSpot(standX.getStandard(beginDate.millisecondsSinceEpoch.toDouble()), tmpBefore[0].y));
-      }
+    if(spots.isNotEmpty){
+      spots.sort((a, b) => a.x.compareTo(b.x));
+      if(tmpBefore.isNotEmpty){
+          tmpBefore.sort((b, a) => a.x.compareTo(b.x));
+          var x = standX.getStandard(beginDate.millisecondsSinceEpoch.toDouble());
+          spots.add(
+            FlSpot(
+              x, 
+              getRelativeY(tmpBefore[0].y, spots[0].y, tmpBefore[0].x, spots[0].x, x)
+              )
+            );
+            /*print("==============");
+            print("y1: ${tmpBefore[0].y}");
+            print("y2: ${spots[0].y}");
+            print("x1: ${tmpBefore[0].x}");
+            print("x2: ${spots[0].x}");
+            print("x: $x");
+            print("result:");
+            print(getRelativeY(tmpBefore[0].y, spots[0].y, tmpBefore[0].x, spots[0].x, x));
+            print("----------------");*/
+        }
 
-    if(tmpAfter.isNotEmpty){
-        tmpAfter.sort((b, a) => b.x.compareTo(a.x));
-        spots.add(FlSpot(standX.getStandard(endDate.millisecondsSinceEpoch.toDouble()), tmpAfter[0].y));
-      }
+      if(tmpAfter.isNotEmpty){
+          tmpAfter.sort((b, a) => b.x.compareTo(a.x));
+          var x = standX.getStandard(endDate.millisecondsSinceEpoch.toDouble());
+          spots.add(
+            FlSpot(
+              x,
+              getRelativeY(spots[0].y, tmpAfter[0].y, spots[0].x, tmpAfter[0].x, x) //maybe add check for leapyear
+              )
+            );
+        }
+    }
 
     setState(() {
                   referanceHeight = roundTo5or0(averageHeight(spots));
                 });
-                print(referanceHeight);
-
-    spots.sort((b, a) => a.x.compareTo(b.x));
+                //print(referanceHeight);
+     spots.sort((b, a) => a.x.compareTo(b.x));
+     /*print("punt 1: ${spots[0].y}");
+     print("punt 2: ${spots[1].y}");
+     print("=================");*/
+    
     return spots;
   }
 
@@ -320,5 +343,14 @@ class _JumpGraphState extends State<JumpGraph> {
       date = Jiffy(date).subtract(days: 1);
     }
     return date;
+  }
+
+  double getRelativeY(double y1, double y2, double x1, double x2, double x){
+    double deltaY = y2-y1;
+    double deltaX = x2-x1;
+    double division = deltaY/deltaX;
+    double subtractionX = x-x1;
+    double result = (division*subtractionX)+y1;
+    return result;
   }
 }
