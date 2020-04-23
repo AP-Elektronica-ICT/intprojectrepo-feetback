@@ -79,6 +79,23 @@ class DatabaseService {
     }
   }
 
+  Future<void> delJump(String jumpID) async {
+    if (await _authService.isUserSignedIn()) {
+      final DatabaseReference ourDB = FirebaseDatabase.instance
+        .reference()
+        .child("users")
+        .child(_authService.currentUser.uid)
+        .child("jumps");
+
+        try {
+          await ourDB.child(jumpID).remove();
+          print (jumpID.toString() + " is deleted");
+        } on Exception catch (e) {
+          print (e);
+        }
+    }
+  }
+
   void toggleFavorite(String jumpId) async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance

@@ -8,7 +8,7 @@ import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:feetback/services/service_locator.dart';
 
 class HomePage extends StatelessWidget {
-  Jump temp;
+  var temp;
   DatabaseService _service = locator<DatabaseService>();
   @override
   Widget build(BuildContext context) {
@@ -63,11 +63,18 @@ class HomePage extends StatelessWidget {
               RaisedButton(
                 child: Text("Print jump id"),
                 onPressed: () =>{
-                  await temp = _service.getHighestJump(),
-                  // print (temp.toString()),
-                  print (temp.jid.toString())
+                  temp = _service.getHighestJump(),
+                  print (temp as Jump),
+                  // print (temp.jid.toString())
                 }
               ),
+              RaisedButton(
+                child: Text("Remove jump"),
+                onPressed: ()=> {
+                  _service.delJump("-M5b1ouiJ5dxycpaBAHD")
+                },
+              ),
+
             ],
           ),
         ));
