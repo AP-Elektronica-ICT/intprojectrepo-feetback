@@ -2,7 +2,6 @@ import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:feetback/widgets/feetback_app_bar.dart';
-import 'package:feetback/screens/connectPage/discovery_page.dart';
 
 class NotConnectedPage extends StatefulWidget {
   @override

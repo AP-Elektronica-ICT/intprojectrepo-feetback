@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'package:feetback/screens/homePage/home.dart';
-
 import 'package:feetback/services/bluetooth_service.dart';
 import 'package:feetback/services/service_locator.dart';
 
@@ -46,7 +44,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
         try{
           _startDiscovery();
         }
-        on Exception catch (exception){}
+        on Exception catch (_){}
         catch (error){
 
         }
