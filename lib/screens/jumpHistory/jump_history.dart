@@ -20,16 +20,16 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   SortState _selection = SortState.date;
 
   _JumpHistoryPageState() {
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 54.69, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.200, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 49.32, 3000));
-    jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 1, 1), 50.3, 3000));
-    jumps.add(Jump(DateTime.utc(2017, 2, 3), 54.71, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.100, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 2, 2), 49.32, 3000));
-    jumps.add(Jump(DateTime.utc(2020, 4, 14), 40.05, 3000));
+    // jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000));
+    // jumps.add(Jump(DateTime.utc(2019, 9, 14), 54.69, 3000));
+    // jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.200, 3000));
+    // jumps.add(Jump(DateTime.utc(2019, 9, 14), 49.32, 3000));
+    // jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000));
+    // jumps.add(Jump(DateTime.utc(2019, 1, 1), 50.3, 3000));
+    // jumps.add(Jump(DateTime.utc(2017, 2, 3), 54.71, 3000));
+    // jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.100, 3000));
+    // jumps.add(Jump(DateTime.utc(2019, 2, 2), 49.32, 3000));
+    // jumps.add(Jump(DateTime.utc(2020, 4, 14), 40.05, 3000));
   }
 
   @override

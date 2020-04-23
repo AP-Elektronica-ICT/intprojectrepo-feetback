@@ -5,11 +5,12 @@ class Jump{
   double airtime;
   bool favorite;
 
-  Jump(DateTime date, double height, double airtime){
+  Jump(DateTime date, double height, double airtime, String jid){
       this.date = date;
       this.height = height;
       this.airtime = airtime;
       this.favorite = false;
+      this.jid = jid;
   }
 
   Jump.fromDB(this.jid, Map data) {
@@ -17,6 +18,7 @@ class Jump{
     height = data['height'].toDouble();
     airtime = data['airtime'].toDouble();
     favorite = data['favorite'];
+    jid = data['jid'].toString();
   }
 
   @override
