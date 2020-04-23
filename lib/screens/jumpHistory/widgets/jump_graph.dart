@@ -40,8 +40,7 @@ class _JumpGraphState extends State<JumpGraph> {
             key: ValueKey(counter),
             child: Padding(
               padding: const EdgeInsets.only(right: 32, left: 18, top: 8, bottom: 18),
-              child: LineChart(
-                showWeek ? weekData() : yearData(),),
+              child: showWeek ? weekData() : yearData(),
             ),
           ),
         ),
@@ -64,187 +63,217 @@ class _JumpGraphState extends State<JumpGraph> {
     );
   }
 
-  LineChartData yearData() {
+  Widget yearData() {
     var spots = getSpots(
       DateTime(Jiffy().year+counter),
       DateTime(Jiffy().year+1+counter),
-      Jiffy(Jiffy(beginDate).add(years: counter)).isLeapYear ? 366:365);
-    return LineChartData(
-      gridData: FlGridData( //Draws helping lines
-        show: true,
-        drawVerticalLine: true,
-        checkToShowHorizontalLine: (double value) {
-          return value%5 == 0; 
-        },
-        checkToShowVerticalLine: (double value){
-          return Jiffy(Jiffy(beginDate).add(days: value.toInt())).date == 1;
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Colors.grey,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.grey,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22, //smaller value increases size of graph along y-axis
-                            //should be set smaller
-          textStyle:
-              //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
-              TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
-          getTitles: (value) {
-            List<String> months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            List<int> titlesToDisplay = [2,5,8,11]; //met of zonder 11
-            
-            var _date = Jiffy(beginDate).add(days: value.toInt());
-            if (Jiffy(_date).date == 1 && titlesToDisplay.contains(_date.month))
-            {
-              return months[_date.month-1].toUpperCase();
-            }
-            return "";
-          },
-          margin: 8,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          textStyle: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.normal,
-            fontSize: 14,
-          ),
-          getTitles: (value) {
-            List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
-            if (titlesToDisplay.contains(value)) {
-              return "${value.toInt()} cm";
-            }
-            return '';
-          },
-          reservedSize: 32,
-          margin: 12,
-        ),
-      ),
-      borderData:
-          FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
-      minX: 0,
-      maxX: Jiffy(beginDate).isLeapYear ? 365:364,
-      minY: referanceHeight-10,
-      maxY: referanceHeight+10,
-      lineBarsData: [
-        LineChartBarData(
-          spots: spots,
-          isCurved: true,
-          curveSmoothness: 0.2,
-          //preventCurveOverShooting: true,
-          //preventCurveOvershootingThreshold:100,
-          colors: [Theme.of(context).accentColor],
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-            dotColor: Colors.red,
-          ),
-        ),
-      ],
+      Jiffy(Jiffy(beginDate).add(years: counter)).isLeapYear ? 366:365
     );
+
+    try {
+      return LineChart(
+        LineChartData(
+        gridData: FlGridData( //Draws helping lines
+          show: true,
+          drawVerticalLine: true,
+          checkToShowHorizontalLine: (double value) {
+            return value%5 == 0; 
+          },
+          checkToShowVerticalLine: (double value){
+            return Jiffy(Jiffy(beginDate).add(days: value.toInt())).date == 1;
+          },
+          getDrawingHorizontalLine: (value) {
+            return const FlLine(
+              color: Colors.grey,
+              strokeWidth: 1,
+            );
+          },
+          getDrawingVerticalLine: (value) {
+            return const FlLine(
+              color: Colors.grey,
+              strokeWidth: 1,
+            );
+          },
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 22, //smaller value increases size of graph along y-axis
+                              //should be set smaller
+            textStyle:
+                //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
+                TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
+            getTitles: (value) {
+              List<String> months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+              List<int> titlesToDisplay = [2,5,8,11]; //met of zonder 11
+              
+              var _date = Jiffy(beginDate).add(days: value.toInt());
+              if (Jiffy(_date).date == 1 && titlesToDisplay.contains(_date.month))
+              {
+                return months[_date.month-1].toUpperCase();
+              }
+              return "";
+            },
+            margin: 8,
+          ),
+          leftTitles: SideTitles(
+            showTitles: true,
+            textStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+            ),
+            getTitles: (value) {
+              List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
+              if (titlesToDisplay.contains(value)) {
+                return "${value.toInt()} cm";
+              }
+              return '';
+            },
+            reservedSize: 32,
+            margin: 12,
+          ),
+        ),
+        borderData:
+            FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
+        minX: 0,
+        maxX: Jiffy(beginDate).isLeapYear ? 365:364,
+        minY: referanceHeight-10,
+        maxY: referanceHeight+10,
+        lineBarsData: [
+          LineChartBarData(
+            spots: spots,
+            isCurved: true,
+            curveSmoothness: 0.2,
+            //preventCurveOverShooting: true,
+            //preventCurveOvershootingThreshold:100,
+            colors: [Theme.of(context).accentColor],
+            barWidth: 5,
+            isStrokeCapRound: true,
+            dotData: const FlDotData(
+              show: false,
+              dotColor: Colors.red,
+            ),
+          ),
+        ],
+      )
+    );
+    } catch (_) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 64.0),
+        child: Text(
+          "No data to show. Try swiping left or right",
+          textAlign: TextAlign.center,
+        )
+      );
+    }
+
+    
   }
 
-  LineChartData weekData() {
+  Widget weekData() {
     var spots = getSpots(
       Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: counter),
       Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: 1+counter),
       7);
 
-    return LineChartData(
-      gridData: FlGridData( //Draws helping lines
-        show: true,
-        drawVerticalLine: true,
-        checkToShowHorizontalLine: (double value) {
-          return value%5 == 0; 
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Colors.grey,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.grey,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22, //smaller value increases size of graph along y-axis
-          textStyle:
-              //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
-              TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
-          getTitles: (value) {
-            List<String> days = ["Mn", "Te", "Wd", "Tu", "Fr", "St", "Sn"];
-            if(value < 7){
-              //print(value.toInt());
-              return days[value.toInt()];
-            }
-            return "";
+    try {
+      return LineChart(
+      LineChartData(
+        gridData: FlGridData( //Draws helping lines
+          show: true,
+          drawVerticalLine: true,
+          checkToShowHorizontalLine: (double value) {
+            return value%5 == 0; 
           },
-          margin: 8,
+          getDrawingHorizontalLine: (value) {
+            return const FlLine(
+              color: Colors.grey,
+              strokeWidth: 1,
+            );
+          },
+          getDrawingVerticalLine: (value) {
+            return const FlLine(
+              color: Colors.grey,
+              strokeWidth: 1,
+            );
+          },
         ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          textStyle: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.normal,
-            fontSize: 14,
-          ),
-          getTitles: (value) {
-            List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
-              if (titlesToDisplay.contains(value)) {
-                return "${value.toInt()} cm";
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 22, //smaller value increases size of graph along y-axis
+            textStyle:
+                //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
+                TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
+            getTitles: (value) {
+              List<String> days = ["Mn", "Te", "Wd", "Tu", "Fr", "St", "Sn"];
+              if(value < 7){
+                //print(value.toInt());
+                return days[value.toInt()];
               }
-            return '';
-          },
-          reservedSize: 32,
-          margin: 12,
-        ),
-      ),
-      borderData:
-          FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
-      minX: 0,
-      maxX: 6,
-      minY: referanceHeight-10,
-      maxY: referanceHeight+10,
-      lineBarsData: [
-        LineChartBarData(
-          spots: spots,
-          isCurved: true,
-          curveSmoothness: 0.2,
-         //preventCurveOverShooting: true,
-          //preventCurveOvershootingThreshold:5,
-          colors: [Theme.of(context).accentColor],
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
+              return "";
+            },
+            margin: 8,
           ),
-          belowBarData: BarAreaData(
-            show: false,
+          leftTitles: SideTitles(
+            showTitles: true,
+            textStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+            ),
+            getTitles: (value) {
+              List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
+                if (titlesToDisplay.contains(value)) {
+                  return "${value.toInt()} cm";
+                }
+              return '';
+            },
+            reservedSize: 32,
+            margin: 12,
+          ),
+        ),
+        borderData:
+            FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
+        minX: 0,
+        maxX: 6,
+        minY: referanceHeight-10,
+        maxY: referanceHeight+10,
+        lineBarsData: [
+          LineChartBarData(
+            spots: spots,
+            isCurved: true,
+            curveSmoothness: 0.2,
+          //preventCurveOverShooting: true,
+            //preventCurveOvershootingThreshold:5,
             colors: [Theme.of(context).accentColor],
+            barWidth: 5,
+            isStrokeCapRound: true,
+            dotData: const FlDotData(
+              show: false,
+            ),
+            belowBarData: BarAreaData(
+              show: false,
+              colors: [Theme.of(context).accentColor],
+            ),
           ),
-        ),
-      ],
+        ],
+      )
     );
+    } catch (_) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 64.0),
+        child: Text(
+          "No data to show. Try swiping left or right",
+          textAlign: TextAlign.center,
+        )
+      );
+    }
+
+    
   }
 
   List<FlSpot> getSpots(DateTime _begindDate, DateTime endDate, double intervalDays){
