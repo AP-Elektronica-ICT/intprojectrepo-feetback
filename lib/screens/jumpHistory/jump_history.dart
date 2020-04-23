@@ -22,10 +22,6 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   final DatabaseService databaseService = new DatabaseService();
   SortState _selection = SortState.date;
 
-  _JumpHistoryPageState() {
-    jumps = databaseService.getAllJumps();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,22 +42,38 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
         ],
       ),
 
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            _graph(),
-            Expanded(child: FeetbackList(
-              currentSortState: _selection,
-              jumpItems: jumps, 
-              onFavorite: (Jump jump) => setState(() => jump.favorite = !jump.favorite)
-              ),),
-          ],
-        )
+      body: FutureBuilder<List<Jump>>(
+        future: databaseService.getAllJumps(),
+        builder: (BuildContext context, AsyncSnapshot<List<Jump>> snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                _graph(snapshot.data),
+                Expanded(
+                  child: FeetbackList(
+                    currentSortState: _selection,
+                    jumpItems: snapshot.data, 
+                    onFavorite: (Jump jump) {
+                      databaseService.toggleFavorite(jump.jid);
+                      setState(() => jump.favorite = !jump.favorite);
+                    }
+                  ),
+                ),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text("Error while getting your data.");
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 
-  Widget _graph() {
+  Widget _graph(List<Jump> jumps) {
     return JumpGraph(jumpItems: jumps,);
     //return Image.asset('assets/chart.png');
   }
