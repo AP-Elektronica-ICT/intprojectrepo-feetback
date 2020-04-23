@@ -1,3 +1,6 @@
+import 'package:feetback/models/standardization.dart';
+import 'package:fl_chart/fl_chart.dart';
+
 class Jump{
   String jid;
   DateTime date;
@@ -11,6 +14,10 @@ class Jump{
       this.airtime = airtime;
       this.favorite = false;
       this.jid = jid;
+  }    
+
+  FlSpot getSpot(Standardization x){
+    return FlSpot(x.getStandard(this.date.millisecondsSinceEpoch.toDouble()), this.height);
   }
 
   Jump.fromDB(this.jid, Map data) {
