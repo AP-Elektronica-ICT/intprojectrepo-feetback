@@ -22,6 +22,7 @@ class _JumpGraphState extends State<JumpGraph> {
   DateTime beginDate = DateTime.now();
   double referanceHeight = 0;
   int counter = 0;
+  String dateLabel = "year 2020";
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,14 @@ class _JumpGraphState extends State<JumpGraph> {
             child: Icon(Icons.swap_horiz, //timeline, today, swap_horiz
               color: showWeek ? Theme.of(context).accentColor.withOpacity(0.5) : Theme.of(context).accentColor,
                 ),
+          ),
+        ),
+        SizedBox(
+          width: 1000,
+          height: 64,
+          child: Text(
+            dateLabel,
+            textAlign: TextAlign.end,
           ),
         ),
       ],
@@ -247,7 +256,7 @@ class _JumpGraphState extends State<JumpGraph> {
             spots: spots,
             isCurved: true,
             curveSmoothness: 0.2,
-          //preventCurveOverShooting: true,
+            //preventCurveOverShooting: true,
             //preventCurveOvershootingThreshold:5,
             colors: [Theme.of(context).accentColor],
             barWidth: 5,
