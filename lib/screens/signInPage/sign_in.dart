@@ -7,10 +7,13 @@ import 'package:flutter/services.dart';
 
 import '../signInPage/widgets/google_sign_in_button.dart';
 
+import'package:feetback/services/database_service.dart';
+
 
 class SignInPage extends StatelessWidget {
   final AuthService _authService = locator<AuthService>();
   final NavigationService _navService = locator<NavigationService>();
+  DatabaseService _service = locator<DatabaseService>();
 
   void _handleSignIn() async {
     await _authService.signInWithGoogle();
@@ -43,6 +46,10 @@ class SignInPage extends StatelessWidget {
                 RaisedButton(
                   child: Text("Sign out"),
                   onPressed: _authService.signOut,
+                ),
+                RaisedButton(
+                child: Text("Add jump"),
+                onPressed: () => {_service.addJump(20.0, 1.67, false)},
                 ),
               ],
             ),
