@@ -8,6 +8,7 @@ class JumpDetailPage extends StatelessWidget {
 
   JumpDetailPage({Key key, @required this.jump}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,82 +1,111 @@
-import 'package:feetback/services/database_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
-import 'package:feetback/screens/jumpPage/jump.dart';
-import 'package:feetback/services/bluetooth_service.dart';
-import 'package:feetback/widgets/feetback_app_bar.dart';
-import 'package:feetback/services/service_locator.dart';
 
-class HomePage extends StatelessWidget {
-  var temp;
-  DatabaseService _service = locator<DatabaseService>();
+import 'package:feetback/widgets/feetback_app_bar.dart';
+
+import 'package:feetback/services/database_service.dart';
+import 'package:feetback/services/service_locator.dart';
+import 'package:feetback/services/bluetooth_service.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  DatabaseService _dbs = locator<DatabaseService>();
+  
+  final BluetoothService _bluetoothService = locator<BluetoothService>();
+
+  @override
+  void initState() {
+    super.initState();
+    
+
+    if(!_bluetoothService.isConnected){
+     WidgetsBinding.instance.addPostFrameCallback((_) =>  Navigator.pushNamed(context, "/notconnected"));
+    }
+  }  
+  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: FeetbackAppBar(
-          title: Text("Home"),
-          height: 92,
-          contentAlignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 16, right: 16),
-        ),
-        body: Container(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Text("Logged in as: "),
-              // RaisedButton(
-              //   child: Text("Jump Details"),
+  return new WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+      appBar: FeetbackAppBar(
+        title: const Text("Home"),
+        height: 92,
+        contentAlignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 16, right: 16),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(32),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                    child: Image(
+                        image: AssetImage("lib/images/jump-illustration.png"))),
+                Row(
+                  children: <Widget>[
+                    Image(
+                        image:
+                            AssetImage("lib/images/Icon-material-history.png")),
+                    SizedBox(width: 16),
+                    FutureBuilder<Jump>(
+                      future: _dbs.getHighestJump(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<Jump> snapshot) {
+                        String highestJump;
 
-              //   // onPressed: () => Navigator.pushNamed(context, "/jumpdetails" , arguments: Jump(DateTime.now(), 177, 4, )), //dummy data to test arguments passing
+                        if (snapshot.hasData) {
+                          highestJump = snapshot.data.height.toString();
+                        } else {
+                          highestJump = "--";
+                        }
 
-              // ),
-              RaisedButton(
-                child: Text("SignIn"),
-                onPressed: () => Navigator.pushNamed(context, "/signin"),
-              ),
-              // RaisedButton(
-              //   child: Text("Jump History"),
-              //   // onPressed: () => Navigator.pushNamed(context, "/jumphistory" ),
-              // ),
-              // Text("Perform a jump only works if already connected. These buttons are for testing purpose and may be removed."),
-              // RaisedButton(
-              //   child: Text("Connect to a mat"),
-              //   onPressed: () => Navigator.pushNamed(context, "/connect"),
-              // ),
-              // RaisedButton(
-              //   child: Text("Perform a jump"),
-              //   onPressed: () => Navigator.push(
-              //               context,
-              //               MaterialPageRoute(builder: (context) => JumpPage())),
-              // ),
-              RaisedButton(
-                child: Text("Add jump"),
-                onPressed: () => {_service.addJump(20.0, 1.67, false)},
-              ),
-              RaisedButton(
-                child: Text("Get Highest"),
-                onPressed: () => {print(_service.getHighestJump().toString())},
-              ),
-              RaisedButton(
-                child: Text("Print jump id"),
-                onPressed: () =>{
-                  temp = _service.getHighestJump(),
-                  print (temp as Jump),
-                  // print (temp.jid.toString())
-                }
-              ),
-              RaisedButton(
-                child: Text("Remove jump"),
-                onPressed: ()=> {
-                  _service.delJump("-M5b1ouiJ5dxycpaBAHD")
-                },
-              ),
-
-            ],
+                        return Text(highestJump,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                .copyWith(fontWeight: FontWeight.bold));
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 32),
+                Text('Instructions',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(fontWeight: FontWeight.bold)),
+                SizedBox(height: 16),
+                Text('1. Stand on the mat, align your feet to the pads',
+                    style: Theme.of(context).textTheme.subtitle1),
+                SizedBox(height: 32),
+                Text(
+                    '2. When you press JUMP we will start counting down form 3, jump on GO.',
+                    style: Theme.of(context).textTheme.subtitle1),
+                SizedBox(height: 32),
+                Text('3. Try to land with both feet on the pads.',
+                    style: Theme.of(context).textTheme.subtitle1),
+              ],
+            ),
           ),
-        ));
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+             Navigator.pushNamed(context, "/standonmat",
+              arguments: Jump(DateTime.now(), 177, 4));
+              
+          },
+          label:Text("Jump"),
+          backgroundColor: Colors.red
+      ),
+    ));
   }
 }
