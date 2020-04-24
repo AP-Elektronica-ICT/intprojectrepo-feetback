@@ -56,7 +56,7 @@ class DatabaseService {
     return null;
   }
 
-  void addJump(double height, double airtime, bool isFavorite) async {
+  Future<void> addJump(double height, double airtime, bool isFavorite) async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance
           .reference()
@@ -73,6 +73,28 @@ class DatabaseService {
           'jid': jumpID,
         });  
         print('Add successful');
+      } on Exception catch (e) {
+        print(e);
+      }
+    }
+  }
+  Future<void> addJumpWithDate(double height, DateTime date, double airtime, bool isFavorite) async {
+    if (await _authService.isUserSignedIn()) {
+      final DatabaseReference ourDB = FirebaseDatabase.instance
+          .reference()
+          .child("users")
+          .child(_authService.currentUser.uid)
+          .child("jumps");
+      try {
+        String jumpID = ourDB.push().key;
+        await ourDB.child(jumpID).set({
+          'height': height,
+          'date': date.toString(),
+          'airtime': airtime,
+          'favorite': isFavorite,
+          'jid': jumpID,
+        });  
+        print('Add with date successful');
       } on Exception catch (e) {
         print(e);
       }
@@ -96,7 +118,7 @@ class DatabaseService {
     }
   }
 
-  void toggleFavorite(String jumpId) async {
+  Future<void> toggleFavorite(String jumpId) async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance
           .reference()
