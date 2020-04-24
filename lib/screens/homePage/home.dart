@@ -17,13 +17,11 @@ class _HomePageState extends State<HomePage> {
   DatabaseService _dbs = locator<DatabaseService>();
 
   final BluetoothService _bluetoothService = locator<BluetoothService>();
-  static bool _isConnect = true;
   @override
   void initState() {
     super.initState();
 
     if (!_bluetoothService.isConnected) {
-      _isConnect = false;
       WidgetsBinding.instance.addPostFrameCallback(
           (_) => Navigator.pushNamed(context, "/notconnected"));
     }
@@ -99,7 +97,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        floatingActionButton: _isConnect ? jumpButton() : connectButton(),
+        floatingActionButton: _bluetoothService.isConnected ? jumpButton() : connectButton(),
       ),
     );
   }
