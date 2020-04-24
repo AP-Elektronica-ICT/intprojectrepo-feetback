@@ -23,7 +23,15 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   SortState _selection = SortState.date;
 
   @override
+  void initState() {
+    super.initState();
+
+    print("Init Jump History");
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("Building Jump History");
     return Scaffold(
       appBar: FeetbackAppBar(
         title: Text("Jump history"),
@@ -32,13 +40,21 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
         padding: EdgeInsets.only(left: 16, right: 16),
         automaticallyImplyLeading: false,
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                
+              });
+            },
+          ),
           JumpHistoryPopup(
             onSelected: (SortState selected) => {
               this.setState(() {
                 _selection = selected;
               })
             }
-          )
+          ),
         ],
       ),
 
@@ -57,7 +73,7 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
                     jumpItems: snapshot.data, 
                     onFavorite: (Jump jump) {
                       databaseService.toggleFavorite(jump.jid);
-                      setState(() => jump.favorite = !jump.favorite);
+                      setState(() =>  jump.favorite = !jump.favorite);
                     }
                   ),
                 ),
