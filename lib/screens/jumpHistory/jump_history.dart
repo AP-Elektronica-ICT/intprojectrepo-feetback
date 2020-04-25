@@ -21,7 +21,7 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
   List<Jump> jumps;
   final DatabaseService databaseService = new DatabaseService();
   SortState _selection = SortState.date;
-
+  
   @override
   void initState() {
     super.initState();
