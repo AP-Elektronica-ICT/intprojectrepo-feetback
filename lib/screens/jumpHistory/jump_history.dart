@@ -39,9 +39,10 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
     jumps.add(Jump(DateTime.utc(2020, 6, 18), 54.05, 3000));
     jumps.add(Jump(DateTime.utc(2020, 1, 14), 52.3, 3000));
     jumps.add(Jump(DateTime.utc(2020, 4, 11), 40.0, 3000));
-    jumps.add(Jump(DateTime.utc(2020, 4, 8), 40.0, 3000));
+    jumps.add(Jump(DateTime.utc(2020, 4, 8), 30.0, 3000));
     jumps.add(Jump(DateTime.utc(2020, 4, 14), 39.0, 3000));
     jumps.add(Jump(DateTime.utc(2020, 4, 21), 47.0, 3000));
+    jumps.add(Jump(DateTime.utc(2020, 4, 21), 70.0, 3000));
   }
 
   @override

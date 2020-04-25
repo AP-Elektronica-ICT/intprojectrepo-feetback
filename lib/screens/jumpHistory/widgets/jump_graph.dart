@@ -21,8 +21,9 @@ class _JumpGraphState extends State<JumpGraph> {
   bool showWeek = false;
   DateTime beginDate = DateTime.now();
   double referanceHeight = 0;
-  int counter = 0;
-  String dateLabel = "year 2020";
+  int counterX = 0;
+  int counterY = 0;
+  String dateLabel = "";
 
   @override
   Widget build(BuildContext context) {
@@ -31,53 +32,66 @@ class _JumpGraphState extends State<JumpGraph> {
         AspectRatio(
           aspectRatio: 1.70,
           child: Dismissible(
-            resizeDuration: null,
+            crossAxisEndOffset: 0,
+            direction: DismissDirection.vertical,
             onDismissed: (DismissDirection direction) {
-              //print(direction);
-              counter += direction == DismissDirection.endToStart ? 1 : -1;
-              //print(counter);
-              showWeek ? weekData() : yearData();
+                counterY += direction == DismissDirection.down ? 1 : -1;
+                showWeek ? weekData() : yearData();
             },
-            key: ValueKey(counter),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 32, left: 18, top: 8, bottom: 18),
-              child: showWeek ? weekData() : yearData(),
+            key: ValueKey(counterY),
+            child: Dismissible(
+              onDismissed: (DismissDirection direction) {
+                counterX += direction == DismissDirection.endToStart ? 1 : -1;
+                counterY = 0;
+                print(DismissDirection.endToStart);
+                print(counterX);
+                showWeek ? weekData() : yearData();
+              },
+              key: ValueKey(counterX),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 32, left: 18, top: 8, bottom: 18),
+                child: showWeek ? weekData() : yearData(),
+              ),
             ),
-          ),
+            ) 
         ),
-        SizedBox(
-          width: 64,
-          height: 34,
-          child: FlatButton(
-            onPressed: () {
-                setState(() {
-                  counter = 0;
-                  showWeek = !showWeek;
-                });
-            },
-            child: Icon(Icons.swap_horiz, //timeline, today, swap_horiz
-              color: showWeek ? Theme.of(context).accentColor.withOpacity(0.5) : Theme.of(context).accentColor,
-                ),
-          ),
-        ),
-        SizedBox(
-          width: 1000,
-          height: 64,
-          child: Text(
-            dateLabel,
-            textAlign: TextAlign.end,
-          ),
-        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              padding: const EdgeInsets.only(top: 8.0, left: 8),
+              onPressed: () {
+                  setState(() {
+                    counterX = 0;
+                    counterY = 0;
+                    showWeek = !showWeek;
+                  });
+              },
+              icon: Icon(Icons.swap_horiz, //timeline, today, swap_horiz
+                color: showWeek ? Theme.of(context).accentColor.withOpacity(0.5) : Theme.of(context).accentColor,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0, right: 40),
+              child: Text(
+                dateLabel,
+                textAlign: TextAlign.center,
+              )
+            )
+          ],
+        )
       ],
     );
   }
 
   Widget yearData() {
+    var workingDate = DateTime(Jiffy().year+counterX);
     var spots = getSpots(
-      DateTime(Jiffy().year+counter),
-      DateTime(Jiffy().year+1+counter),
-      Jiffy(Jiffy(beginDate).add(years: counter)).isLeapYear ? 366:365
+      workingDate,
+      DateTime(Jiffy().year+1+counterX),
+      Jiffy(Jiffy(beginDate).add(years: counterX)).isLeapYear ? 366:365
     );
+    dateLabel = "Year: ${Jiffy(workingDate).year}";
 
     try {
       return LineChart(
@@ -108,7 +122,7 @@ class _JumpGraphState extends State<JumpGraph> {
           show: true,
           bottomTitles: SideTitles(
             showTitles: true,
-            reservedSize: 22, //smaller value increases size of graph along y-axis
+            reservedSize: 8, //smaller value increases size of graph along y-axis
                               //should be set smaller
             textStyle:
                 //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
@@ -146,9 +160,10 @@ class _JumpGraphState extends State<JumpGraph> {
         ),
         borderData:
             FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
+        clipToBorder: true,
         minX: 0,
         maxX: Jiffy(beginDate).isLeapYear ? 365:364,
-        minY: referanceHeight-10,
+        minY: referanceHeight-10, //null for automatic
         maxY: referanceHeight+10,
         lineBarsData: [
           LineChartBarData(
@@ -182,11 +197,12 @@ class _JumpGraphState extends State<JumpGraph> {
   }
 
   Widget weekData() {
+    var workingDate = Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: counterX);
     var spots = getSpots(
-      Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: counter),
-      Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: 1+counter),
+      workingDate,
+      Jiffy(getFirstDayOfWeek(DateTime.now())).add(weeks: 1+counterX),
       7);
-
+    dateLabel = "Week: ${Jiffy(workingDate).week}";
     try {
       return LineChart(
       LineChartData(
@@ -213,7 +229,7 @@ class _JumpGraphState extends State<JumpGraph> {
           show: true,
           bottomTitles: SideTitles(
             showTitles: true,
-            reservedSize: 22, //smaller value increases size of graph along y-axis
+            reservedSize: 8, //smaller value increases size of graph along y-axis
             textStyle:
                 //TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 12),
                 TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal, fontSize: 14),
@@ -236,9 +252,9 @@ class _JumpGraphState extends State<JumpGraph> {
             ),
             getTitles: (value) {
               List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
-                if (titlesToDisplay.contains(value)) {
-                  return "${value.toInt()} cm";
-                }
+              if (titlesToDisplay.contains(value)) {
+                return "${value.toInt()} cm";
+              }
               return '';
             },
             reservedSize: 32,
@@ -247,9 +263,10 @@ class _JumpGraphState extends State<JumpGraph> {
         ),
         borderData:
             FlBorderData(show: true, border: Border.all(color: Colors.grey, width: 1)),
+        clipToBorder: true,
         minX: 0,
         maxX: 6,
-        minY: referanceHeight-10,
+        minY: referanceHeight-10, //null for automatic
         maxY: referanceHeight+10,
         lineBarsData: [
           LineChartBarData(
@@ -290,6 +307,7 @@ class _JumpGraphState extends State<JumpGraph> {
     List<FlSpot> spots = new List();
     List<FlSpot> tmpBefore = new List();
     List<FlSpot> tmpAfter = new List();
+    int offset = counterY*5;
 
     setState(() {
                 beginDate = _begindDate;
@@ -347,7 +365,7 @@ class _JumpGraphState extends State<JumpGraph> {
     }
 
     setState(() {
-                  referanceHeight = roundTo5or0(averageHeight(spots));
+                  referanceHeight = roundTo5or0(averageHeight(spots))+offset;
                 });
                 //print(referanceHeight);
      spots.sort((b, a) => a.x.compareTo(b.x));
