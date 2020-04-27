@@ -19,7 +19,7 @@ class SettingsService {
 
   Future<bool> get isPrivacyPolicyAccepted async {
     SharedPreferences prefs = await _getInstance();
-    return prefs.getBool('privacy_policy_acceptance') ?? false;
+    return prefs.getBool('privacy_policy_acceptance') ?? true;
   }
   // ------------------------------------------------
   // -----------------App Settings-------------------

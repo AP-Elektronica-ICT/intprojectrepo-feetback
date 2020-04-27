@@ -4,10 +4,10 @@ class Option {
   String current;
   List<String> optionTiles;
 
-  Option(String _title, String _type, String _current) {
+  Option(String _title, String _type, String _current, List<String> _optionTiles) {
     this.title = _title;
     this.type = _type;
     this.current = _current;
-    this.optionTiles = new List<String>();
+    this.optionTiles = _optionTiles;
   }
 }

@@ -40,10 +40,14 @@ class SignInPage extends StatelessWidget {
                 SignInButton(
                   onPressed: () => _handleSignIn(),
                 ),
-                RaisedButton(
-                  child: Text("Sign out"),
-                  onPressed: _authService.signOut,
-                ),
+                WillPopScope(
+                  onWillPop: () async {
+                    Future.value(
+                      false
+                    );
+                  },
+                  child: Text(""),
+                )
               ],
             ),
           ),
