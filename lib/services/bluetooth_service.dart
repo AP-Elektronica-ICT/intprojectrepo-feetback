@@ -209,7 +209,7 @@ class BluetoothService {
   void createBluetoothDevice()async{
     nameOfDevice = await getSavedDeviceName();
     macOfDevice = await getSavedDeviceMAC();
-    toast("Succesfully conected with " +nameOfDevice+".");
+    toast("Succesfully connected with " +nameOfDevice+".");
   }
   
 }
