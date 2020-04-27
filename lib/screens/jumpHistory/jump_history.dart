@@ -50,7 +50,7 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _graph(snapshot.data),
+                JumpGraph(jumpItems: snapshot.data),
                 Expanded(
                   child: FeetbackList(
                     currentSortState: _selection,
@@ -58,6 +58,9 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
                     onFavorite: (Jump jump) {
                       databaseService.toggleFavorite(jump.jid);
                       setState(() => jump.favorite = !jump.favorite);
+                    },
+                    onDelete: (Jump jump){
+                      print("removing Jump: ${jump.jid}");
                     }
                   ),
                 ),
@@ -71,10 +74,5 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
         },
       ),
     );
-  }
-
-  Widget _graph(List<Jump> jumps) {
-    return JumpGraph(jumpItems: jumps,);
-    //return Image.asset('assets/chart.png');
   }
 }  
