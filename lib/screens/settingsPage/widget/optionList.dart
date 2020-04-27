@@ -11,7 +11,7 @@ class OptionList extends StatefulWidget {
   final Option option;
 
   final void Function(String select, String value) onSelect;
-
+  
   OptionList({Key key, @required this.option, @required this.onSelect})
       : super(key: key);
 
@@ -20,13 +20,6 @@ class OptionList extends StatefulWidget {
 }
 
 class _OptionListState extends State<OptionList> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.option.type == "route") {}
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +65,7 @@ Widget myRadioList(
                 onSelect(_selected, value);
                 print("$_selected current selected");
                 _settingsService.setUnit(value == "Metric");
+                Navigator.pop(context,true);
               }),
         );
       },
@@ -94,19 +88,38 @@ Widget myTickList(Option opt) {
       itemCount: opt.optionTiles.length,
       itemBuilder: (context, int idx) {
         return ListTile(
-          title: Text(opt.optionTiles[idx]),
-          trailing: IconTheme(
-              data: IconThemeData(color: Theme.of(context).accentColor),
-              child: myTickIcon(_selected, opt.optionTiles[idx], context)),
-          onTap: () => {
-            _settingService.setLang(opt.optionTiles[idx]),
-            print("Da werkt"),
-          }
-        );
+            title: Text(convertToWord(opt.optionTiles[idx])),
+            trailing: IconTheme(
+                data: IconThemeData(color: Theme.of(context).accentColor),
+                child: myTickIcon(_selected, opt.optionTiles[idx], context)),
+            onTap: () => {
+                  _settingService.setLang(opt.optionTiles[idx]),
+                  print("Da werkt"),
+                  (context as Element).reassemble()
+                });
       },
       separatorBuilder: (context, int index) => const Divider());
 }
 
 Widget goToRoute(BuildContext context, Option opt) {
   Navigator.pushNamed(context, opt.optionTiles[0]);
+}
+
+
+String convertToWord(String myVar) {
+  String temp;
+  switch (myVar) {
+    case "en":
+      temp = "English";
+      break;
+    case "nl":
+      temp = "Nederlands";
+      break;
+    case "sm":
+      temp = "Suomi";
+      break;
+    default:
+      temp = myVar;
+  }
+  return temp;
 }
