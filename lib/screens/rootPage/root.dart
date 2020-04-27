@@ -24,7 +24,7 @@ class _RootPageState extends State<RootPage> {
   ];
 
   final _navigatorController = PageController(
-    keepPage: true
+    keepPage: false
   );
   
   int _currentNavigatorIndex = 0;
@@ -54,15 +54,17 @@ class _RootPageState extends State<RootPage> {
       child: Scaffold(
         body: SafeArea(
           top: false, // Disable top because the app bar in the screens takes care of that.
-          child: PageView(
+          child: PageView.builder(
             controller: _navigatorController,
             onPageChanged: (index) {
               setState(() {
                 _currentNavigatorIndex = index;
               });
             },
-            children: _navigators,
             physics: NeverScrollableScrollPhysics(), // No left, right sliding to change page.
+            itemBuilder: (BuildContext context, int index) {
+              return _navigators[index];
+            },
           ),
         ),
 
