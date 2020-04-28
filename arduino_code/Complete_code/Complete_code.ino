@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h> 
-SoftwareSerial MyBlue(2, 3); // RX | TX 
+SoftwareSerial MyBlue(10, 11); // RX | TX 
 String flag ; 
 
 int Button; 
