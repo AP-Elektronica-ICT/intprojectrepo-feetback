@@ -97,7 +97,10 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
           } else if (snapshot.hasError) {
             return Text("Error while getting your data.");
           } else {
-            return CircularProgressIndicator();
+            return Column(
+              children:[Row(children:[CircularProgressIndicator()],
+              mainAxisAlignment: MainAxisAlignment.center)],
+              mainAxisAlignment: MainAxisAlignment.center);
           }
         },
       ),
