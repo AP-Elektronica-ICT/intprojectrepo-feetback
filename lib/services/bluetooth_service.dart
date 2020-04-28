@@ -225,6 +225,5 @@ class BluetoothService {
     _settingsService.setDevice(nameOfDevice);
     toast("Succesfully connected with " +nameOfDevice+".");
   }
-  
 }
 

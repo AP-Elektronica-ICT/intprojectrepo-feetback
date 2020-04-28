@@ -11,7 +11,7 @@ class OptionList extends StatefulWidget {
   final Option option;
 
   final void Function(String select, String value) onSelect;
-  
+
   OptionList({Key key, @required this.option, @required this.onSelect})
       : super(key: key);
 
@@ -20,106 +20,188 @@ class OptionList extends StatefulWidget {
 }
 
 class _OptionListState extends State<OptionList> {
+  final SettingsService _settingService = locator<SettingsService>();
+  List<String> _notifications = ["true"];
+  String _selected = "Metric";
+  String language = "en";
+  @override
+  void initState() {
+    super.initState();
+    asyncInit();
+  }
+
+  Future<void> asyncInit() async {
+    List<String> temp = await _settingService.getNotifications;
+    bool unit = await _settingService.isMetric;
+    String lang = await _settingService.getLang;
+    setState(() {
+      _notifications = temp;
+      if (unit == true)
+        _selected = "Metric";
+      else
+        _selected = "Imperial";
+      language = lang;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: FeetbackAppBar(
-          title: Text(widget.option.title),
-          height: 92,
-          contentAlignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          automaticallyImplyLeading: false,
-        ),
-        body: contentHandler(context, widget.option, widget.onSelect));
+    return new WillPopScope(
+      onWillPop: () => handlePop(),
+        child: Scaffold(
+            appBar: FeetbackAppBar(
+              title: Text(widget.option.title),
+              height: 92,
+              contentAlignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(left: 16, right: 16),
+              automaticallyImplyLeading: false,
+            ),
+            body: contentHandler()));
   }
-}
-
-Widget contentHandler(
-    BuildContext context, Option opt, Function(String, String) onSelect) {
-  switch (opt.type) {
-    case "tick":
-      return myTickList(opt);
-      break;
-    case "route":
-      return goToRoute(context, opt);
-      break;
-    default:
-      return myRadioList(context, opt, onSelect);
+  Future<bool> handlePop() {
+    Navigator.pushNamed(context, "/");
+    setState(() {
+      
+    });
   }
-}
+  Widget contentHandler() {
+    switch (widget.option.type) {
+      case "tick":
+        return myTickList();
+        break;
+      case "route":
+        return goToRoute();
+        break;
+      case "switch":
+        return mySwitchList();
+        break;
+      default:
+        return myRadioList();
+    }
+  }
 
-Widget myRadioList(
-    BuildContext context, Option opt, Function(String, String) onSelect) {
-  String _selected = opt.current;
-  final SettingsService _settingsService = locator<SettingsService>();
-  return ListView.separated(
-      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8),
-      itemCount: opt.optionTiles.length,
-      itemBuilder: (context, int idx) {
-        return ListTile(
-          title: Text(opt.optionTiles[idx]),
-          trailing: Radio(
-              value: opt.optionTiles[idx],
-              groupValue: _selected,
-              onChanged: (String value) {
-                onSelect(_selected, value);
-                print("$_selected current selected");
-                _settingsService.setUnit(value == "Metric");
-                Navigator.pop(context,true);
-              }),
-        );
-      },
-      separatorBuilder: (context, int index) => const Divider());
-}
+  String convertToWord(String myVar) {
+    String temp;
+    switch (myVar) {
+      case "en":
+        temp = "English";
+        break;
+      case "nl":
+        temp = "Nederlands";
+        break;
+      case "sm":
+        temp = "Suomi";
+        break;
+      default:
+        temp = myVar;
+    }
+    return temp;
+  }
 
-Widget myTickIcon(String _sel, String _cur, BuildContext ctx) {
-  if (_sel == _cur)
-    return IconTheme(
-        data: IconThemeData(color: Theme.of(ctx).accentColor),
-        child: Icon(Icons.check));
-  return Text("");
-}
+  Widget goToRoute() {
+    Navigator.pushNamed(context, widget.option.optionTiles[0]);
+  }
 
-Widget myTickList(Option opt) {
-  String _selected = opt.current;
-  final SettingsService _settingService = locator<SettingsService>();
-  return ListView.separated(
-      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8),
-      itemCount: opt.optionTiles.length,
-      itemBuilder: (context, int idx) {
-        return ListTile(
-            title: Text(convertToWord(opt.optionTiles[idx])),
-            trailing: IconTheme(
-                data: IconThemeData(color: Theme.of(context).accentColor),
-                child: myTickIcon(_selected, opt.optionTiles[idx], context)),
-            onTap: () => {
-                  _settingService.setLang(opt.optionTiles[idx]),
-                  print("Da werkt"),
-                  (context as Element).reassemble()
+  Widget mySwitchList() {
+    // _settingService.getNot();
+    return ListView.separated(
+        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 20),
+        itemCount: widget.option.optionTiles.length,
+        itemBuilder: (context, int idx) {
+          return SwitchListTile(
+              title: Text(widget.option.optionTiles[idx]),
+              activeColor: Theme.of(context).accentColor,
+              value: _notifications[idx] == "true",
+              onChanged: (value) {
+                _settingService.setNotifications([value.toString()]);
+                _settingService.getNot();
+                print(value);
+                setState(() {
+                  _notifications[idx] = value ? "true":"false";
                 });
-      },
-      separatorBuilder: (context, int index) => const Divider());
-}
+              });
 
-Widget goToRoute(BuildContext context, Option opt) {
-  Navigator.pushNamed(context, opt.optionTiles[0]);
-}
-
-
-String convertToWord(String myVar) {
-  String temp;
-  switch (myVar) {
-    case "en":
-      temp = "English";
-      break;
-    case "nl":
-      temp = "Nederlands";
-      break;
-    case "sm":
-      temp = "Suomi";
-      break;
-    default:
-      temp = myVar;
+          // ListTile(
+          //   title: Text(widget.option.optionTiles[idx]),
+          //   trailing: Switch(
+          //     value: testje,
+          //     activeColor: Colors.white,
+          //     activeTrackColor: Theme.of(context).accentColor,
+          //     inactiveThumbColor: Theme.of(context).primaryColor,
+          //     onChanged: (bool value) {
+          //       setState(() {
+          //         testje = value;
+          //       });
+          //     }),
+          // );
+        },
+        separatorBuilder: (context, int index) => const Divider());
   }
-  return temp;
+
+  Widget myRadioList() {
+    return ListView.separated(
+        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8),
+        itemCount: widget.option.optionTiles.length,
+        itemBuilder: (context, int idx) {
+          return RadioListTile(
+            title: Text(widget.option.optionTiles[idx]),
+              value: widget.option.optionTiles[idx],
+              groupValue: _selected,
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (String value) {
+                setState(() {
+                  _selected = value;
+                });
+                _settingService.setUnit(value == "Metric");
+                Navigator.pushNamed(context, "/");
+              },
+            );
+            
+          //   Radio(
+          //       value: widget.option.optionTiles[idx],
+          //       groupValue: _selected,
+
+          //       onChanged: (String value) {
+          //         setState(() {
+          //           _selected = value;
+          //         });
+          //         print("$_selected current selected");
+          //         _settingService.setUnit(value == "Metric");
+          //         Navigator.pushNamed(context, "/");
+          //         // Navigator.pop(context, true);
+          //       }),
+          // );
+        },
+        separatorBuilder: (context, int index) => const Divider());
+  }
+
+  Widget myTickIcon(String _sel, String _cur) {
+    if (_sel == _cur)
+      return IconTheme(
+          data: IconThemeData(color: Theme.of(context).accentColor),
+          child: Icon(Icons.check));
+    return Text("");
+  }
+
+  Widget myTickList() {
+    final SettingsService _settingService = locator<SettingsService>();
+    return ListView.separated(
+        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8),
+        itemCount: widget.option.optionTiles.length,
+        itemBuilder: (context, int idx) {
+          return ListTile(
+              title: Text(convertToWord(widget.option.optionTiles[idx])),
+              trailing: IconTheme(
+                  data: IconThemeData(color: Theme.of(context).accentColor),
+                  child: myTickIcon(language, widget.option.optionTiles[idx])),
+              onTap: () => {
+                    _settingService.setLang(widget.option.optionTiles[idx]),
+                    Navigator.pushNamed(context, "/"),
+                    setState(() {
+                      language = widget.option.optionTiles[idx];
+                    })
+                  });
+        },
+        separatorBuilder: (context, int index) => const Divider());
+  }
 }
