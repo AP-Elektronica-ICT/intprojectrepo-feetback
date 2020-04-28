@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:feetback/services/permission_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/service_locator.dart';
@@ -14,29 +17,37 @@ class _StartUpPageState extends State<StartUpPage> {
   final AuthService _authService = locator<AuthService>();
   final NavigationService _navService = locator<NavigationService>();
   final SettingsService _settingsService = locator<SettingsService>();
+  final PermissionService _permissionService = locator<PermissionService>();
 
   @override
   void initState() {
+    print("Init startup");
     super.initState();
     handleStartUp();
   }
 
   void handleStartUp() async {
-    if (await _settingsService.isPrivacyPolicyAccepted) {
-      bool isSignedIn = await _authService.isUserSignedIn();
-
-      if (isSignedIn) {
-        _navService.clearStackTo('/');
-      } else {
-        _navService.clearStackTo('/signin');
-      }
-    } else {
-      _navService.clearStackTo('/optin');
+    if (!await _permissionService.requestLocationPermission()) {
+      exit(0);
     }
+    else{
+      if (await _settingsService.isPrivacyPolicyAccepted) {
+        if (await _authService.isUserSignedIn()) {
+          _navService.clearStackTo('/root');
+        } else {
+          _navService.clearStackTo('/signin');
+        }
+      } else {
+        _navService.clearStackTo('/optin');
+      }
+    }
+    print("Finish startup init");
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Build Startup");
+
     return Container(
       width: double.infinity,
       height: double.infinity,

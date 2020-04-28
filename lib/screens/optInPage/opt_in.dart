@@ -23,7 +23,7 @@ class OptInPage extends StatelessWidget {
       body: PrivacyPolicy(
         onAccepted: () {
           _settingsService.setPrivacyPolicyAcceptance(true);
-          _navService.clearStackTo('/startup');
+          _navService.clearStackTo('/');
         },
       ),
     );

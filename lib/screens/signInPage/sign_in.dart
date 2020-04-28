@@ -7,17 +7,20 @@ import 'package:flutter/services.dart';
 
 import '../signInPage/widgets/google_sign_in_button.dart';
 
+import'package:feetback/services/database_service.dart';
+
 
 class SignInPage extends StatelessWidget {
   final AuthService _authService = locator<AuthService>();
   final NavigationService _navService = locator<NavigationService>();
+  DatabaseService _service = locator<DatabaseService>();
 
   void _handleSignIn() async {
     await _authService.signInWithGoogle();
     
     if (await _authService.isUserSignedIn()) {
-      // Navigate to home.
-      _navService.clearStackTo('/');
+      // Navigate to root.
+      _navService.clearStackTo('/root');
     }
   } 
 
@@ -40,14 +43,6 @@ class SignInPage extends StatelessWidget {
                 SignInButton(
                   onPressed: () => _handleSignIn(),
                 ),
-                WillPopScope(
-                  onWillPop: () async {
-                    Future.value(
-                      false
-                    );
-                  },
-                  child: Text(""),
-                )
               ],
             ),
           ),
