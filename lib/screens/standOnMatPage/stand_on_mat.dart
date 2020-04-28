@@ -46,7 +46,7 @@ class _StandOnMatState extends State<StandOnMatPage> {
         ),
       floatingActionButton: _getFAB(),
       body: Center(
-        child:isStandingOnMat ? Text("Press Jump tot start the countdown.") : Text("Please stand on the mat."),
+        child:isStandingOnMat ? Text("Press Jump to start the countdown.") : Text("Please stand on the mat."),
       ),
     );
   }
