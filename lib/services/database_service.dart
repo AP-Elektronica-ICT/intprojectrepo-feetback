@@ -84,6 +84,29 @@ class DatabaseService {
       }
     }
   }
+
+  Future<void> addJumpWithJump(Jump jump) async {
+      if (await _authService.isUserSignedIn()) {
+        final DatabaseReference ourDB = FirebaseDatabase.instance
+            .reference()
+            .child("users")
+            .child(_authService.currentUser.uid)
+            .child("jumps");
+        try {
+          await ourDB.child(jump.jid).set({
+            'height': jump.height,
+            'date': jump.date.toString(),
+            'airtime': jump.airtime,
+            'favorite': jump.favorite,
+            'jid': jump.jid,
+          });  
+          print('Add successful');
+        } on Exception catch (e) {
+          print(e);
+        }
+      }
+    }
+
   Future<void> addJumpWithDate(DateTime date, double height, double airtime/*, bool isFavorite*/) async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance
@@ -124,7 +147,7 @@ class DatabaseService {
     }
   }
 
-  Future<void> toggleFavorite(String jumpId) async {
+  Future<void> toggleFavorite(String jumpId, bool state) async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance
           .reference()
@@ -132,14 +155,28 @@ class DatabaseService {
           .child(_authService.currentUser.uid)
           .child("jumps")
           .child(jumpId);
-      bool favorite = false;
-      try {
-        DataSnapshot snap = await ourDB.child("favorite").once();
-        favorite = snap.value;
-        await ourDB.reference().update({'favorite': !favorite});
+      try {        
+        await ourDB.reference().update({'favorite': state});
         print("Toggle favorite of \"$jumpId\" successful");
       } on Exception catch (e) {
         print(e);
+      }
+    }
+  }
+
+  Future<Jump> getJump(String jumpID) async {
+    if (await _authService.isUserSignedIn()) {
+      try {
+        final DatabaseReference ourDB = FirebaseDatabase.instance
+          .reference()
+          .child("users")
+          .child(_authService.currentUser.uid)
+          .child("jumps");
+        DataSnapshot snap = await ourDB.reference().child(jumpID).once();
+
+        return Jump.fromDB(jumpID, snap.value);
+      } on Exception catch (e) {
+        print ("Error pulling one jump: $jumpID\n" + e.toString());
       }
     }
   }
