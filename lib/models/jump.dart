@@ -36,4 +36,12 @@ class Jump{
           + '\n\t' + "airtime:  " + airtime.toString()
           + '\n\t' + "favorite: " + favorite.toString();
   }
+
+  Jump.copy(Jump other){
+      this.date = other.date;
+      this.height = other.height;
+      this.airtime = other.airtime;
+      this.favorite = other.favorite;
+      this.jid = other.jid;   
+  }
 }

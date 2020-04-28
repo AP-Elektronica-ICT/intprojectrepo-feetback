@@ -4,20 +4,21 @@ import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 import 'package:feetback/screens/jumpHistory/enums/sort_state.dart';
 import 'package:feetback/screens/jumpHistory/widgets/date_indicator.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 
 class FeetbackList  extends StatefulWidget {
   final List<Jump> jumpItems;
   final SortState currentSortState;
   final void Function(Jump) onFavorite;
   final void Function(Jump) onDelete;
+  final void Function(Jump) onRestate;
+
 
   FeetbackList({
     @required this.jumpItems,
     @required this.currentSortState,
     @required this.onFavorite,
     @required this.onDelete,
+    @required this.onRestate,
   });
 
   @override
@@ -49,13 +50,13 @@ class _FeetbackListState extends State<FeetbackList> {
           else if(widget.currentSortState == SortState.favorite){
             widget.jumpItems.sort((b, a) => compareBool(a.favorite, b.favorite));
           }
-          return _buildRow(context, widget.jumpItems[item], widget.onFavorite, widget.onDelete);  
+          return _buildRow(context, widget.jumpItems[item], widget.onFavorite, widget.onDelete, widget.onRestate);  
         }
     );
   }
 }
 
-Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Function(Jump) onDelete) {
+Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Function(Jump) onDelete, Function(Jump) onRestate) {
     return Container(
     decoration: BoxDecoration(
         color: Color.fromRGBO(0, 0, 0, 0.04),
@@ -64,49 +65,44 @@ Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Fun
         child: Dismissible(
           direction: DismissDirection.endToStart,
           onDismissed: (DismissDirection direction) {
-            onFavorite(jump);
-          },
-          confirmDismiss: (DismissDirection dismissDirection) async {
-            bool remove = true;
-
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Jump deleted"),
-                        GestureDetector(
-                          onTap: () {
-                            remove = false;
-                            },
-                          child: Text(
-                            "UNDO",
-                            style: TextStyle(color: Colors.yellow),
-                          )
-                        )
-                      ]
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 32),
-                  )  
-                )
-              );
-              await Future.delayed(const Duration(seconds: 4),(){});
-            return remove;
-          },
-            
-          key: Key(jump.jid),
+            final Jump swipedJump = jump;
+            Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Jump deleted"),
+            duration: Duration(seconds: 4),
+            action: SnackBarAction(
+                label: "Undo",
+                textColor: Colors.yellow,
+                onPressed: () {
+                  final tmpJump = Jump.copy(swipedJump);
+                  //print(tmpJump);
+                  onRestate(tmpJump);
+                }),
+          ),
+        )
+        .closed
+        .then((reason) {
+      if (reason != SnackBarClosedReason.action) {
+        // The SnackBar was dismissed by some other means
+        // that's not clicking of action button
+        // Make API call to backend
+      
+      }});
+            onDelete(jump);
+        },    
+          key: ValueKey(jump),
           background: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).accentColor,
             borderRadius: BorderRadius.circular(8.0)),
-          alignment: AlignmentDirectional.centerEnd,
-          child: Padding(
-            padding: EdgeInsets.only(right: 32),
-            child: Icon(Icons.delete_forever),
-          ),
+            alignment: AlignmentDirectional.centerEnd,
+            child: Padding(
+              padding: EdgeInsets.only(right: 32),
+              child: Icon(Icons.delete_forever),
+            ),
         ),
           child: ListTile(
+            //key: ValueKey(jump),
             leading: Padding(child: DateIndicator(date: jump.date,), padding: EdgeInsets.only(top: 5),),
             subtitle: Text(jump.date.day.toString() +
                 "/" +
@@ -122,7 +118,10 @@ Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Fun
                       Icons.favorite_border,
                       color: jump.favorite ? Theme.of(context).accentColor: null,
                       ),
-                      onPressed: () => onFavorite(jump),
+                      onPressed: () => {
+                        print(jump),
+                        onFavorite(jump),
+                      }
                   ),
             onTap: () {
               pushJump(context, jump);

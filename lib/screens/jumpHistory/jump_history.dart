@@ -62,22 +62,34 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
         future: databaseService.getAllJumps(),
         builder: (BuildContext context, AsyncSnapshot<List<Jump>> snapshot) {
           if (snapshot.hasData) {
+            jumps = snapshot.data;
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                JumpGraph(jumpItems: snapshot.data),
+                JumpGraph(jumpItems: jumps),
                 Expanded(
                   child: FeetbackList(
                     currentSortState: _selection,
-                    jumpItems: snapshot.data, 
-                    onFavorite: (Jump jump) {
-                      databaseService.toggleFavorite(jump.jid);
+                    jumpItems: jumps, 
+                    onFavorite: (Jump jump) async{
                       setState(() => jump.favorite = !jump.favorite);
+                      databaseService.toggleFavorite(jump.jid, jump.favorite);
                     },
-                    onDelete: (Jump jump){
+                    onDelete: (Jump jump) async{
+                      databaseService.delJump(jump.jid);
+                      setState(() {
+                        jumps.remove(jump);
+                      });
                       print("removing Jump: ${jump.jid}");
-                    }
+                    },
+                    onRestate: (Jump jump) {
+                      setState(() {
+                        jumps.add(jump);
+                      });
+                      
+                     databaseService.addJumpWithJump(jump);
+                    },
                   ),
                 ),
               ],

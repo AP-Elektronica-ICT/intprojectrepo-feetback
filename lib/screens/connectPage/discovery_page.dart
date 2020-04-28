@@ -1,6 +1,6 @@
 import 'dart:async';
 
-
+import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -89,7 +89,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     //Already bonded
     (){
         Navigator.of(_alertContext).pop();
-        Navigator.pushNamed(context, "/");
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
       }, 
     //error
     (ex){showDialog(
@@ -103,8 +103,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 new FlatButton(
                   child: new Text("Close"),
                   onPressed: () {
-                    
-                    Navigator.pushNamed(context, "/");
+                    Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                   },
                 ),
               ],
@@ -125,8 +124,10 @@ class _DiscoveryPage extends State<DiscoveryPage> {
   Widget build(BuildContext context) {
       
      return Scaffold(
-            appBar: AppBar(
+            appBar: FeetbackAppBar(
               title: isDiscovering ? Text('Discovering') : Text('Connect'),
+              height: 92,
+              contentAlignment: Alignment.centerLeft,
               actions: <Widget>[
                 (
                   isDiscovering ?
@@ -141,8 +142,11 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                     )
                 )
               ],
+              padding: EdgeInsets.only(left: 16, right: 16),
             ),
-            body: Stack(
+            body: Padding(
+              padding: EdgeInsets.all(12),
+              child: Stack(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +154,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                   children: <Widget>[
                     Container(
                       child:Image(image: AssetImage("lib/images/connect_illustration.png"), height: 160),
-                      padding: EdgeInsets.all(16.0),
+                      //padding: EdgeInsets.all(16.0),
                     ),
                   ],
                 ),
@@ -194,7 +198,7 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                 ),
               ],
               
-            ),
+            ),)
             
      );
   }
