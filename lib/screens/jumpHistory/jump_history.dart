@@ -71,11 +71,11 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
                   child: FeetbackList(
                     currentSortState: _selection,
                     jumpItems: snapshot.data, 
-                    onFavorite: (Jump jump) {
+                    onFavorite: (Jump jump) async{
                       databaseService.toggleFavorite(jump.jid);
-                      setState(() => jump.favorite = !jump.favorite);
+                      setState(() => jump.favorite);
                     },
-                    onDelete: (Jump jump){
+                    onDelete: (Jump jump) async{
                       databaseService.delJump(jump.jid);
                       jumps.remove(jump);
                       print("removing Jump: ${jump.jid}");

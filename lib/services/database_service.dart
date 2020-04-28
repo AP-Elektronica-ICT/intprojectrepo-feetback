@@ -97,7 +97,7 @@ class DatabaseService {
           'height': height,
           'date': date.toString(),
           'airtime': airtime,
-          'favorite': true,
+          'favorite': false,
           'jid': jumpID,
         });  
         print('Add with date successful');
