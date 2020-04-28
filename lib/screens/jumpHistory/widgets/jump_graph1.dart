@@ -32,10 +32,10 @@ class _JumpGraphState extends State<JumpGraph> {
         AspectRatio(
           aspectRatio: 1.70,
           child: Dismissible(
-            crossAxisEndOffset: 0,
             direction: DismissDirection.vertical,
             onDismissed: (DismissDirection direction) {
-                counterY += direction == DismissDirection.down ? 1 : -1;
+                counterY += direction == DismissDirection.endToStart ? 1 : -1;
+                print("ondismissed");
                 showWeek ? weekData() : yearData();
             },
             key: ValueKey(counterY),
@@ -43,8 +43,6 @@ class _JumpGraphState extends State<JumpGraph> {
               onDismissed: (DismissDirection direction) {
                 counterX += direction == DismissDirection.endToStart ? 1 : -1;
                 counterY = 0;
-                print(DismissDirection.endToStart);
-                print(counterX);
                 showWeek ? weekData() : yearData();
               },
               key: ValueKey(counterX),
@@ -139,6 +137,7 @@ class _JumpGraphState extends State<JumpGraph> {
               return "";
             },
             margin: 8,
+            //rotateAngle: -30, //changes angel of titles
           ),
           leftTitles: SideTitles(
             showTitles: true,
@@ -148,7 +147,8 @@ class _JumpGraphState extends State<JumpGraph> {
               fontSize: 14,
             ),
             getTitles: (value) {
-              List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
+              int offset = counterY*5;
+              List<double> titlesToDisplay = [referanceHeight-5+offset, referanceHeight+offset, referanceHeight+5+offset];
               if (titlesToDisplay.contains(value)) {
                 return "${value.toInt()} cm";
               }
@@ -184,10 +184,11 @@ class _JumpGraphState extends State<JumpGraph> {
       )
     );
     } catch (_) {
+      dateLabel = "";
       return Padding(
         padding: const EdgeInsets.only(top: 64.0),
         child: Text(
-          "No data to show. Try swiping left or right",
+          "No data to show.",
           textAlign: TextAlign.center,
         )
       );
@@ -252,9 +253,9 @@ class _JumpGraphState extends State<JumpGraph> {
             ),
             getTitles: (value) {
               List<double> titlesToDisplay = [referanceHeight-5, referanceHeight, referanceHeight+5];
-              if (titlesToDisplay.contains(value)) {
-                return "${value.toInt()} cm";
-              }
+                if (titlesToDisplay.contains(value)) {
+                  return "${value.toInt()} cm";
+                }
               return '';
             },
             reservedSize: 32,
@@ -290,10 +291,11 @@ class _JumpGraphState extends State<JumpGraph> {
       )
     );
     } catch (_) {
+      dateLabel = "";
       return Padding(
         padding: const EdgeInsets.only(top: 64.0),
         child: Text(
-          "No data to show. Try swiping left or right",
+          "No data to show.",
           textAlign: TextAlign.center,
         )
       );
@@ -303,11 +305,8 @@ class _JumpGraphState extends State<JumpGraph> {
   }
 
   List<FlSpot> getSpots(DateTime _begindDate, DateTime endDate, double intervalDays){
-    widget.jumpItems.sort((b, a) => a.date.compareTo(b.date));
     List<FlSpot> spots = new List();
-    List<FlSpot> tmpBefore = new List();
-    List<FlSpot> tmpAfter = new List();
-    int offset = counterY*5;
+    List<FlSpot> averageSpots = new List();
 
     setState(() {
                 beginDate = _begindDate;
@@ -319,59 +318,18 @@ class _JumpGraphState extends State<JumpGraph> {
       intervalDays-1);
 
     for (var item in widget.jumpItems) {
+      spots.add(item.getSpot(standX));
+      
       if (Jiffy(item.date).isBetween(beginDate, endDate)) {
-        spots.add(item.getSpot(standX));  
-      }
-      else if(Jiffy(item.date).isSameOrBefore(endDate)){
-        tmpBefore.add(item.getSpot(standX));
-      }
-      else if(Jiffy(item.date).isSameOrAfter(endDate)){
-        tmpAfter.add(item.getSpot(standX));
-      }
-    }
-
-    if(spots.isNotEmpty){
-      spots.sort((a, b) => a.x.compareTo(b.x));
-      if(tmpBefore.isNotEmpty){
-          tmpBefore.sort((b, a) => a.x.compareTo(b.x));
-          var x = standX.getStandard(beginDate.millisecondsSinceEpoch.toDouble());
-          spots.add(
-            FlSpot(
-              x, 
-              getRelativeY(tmpBefore[0].y, spots[0].y, tmpBefore[0].x, spots[0].x, x)
-              )
-            );
-            /*print("==============");
-            print("y1: ${tmpBefore[0].y}");
-            print("y2: ${spots[0].y}");
-            print("x1: ${tmpBefore[0].x}");
-            print("x2: ${spots[0].x}");
-            print("x: $x");
-            print("result:");
-            print(getRelativeY(tmpBefore[0].y, spots[0].y, tmpBefore[0].x, spots[0].x, x));
-            print("----------------");*/
-        }
-
-      if(tmpAfter.isNotEmpty){
-          tmpAfter.sort((b, a) => b.x.compareTo(a.x));
-          var x = standX.getStandard(endDate.millisecondsSinceEpoch.toDouble());
-          spots.add(
-            FlSpot(
-              x,
-              getRelativeY(spots[0].y, tmpAfter[0].y, spots[0].x, tmpAfter[0].x, x) //maybe add check for leapyear
-              )
-            );
-        }
+          averageSpots.add(item.getSpot(standX));  
+        }  
     }
 
     setState(() {
-                  referanceHeight = roundTo5or0(averageHeight(spots))+offset;
+                  referanceHeight = roundTo5or0(averageHeight(averageSpots));
                 });
-                //print(referanceHeight);
-     spots.sort((b, a) => a.x.compareTo(b.x));
-     /*print("punt 1: ${spots[0].y}");
-     print("punt 2: ${spots[1].y}");
-     print("=================");*/
+    
+    spots.sort((a, b) => a.x.compareTo(b.x));
     
     return spots;
   }
@@ -399,14 +357,5 @@ class _JumpGraphState extends State<JumpGraph> {
       date = Jiffy(date).subtract(days: 1);
     }
     return date;
-  }
-
-  double getRelativeY(double y1, double y2, double x1, double x2, double x){
-    double deltaY = y2-y1;
-    double deltaX = x2-x1;
-    double division = deltaY/deltaX;
-    double subtractionX = x-x1;
-    double result = (division*subtractionX)+y1;
-    return result;
   }
 }
