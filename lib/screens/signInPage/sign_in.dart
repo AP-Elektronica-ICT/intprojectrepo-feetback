@@ -49,29 +49,30 @@ class SignInPage extends StatelessWidget {
                 ),
                 RaisedButton(
                 child: Text("Add jump"),
-                onPressed: () => {
-                  _service.addJump(50.3, 3000, false),
-                  _service.addJump(54.69, 3000, false),
-                  _service.addJump(53.200, 3000, false),
-                  _service.addJump(49.32, 3000, false),
-                  _service.addJump(60.05, 3000, false),
-                  _service.addJump(50.3, 3000, false),
-                  _service.addJump(54.71, 3000, false),
-                  _service.addJump(53.100, 3000, false),
-                  _service.addJump(49.32, 3000, false),
-                  _service.addJump(55.05, 3000, false),
-                  _service.addJump(58.25, 3000, false),
-                  _service.addJump(56.05, 3000, false),
-                  _service.addJump(55.75, 3000, false),
-                  _service.addJump(55.55, 3000, false),
-                  _service.addJump(54.05, 3000, false),
-                  _service.addJump(52.3, 3000, false),
-                  _service.addJump(40.0, 3000, false),
-                  _service.addJump(45.0, 3000, false),
-                  _service.addJump(39.0, 3000, false),
-                  _service.addJump(47.0, 3000, false),
-                  _service.addJump(49.32, 3000, false),        
-                },
+                  onPressed: () => {
+                    _service.addJumpWithDate(DateTime.utc(2019, 6, 5), 50.3, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2019, 10, 25), 50.3, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2019, 9, 14, 12, 40), 54.69, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2019, 9, 14, 12, 50), 53.200, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2019, 5, 14,), 49.32, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2018, 10, 29), 60.05, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2019, 1, 1), 50.3, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2017, 2, 3), 54.71, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2019, 9, 14, 14,30), 53.100, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2019, 7, 2), 49.32, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 14), 55.05, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 1), 58.25, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 20), 56.05, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 19), 55.75, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 19,12), 55.55, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 18), 54.05, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 1, 14), 52.3, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 11), 40.0, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 8), 30.0, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 14), 39.0, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 21), 47.0, 3000);
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 21), 70.0, 3000);      
+                  },
                 ),
               ],
             ),

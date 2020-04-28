@@ -84,7 +84,7 @@ class DatabaseService {
       }
     }
   }
-  Future<void> addJumpWithDate(double height, DateTime date, double airtime, bool isFavorite) async {
+  Future<void> addJumpWithDate(DateTime date, double height, double airtime/*, bool isFavorite*/) async {
     if (await _authService.isUserSignedIn()) {
       final DatabaseReference ourDB = FirebaseDatabase.instance
           .reference()
@@ -97,7 +97,7 @@ class DatabaseService {
           'height': height,
           'date': date.toString(),
           'airtime': airtime,
-          'favorite': isFavorite,
+          'favorite': true,
           'jid': jumpID,
         });  
         print('Add with date successful');
