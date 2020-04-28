@@ -65,7 +65,9 @@ class _JumpState extends State<JumpPage> {
     } else {
       return RaisedButton(
         onPressed: (){
-          Navigator.pushNamed(context, "/");
+          //Navigator.pushNamed(context, "/");
+          Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          
           },
         child: Text("Next"),
       );
