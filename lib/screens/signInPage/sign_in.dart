@@ -55,7 +55,7 @@ class SignInPage extends StatelessWidget {
                     _service.addJumpWithDate(DateTime.utc(2019, 9, 14, 12, 40), 54.69, 3000),
                     _service.addJumpWithDate(DateTime.utc(2019, 9, 14, 12, 50), 53.200, 3000),
                     _service.addJumpWithDate(DateTime.utc(2019, 5, 14,), 49.32, 3000),
-                    _service.addJumpWithDate(DateTime.utc(2018, 10, 29), 60.05, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2018, 10, 29, 14, 24, 2), 60.05, 3000),
                     _service.addJumpWithDate(DateTime.utc(2019, 1, 1), 50.3, 3000),
                     _service.addJumpWithDate(DateTime.utc(2017, 2, 3), 54.71, 3000),
                     _service.addJumpWithDate(DateTime.utc(2019, 9, 14, 14,30), 53.100, 3000),
