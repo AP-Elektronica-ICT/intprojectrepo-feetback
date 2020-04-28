@@ -4,8 +4,6 @@ import 'package:feetback/models/jump.dart';
 import 'package:feetback/screens/detailedJumpPage/jump_detailed.dart';
 import 'package:feetback/screens/jumpHistory/enums/sort_state.dart';
 import 'package:feetback/screens/jumpHistory/widgets/date_indicator.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 
 class FeetbackList  extends StatefulWidget {
   final List<Jump> jumpItems;
@@ -67,7 +65,7 @@ Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Fun
             onFavorite(jump);
           },
           confirmDismiss: (DismissDirection dismissDirection) async {
-            bool remove = true;
+            bool remove;
 
               Scaffold.of(context).showSnackBar(
                 SnackBar(
@@ -78,6 +76,7 @@ Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Fun
                         Text("Jump deleted"),
                         GestureDetector(
                           onTap: () {
+                            Scaffold.of(context).hideCurrentSnackBar();
                             remove = false;
                             },
                           child: Text(
@@ -91,7 +90,8 @@ Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Fun
                   )  
                 )
               );
-              await Future.delayed(const Duration(seconds: 4),(){});
+              remove = await Future.value(true).timeout(const Duration(seconds: 4));
+              //remove = await Future.value(true).timeout(const Duration(seconds: 4),(){return remove = true;});
             return remove;
           },
             
@@ -100,13 +100,14 @@ Widget _buildRow(BuildContext context, Jump jump, Function(Jump) onFavorite, Fun
           decoration: BoxDecoration(
             color: Theme.of(context).accentColor,
             borderRadius: BorderRadius.circular(8.0)),
-          alignment: AlignmentDirectional.centerEnd,
-          child: Padding(
-            padding: EdgeInsets.only(right: 32),
-            child: Icon(Icons.delete_forever),
-          ),
+            alignment: AlignmentDirectional.centerEnd,
+            child: Padding(
+              padding: EdgeInsets.only(right: 32),
+              child: Icon(Icons.delete_forever),
+            ),
         ),
           child: ListTile(
+            key: Key(jump.jid),
             leading: Padding(child: DateIndicator(date: jump.date,), padding: EdgeInsets.only(top: 5),),
             subtitle: Text(jump.date.day.toString() +
                 "/" +

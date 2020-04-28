@@ -76,6 +76,8 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
                       setState(() => jump.favorite = !jump.favorite);
                     },
                     onDelete: (Jump jump){
+                      databaseService.delJump(jump.jid);
+                      jumps.remove(jump);
                       print("removing Jump: ${jump.jid}");
                     }
                   ),
