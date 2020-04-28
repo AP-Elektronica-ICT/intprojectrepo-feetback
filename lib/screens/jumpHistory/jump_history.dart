@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:feetback/screens/jumpHistory/widgets/jump_graph.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/models/jump.dart';
@@ -7,6 +8,7 @@ import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:feetback/screens/jumpHistory/widgets/feetback_list.dart';
 import 'package:feetback/screens/jumpHistory/enums/sort_state.dart';
 import 'package:feetback/screens/jumpHistory/widgets/jump_history_popup.dart';
+import 'package:feetback/services/database_service.dart';
 
 
 
@@ -16,24 +18,20 @@ class JumpHistoryPage extends StatefulWidget {
 }
 
 class _JumpHistoryPageState extends State<JumpHistoryPage> {
-  final List<Jump> jumps = new List();
+  List<Jump> jumps;
+  final DatabaseService databaseService = new DatabaseService();
   SortState _selection = SortState.date;
+  
+  @override
+  void initState() {
+    super.initState();
 
-  _JumpHistoryPageState() {
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 50.3, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 54.69, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.200, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 49.32, 3000));
-    jumps.add(Jump(DateTime.utc(2018, 10, 29), 60.05, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 1, 1), 50.3, 3000));
-    jumps.add(Jump(DateTime.utc(2017, 2, 3), 54.71, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 9, 14), 53.100, 3000));
-    jumps.add(Jump(DateTime.utc(2019, 2, 2), 49.32, 3000));
-    jumps.add(Jump(DateTime.utc(2020, 4, 14), 40.05, 3000));
+    print("Init Jump History");
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Building Jump History");
     return Scaffold(
       appBar: FeetbackAppBar(
         title: Text("Jump history"),
@@ -42,35 +40,55 @@ class _JumpHistoryPageState extends State<JumpHistoryPage> {
         padding: EdgeInsets.only(left: 16, right: 16),
         automaticallyImplyLeading: false,
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                
+              });
+            },
+          ),
           JumpHistoryPopup(
             onSelected: (SortState selected) => {
               this.setState(() {
                 _selection = selected;
               })
             }
-          )
+          ),
         ],
       ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              margin:
-                  new EdgeInsets.symmetric(vertical: 24.0, horizontal: 32.0),
-              child: _graph()),
-          Expanded(child: FeetbackList(
-            currentSortState: _selection,
-            jumpItems: jumps, 
-            onFavorite: (Jump jump) => setState(() => jump.favorite = !jump.favorite)
-            ),),
-        ],
-      )
+      body: FutureBuilder<List<Jump>>(
+        future: databaseService.getAllJumps(),
+        builder: (BuildContext context, AsyncSnapshot<List<Jump>> snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                JumpGraph(jumpItems: snapshot.data),
+                Expanded(
+                  child: FeetbackList(
+                    currentSortState: _selection,
+                    jumpItems: snapshot.data, 
+                    onFavorite: (Jump jump) {
+                      databaseService.toggleFavorite(jump.jid);
+                      setState(() => jump.favorite = !jump.favorite);
+                    },
+                    onDelete: (Jump jump){
+                      print("removing Jump: ${jump.jid}");
+                    }
+                  ),
+                ),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text("Error while getting your data.");
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
     );
-  }
-
-  Widget _graph() {
-    return Image.asset('lib/images/chart.png');
   }
 }  
