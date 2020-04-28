@@ -169,7 +169,7 @@ class _JumpGraphState extends State<JumpGraph> {
           LineChartBarData(
             spots: spots,
             isCurved: true,
-            curveSmoothness: 0.2,
+            //curveSmoothness: 0.2,
             //preventCurveOverShooting: true,
             //preventCurveOvershootingThreshold:100,
             colors: [Theme.of(context).accentColor],
@@ -303,7 +303,7 @@ class _JumpGraphState extends State<JumpGraph> {
   }
 
   List<FlSpot> getSpots(DateTime _begindDate, DateTime endDate, double intervalDays){
-    widget.jumpItems.sort((b, a) => a.date.compareTo(b.date));
+    //widget.jumpItems.sort((b, a) => a.date.compareTo(b.date));
     List<FlSpot> spots = new List();
     List<FlSpot> tmpBefore = new List();
     List<FlSpot> tmpAfter = new List();

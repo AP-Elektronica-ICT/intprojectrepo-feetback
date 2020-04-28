@@ -126,14 +126,20 @@ class _SettingsPageState extends State<SettingsPage>
                     _service.addJumpWithDate(DateTime.utc(2020, 1, 14), 65.3, 3000),
                     _service.addJumpWithDate(DateTime.utc(2020, 4, 11), 68.0, 3000),
                     _service.addJumpWithDate(DateTime.utc(2020, 4, 8), 65.9, 3000),
-                    _service.addJumpWithDate(DateTime.utc(2020, 4, 14), 60.0, 3000),
-                    _service.addJumpWithDate(DateTime.utc(2020, 4, 21), 55.0, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 14), 70.0, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 21), 65.0, 3000),
 
-                    _service.addJumpWithDate(DateTime.utc(2020, 6, 1), 58.25, 3000),
-                    _service.addJumpWithDate(DateTime.utc(2020, 6, 20), 56.05, 3000),
-                    _service.addJumpWithDate(DateTime.utc(2020, 6, 19), 55.75, 3000),
-                    _service.addJumpWithDate(DateTime.utc(2020, 6, 19,12), 55.55, 3000),
-                    _service.addJumpWithDate(DateTime.utc(2020, 6, 18), 60.05, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 1), 68.25, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 20), 66.05, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 19), 65.75, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 19,12), 65.55, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 6, 18), 70.05, 3000),
+
+                    //this weeks data
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 27), 68.25, 3000),
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 27,12,55), 66.05, 3000),
+                    
+                    _service.addJumpWithDate(DateTime.utc(2020, 4, 29), 70.05, 3000),
                   },
               ),
               RaisedButton(
