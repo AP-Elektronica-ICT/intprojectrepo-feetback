@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                           String highestJump;
 
                           if (snapshot.hasData) {
-                            highestJump = snapshot.data.height.toString();
+                            highestJump = snapshot.data.height.toString() + " cm";
                           } else {
                             highestJump = "--";
                           }
