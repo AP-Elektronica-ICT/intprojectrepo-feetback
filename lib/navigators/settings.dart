@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:feetback/services/navigation_service.dart';
 import 'package:feetback/services/service_locator.dart';
 
-import 'package:feetback/screens/signInPage/sign_in.dart';
+import 'package:feetback/screens/settingsPage/settings.dart';
 
 class SettingsNavigator extends StatefulWidget {
   SettingsNavigator({
@@ -33,7 +33,7 @@ class _SettingsNavigatorState extends State<SettingsNavigator>
           builder: (BuildContext context) {
             switch(settings.name) {
               case '/':
-                return SignInPage();
+                return SettingsPage();
               break;
             }
 
