@@ -6,9 +6,13 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:feetback/services/service_locator.dart';
+import 'package:feetback/services/settings_service.dart';
+
 class BluetoothService {
 
   FlutterBluetoothSerial _bluetoothSerial = FlutterBluetoothSerial.instance;
+  final SettingsService _settingsService = locator<SettingsService>();
 
   //BluetoothDevice device;
   String nameOfDevice;
@@ -38,6 +42,7 @@ class BluetoothService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('macOfDevice', device.address);  
     await prefs.setString('nameOfDevice', device.name);
+    _settingsService.setDevice(device.name);
     print(prefs.getString("MAC_Bluetooth"));
   }
 
@@ -77,6 +82,14 @@ class BluetoothService {
     _discoveryStreamSubscription.cancel();
   }
 
+  void disconnect(){
+    if(isConnected){
+      connection.dispose();
+      toast("Disconnected");
+      _settingsService.setDevice(null);
+    }
+  }
+
   ///asks for activating Bluetooth.
   ///Wil call given function when bluetooth is enabled
   Future<void> enableBluetooth(Function ifBluetoothIsTurnedOn, Function ifBluetoothIsNotTurnedOn) async{
@@ -92,8 +105,8 @@ class BluetoothService {
   }
 
   ///Sets up a connection stream.
-  Future<void> setupConnectionStream() async{
-    _connectionStream = connection.input.asBroadcastStream();
+  Future<void> setupConnectionStream() async{    
+    _connectionStream = connection.input.asBroadcastStream();    
   }
 
   ///Creates a StreamSubsription that will call the given function when data is recieved.
@@ -167,7 +180,7 @@ class BluetoothService {
     }
   } 
 
-  void toast(String message){
+  void toast(String message) async {
     Fluttertoast.showToast(
               msg: message,
               toastLength: Toast.LENGTH_SHORT,
@@ -209,6 +222,7 @@ class BluetoothService {
   void createBluetoothDevice()async{
     nameOfDevice = await getSavedDeviceName();
     macOfDevice = await getSavedDeviceMAC();
+    _settingsService.setDevice(nameOfDevice);
     toast("Succesfully connected with " +nameOfDevice+".");
   }
   

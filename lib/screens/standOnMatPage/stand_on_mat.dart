@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:feetback/widgets/feetback_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feetback/services/service_locator.dart';
@@ -37,6 +38,12 @@ class _StandOnMatState extends State<StandOnMatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: FeetbackAppBar(
+          title: const Text(""),
+          height: 92,
+          contentAlignment: Alignment.centerLeft,
+          padding: EdgeInsets.only(left: 16, right: 16),
+        ),
       floatingActionButton: _getFAB(),
       body: Center(
         child:isStandingOnMat ? Text("Press Jump tot start the countdown.") : Text("Please stand on the mat."),
