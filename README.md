@@ -9,6 +9,9 @@ Contributors:
 - [Pieter-Jan Lanneer](https://github.com/PJGitLan)
 - [Thibaut Weekx](https://github.com/W33KX)
 
+Calculating jump height from airtime: <br/>
+```height = ((AirTime/2)*(AirTime/2)*0.5*9.81);```
+
 ## Index
 [Flutter documentation](#flutter-documentation) <br/>
 [Project structure](#project-structure) <br/>
