@@ -2,6 +2,13 @@
 
 This app will be used to connect to a mat that can measure your jump height.
 
+Contributors:
+- [Alan Maene](https://github.com/AlanMaene)
+- [Ben Dupont](https://github.com/ben-student)
+- [Olivier Verhaegen](https://github.com/OlivierVerhaegen)
+- [Pieter-Jan Lanneer](https://github.com/PJGitLan)
+- [Thibaut Weekx](https://github.com/W33KX)
+
 ## Index
 [Flutter documentation](#flutter-documentation) <br/>
 [Project structure](#project-structure) <br/>
