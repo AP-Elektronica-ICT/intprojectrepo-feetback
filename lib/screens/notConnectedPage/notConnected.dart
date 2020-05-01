@@ -14,7 +14,7 @@ class _NotConnectedState extends State<NotConnectedPage> {
   void initState(){
     super.initState();
     _bluetoothService.connectWithSavedDevice((){
-      Navigator.pushNamed(context, "/");
+      Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
     });
   }
 
